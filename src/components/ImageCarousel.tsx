@@ -30,6 +30,10 @@ export function ImageCarousel({images}: ImageCarouselProps) {
                                   color: 'slategray'
                               }
                           }}
+
+                          autoPlay={images.length > 3}
+                          indicators={images.length > 3}
+                          navButtonsAlwaysInvisible={images.length <= 3}
                 >
                     {
                         images.map((item, i) => <Item key={i} url={item}/> )
@@ -55,15 +59,17 @@ export function ImageCarousel({images}: ImageCarouselProps) {
                            objectFit: 'contain',
                        },
                    }}>
-                <Paper sx={{
-                    width: { xs: '100%', md: '31%' },
-                    height: '300px',
-                    marginBottom: "1%",
-                    marginLeft: { xs: 0, md: '1%'},
-                    marginRight: { xs: 0, md: '1%'},
-                }}>
-                    <img src={images[previousCard]} alt={"Previous Screenshot"}/>
-                </Paper>
+                {images.length >= 2 && (
+                    <Paper sx={{
+                        width: { xs: '100%', md: '31%' },
+                        height: '300px',
+                        marginBottom: "1%",
+                        marginLeft: { xs: 0, md: '1%'},
+                        marginRight: { xs: 0, md: '1%'},
+                    }}>
+                        <img src={images[previousCard]} alt={"Previous Screenshot"}/>
+                    </Paper>
+                )}
                 <Paper sx={{
                     width: { xs: '100%', md: '31%' },
                     height: '300px',
@@ -73,15 +79,17 @@ export function ImageCarousel({images}: ImageCarouselProps) {
                 }}>
                     <img src={url} alt={"Current screenshot"}/>
                 </Paper>
-                <Paper sx={{
-                    width: { xs: '100%', md: '31%' },
-                    height: '300px',
-                    marginBottom: "1%",
-                    marginLeft: { xs: 0, md: '1%'},
-                    marginRight: { xs: 0, md: '1%'},
-                }}>
-                    <img src={images[nextCard]} alt={"Next Screenshot"}/>
-                </Paper>
+                {images.length >= 3 && (
+                    <Paper sx={{
+                        width: { xs: '100%', md: '31%' },
+                        height: '300px',
+                        marginBottom: "1%",
+                        marginLeft: { xs: 0, md: '1%'},
+                        marginRight: { xs: 0, md: '1%'},
+                    }}>
+                        <img src={images[nextCard]} alt={"Next Screenshot"}/>
+                    </Paper>
+                )}
             </Stack>
         )
     }

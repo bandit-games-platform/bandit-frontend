@@ -22,7 +22,7 @@ function App() {
 
                 <BrowserRouter>
                     <Routes>
-                        <Route path={"/"} element={<IndividualGame/>}></Route>
+                        <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
                     </Routes>
                 </BrowserRouter>
 
