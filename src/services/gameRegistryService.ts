@@ -7,4 +7,5 @@ export async function getGamesOverview() {
     const url = GAME_REGISTRY_BASE_URL + "/games/overview"
 
     await axios.get(url)
+    return "Amazing overview"
 }
