@@ -1,11 +1,13 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
 import {useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/useGameDetails.ts";
-import {CircularProgress} from "@mui/material";
+import {Box, Button, CircularProgress, Stack} from "@mui/material";
+import Grid from '@mui/material/Grid2';
+import {ArrowBack} from "@mui/icons-material";
 
 export function IndividualGame() {
-    const {gameId = ''} = useParams()
-    const {game, isLoading, isError} = useGameDetails(gameId)
+    const {gameId = ''} = useParams();
+    const {game, isLoading, isError} = useGameDetails(gameId);
 
     if (isLoading) {
         return (
@@ -17,12 +19,44 @@ export function IndividualGame() {
         return <div>Whoops: Something went wrong!</div>
     }
 
-    console.log(game)
-
     return (
-        <div>
-            {game.screenshots.length > 0 && (<ImageCarousel images={game.screenshots}/>)}
-        </div>
+        <Box>
+            <Box sx={{
+                marginLeft: "5%",
+                marginTop: "2%",
+                marginRight: "5%",
+            }}>
+                <Grid container justifyContent={"space-between"}>
+                    <Grid>
+                        <Stack direction={"row"} spacing={2}>
+                            <Button>
+                                <ArrowBack/>
+                            </Button>
+                            <h1>{game.title}</h1>
+                        </Stack>
+                    </Grid>
+
+                    <Grid sx={{marginRight: "5%"}}>
+                        {game.price > 0 && (
+                            <Stack direction={"row"} spacing={2}>
+                                <h2>€{game.price}</h2>
+                                <Button>Buy now</Button>
+                            </Stack>
+                        )}
+                        {game.price <= 0 && (
+                            <Stack direction={"row"} spacing={2}>
+                                <h2>Free</h2>
+                                <Button>Add to Library</Button>
+                            </Stack>
+                        )}
+                    </Grid>
+                </Grid>
+                {game.screenshots.length > 0 && (<ImageCarousel images={game.screenshots}/>)}
+
+                <h3>About:</h3>
+                <p>{game.description}</p>
+            </Box>
+        </Box>
     )
 }
 
