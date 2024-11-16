@@ -1,8 +1,12 @@
 import {useGamesOverview} from "../hooks/useGamesOverview.ts";
 import {CircularProgress} from "@mui/material";
+import GamesFilter from "../components/GamesFilter.tsx";
+import GamesList from "../components/GamesList.tsx";
+
 
 export function GamesOverview() {
     const {isLoading, isError, overview} = useGamesOverview();
+
 
     if (isLoading) {
         return (
@@ -16,8 +20,8 @@ export function GamesOverview() {
 
     return (
         <div>
-            <h1>Page loaded correctly</h1>
-            <h3>{overview}</h3>
+            <GamesList games={overview}/>
+            <GamesFilter/>
         </div>
     )
 }

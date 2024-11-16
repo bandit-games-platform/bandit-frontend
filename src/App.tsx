@@ -1,5 +1,4 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import './App.css'
 // import SecurityContextProvider from "./context/SecurityContextProvider";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
