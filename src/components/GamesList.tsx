@@ -1,30 +1,27 @@
-import {Box, TextField} from "@mui/material";
-import GameStoreCard from "./GameStoreCard"; // Assuming you have this component
-import {Game} from "../model/Game.ts";
-import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
-import {useEffect, useState} from "react";
-import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
+import { Box, TextField } from "@mui/material";
+import GameStoreCard from "./GameStoreCard";  // Assuming you have this component
+import { Game } from "../model/Game.ts";
+import { useGamesOverviewByTitle } from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
+import { useState, useEffect } from "react";
 
-interface GamesListProps {
+interface GameListProps {
     games: Game[];
-    filteredPrice: number;
 }
 
-function GamesList({ games, filteredPrice }: GamesListProps) {
+function GamesList({ games }: GameListProps) {
+    const [searchTerm, setSearchTerm] = useState('');
+    const { isLoading, isError, overview } = useGamesOverviewByTitle(searchTerm);
+
     const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
-    const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm, filteredPrice);
-
     useEffect(() => {
-        if (overview && searchTerm ) {
+        if (overview && searchTerm) {
             setFilteredGames(overview);
         } else if (!searchTerm) {
-            setFilteredGames(games.filter(game => game.currentPrice <= filteredPrice));
+            setFilteredGames(games);
         }
-    }, [overview, searchTerm, games, filteredPrice]);
+    }, [overview, searchTerm, games]);
 
     return (
         <Box
@@ -35,6 +32,9 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 alignItems: 'flex-start',
                 backgroundColor: '#32333f',
                 padding: '1rem',
+                width: '60vw',
+                maxHeight: '80vh',
+                overflowY: 'auto',
                 borderRadius: '1rem',
             }}
         >
@@ -48,8 +48,6 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 sx={{
                     flex: 1,
                     backgroundColor: 'white',
-                    width: '100%',
-                    borderRadius: '1rem',
                 }}
             />
 
@@ -69,7 +67,6 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                         title={game.title}
                         description={game.description}
                         icon={game.icon}
-                        price={game.currentPrice}
                     />
                 ))
             )}
