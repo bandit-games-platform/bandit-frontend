@@ -1,11 +1,11 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import {Box, Card, CardContent, Typography} from '@mui/material';
 import GameIcon from './GameIcon'; // Assuming you created the GameIcon component earlier
 
 interface GameStoreCardProps {
     title: string;
     description: string;
     icon: string;
-    price: number; // Add price as a prop
+    price: number;
 }
 
 function GameStoreCard({ title, description, icon, price }: GameStoreCardProps) {
@@ -25,7 +25,6 @@ function GameStoreCard({ title, description, icon, price }: GameStoreCardProps) 
                 },
             }}
         >
-
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
 
                 <GameIcon iconUrl={icon} width="80px" height="80px" />

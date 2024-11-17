@@ -1,24 +1,29 @@
-import { Autocomplete, Box, Card, TextField, Typography } from "@mui/material";
-import tags from "../constants/tags.ts";
+import {Autocomplete, Box, Card, TextField, Typography} from "@mui/material";
 import PriceFilter from "./PriceFilter.tsx";
+import tags from "../constants/tags.ts";
 
-function GamesFilter() {
+interface GamesFilterProps {
+    maxPrice: number;
+    minPrice: number;
+    filteredPrice: number;
+    setFilteredPrice: (value: number) => void;
+}
+
+function GamesFilter({ maxPrice,minPrice, filteredPrice, setFilteredPrice }: GamesFilterProps) {
     return (
-        <Card
-            sx={{
-                display: "flex",
-                flexDirection: "column", // Flex column for vertical stacking
-                alignItems: "flex-start",
-                padding: "2rem",
-                backgroundColor: "#878c95",
-                borderRadius: "0.5rem",
-                boxShadow: "none",
-                width: "20vw",
-                height: "auto",
-                gap: "1rem", // Add spacing between child elements
-            }}
-        >
-            {/* Tags Section */}
+        <Card sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            padding: "2rem",
+            backgroundColor: "#878c95",
+            borderRadius: "0.5rem",
+            boxShadow: "none",
+            width: "20vw",
+            height: "auto",
+            gap: "1rem"
+        }}>
+            {/* Tags */}
             <Box sx={{ width: "100%" }}>
                 <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>
                     TAGS
@@ -49,15 +54,17 @@ function GamesFilter() {
                     }}
                 />
             </Box>
-
-            {/* Price Section */}
+            {/* Price  */}
             <Box sx={{ width: "100%" }}>
-                <Typography color="black" variant="h6"
-                            sx={{ marginBottom: "0.5rem"
-                                 }}>
+                <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>
                     PRICE
                 </Typography>
-                <PriceFilter lowestPrice={0} highestPrice={999} />
+                <PriceFilter
+                    lowestPrice={minPrice}
+                    highestPrice={maxPrice}
+                    filteredPrice={filteredPrice}
+                    setFilteredPrice={setFilteredPrice}
+                />
             </Box>
         </Card>
     );
