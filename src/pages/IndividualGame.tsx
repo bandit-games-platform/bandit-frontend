@@ -51,6 +51,9 @@ export function IndividualGame() {
                         )}
                     </Grid>
                 </Grid>
+
+                <h3 style={{marginLeft: "5%"}}>By: {game.developer.studioName}</h3>
+
                 {game.screenshots.length > 0 && (<ImageCarousel images={game.screenshots}/>)}
 
                 <h3>About:</h3>
