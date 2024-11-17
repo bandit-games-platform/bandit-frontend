@@ -1,33 +1,28 @@
-import { Card, Slider, Typography} from "@mui/material";
+import {Card, Slider} from "@mui/material";
 
 interface PriceFilterProps {
     lowestPrice?: number;
     highestPrice?: number;
 }
 
-function PriceFilter({ lowestPrice, highestPrice}: PriceFilterProps) {
+function PriceFilter({lowestPrice, highestPrice}: PriceFilterProps) {
     return (
-        <Card
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                padding: '1rem',
-                backgroundColor: '#878c95',
-                borderRadius: '0.5rem',
-                boxShadow: 'none',
-                width: '90%',
-            }}>
-
-                <Typography color="white" sx={{ color: 'black' }}>
-                    PRICE
-                </Typography>
-                <Slider
-                    sx={{ color: 'black' }}
-                    min={lowestPrice}
-                    max={highestPrice}
-                    defaultValue={highestPrice}
-                    aria-label="Default" valueLabelDisplay="auto" />
+        <Card style={{
+            backgroundColor: '#878c95',
+            boxShadow: "none"
+        }}>
+            <Slider
+                sx={{
+                    color: 'black',
+                    backgroundColor: '#878c95',
+                    padding: '3rem',
+                    width: '85%',
+                    marginLeft: '1rem'
+                }}
+                min={lowestPrice}
+                max={highestPrice}
+                defaultValue={highestPrice}
+                aria-label="Default" valueLabelDisplay="auto"/>
         </Card>
     );
 }

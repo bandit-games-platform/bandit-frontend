@@ -1,7 +1,8 @@
 import {useGamesOverview} from "../hooks/useGamesOverview.ts";
 import {CircularProgress} from "@mui/material";
-import GamesFilter from "../components/GamesFilter.tsx";
 import GamesList from "../components/GamesList.tsx";
+import './GamesOverview.scss'
+import GamesFilter from "../components/GamesFilter.tsx";
 
 
 export function GamesOverview() {
@@ -19,9 +20,22 @@ export function GamesOverview() {
     }
 
     return (
-        <div>
-            <GamesList games={overview}/>
-            <GamesFilter/>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                margin: '0 auto',
+            }}
+        >
+            {/* Left Side: GamesList */}
+            <div style={{flex: 1, marginRight: '1rem'}}>
+                <GamesList games={overview}/>
+            </div>
+            {/* Right Side: filters */}
+            <div style={{flex: 1, marginLeft: '1rem'}}>
+                <GamesFilter/>
+            </div>
         </div>
     )
 }

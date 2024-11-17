@@ -34,7 +34,6 @@ function GamesList({ games }: GameListProps) {
                 padding: '1rem',
                 width: '60vw',
                 maxHeight: '80vh',
-                overflowY: 'auto',
                 borderRadius: '1rem',
             }}
         >
@@ -48,6 +47,9 @@ function GamesList({ games }: GameListProps) {
                 sx={{
                     flex: 1,
                     backgroundColor: 'white',
+                    width: '100%',
+                    borderRadius: '1rem',
+
                 }}
             />
 
@@ -67,6 +69,7 @@ function GamesList({ games }: GameListProps) {
                         title={game.title}
                         description={game.description}
                         icon={game.icon}
+                        price={10.99}
                     />
                 ))
             )}
