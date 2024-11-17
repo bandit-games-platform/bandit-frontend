@@ -1,8 +1,9 @@
 import { Box, TextField } from "@mui/material";
 import GameStoreCard from "./GameStoreCard";  // Assuming you have this component
 import { Game } from "../model/Game.ts";
-import { useGamesOverviewByTitle } from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
+import { useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
 import { useState, useEffect } from "react";
+import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
 
 interface GameListProps {
     games: Game[];
@@ -10,7 +11,12 @@ interface GameListProps {
 
 function GamesList({ games }: GameListProps) {
     const [searchTerm, setSearchTerm] = useState('');
-    const { isLoading, isError, overview } = useGamesOverviewByTitle(searchTerm);
+    const [maxPrice, setMaxPrice] = useState("1000");
+
+
+    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+
+    const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm,maxPrice);
 
     const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
@@ -69,7 +75,7 @@ function GamesList({ games }: GameListProps) {
                         title={game.title}
                         description={game.description}
                         icon={game.icon}
-                        price={10.99}
+                        price={game.currentPrice}
                     />
                 ))
             )}

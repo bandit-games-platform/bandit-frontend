@@ -11,5 +11,6 @@ export interface Game {
     currentHost: string
     screenshots: string[]
     achievements: Achievement[]
+    currentPrice: number
 }
 
