@@ -1,13 +1,10 @@
 import {useState} from "react";
-import {Backdrop, Box, Paper, Stack} from "@mui/material";
+import {Backdrop, Box} from "@mui/material";
 import Carousel from "react-material-ui-carousel";
+import {CarouselItem} from "./CarouselItem.tsx";
 
 interface ImageCarouselProps {
     images: string[]
-}
-
-interface ScreenshotProps {
-    url: string
 }
 
 export function ImageCarousel({images}: ImageCarouselProps) {
@@ -18,9 +15,14 @@ export function ImageCarousel({images}: ImageCarouselProps) {
     const handleClose = () => {
         setOpen(false);
     };
+
     const handleOpen = () => {
         setOpen(true);
     };
+
+    const setImageClicked = (url: string) => {
+        setImageClickedUrl(url)
+    }
 
     return (
         <div>
@@ -46,7 +48,7 @@ export function ImageCarousel({images}: ImageCarouselProps) {
                           navButtonsAlwaysInvisible={images.length <= 3}
                 >
                     {
-                        images.map((item, i) => <Item key={i} url={item}/> )
+                        images.map((item, i) => <CarouselItem key={i} images={images} url={item} shownItem={shownItem} setImageClicked={setImageClicked} handleOpen={handleOpen}/> )
                     }
                 </Carousel>
             </Box>
@@ -61,72 +63,5 @@ export function ImageCarousel({images}: ImageCarouselProps) {
         </div>
     )
 
-    function Item({url}: ScreenshotProps)
-    {
-        const previousCard = shownItem - 1 < 0 ? images.length - 1 : shownItem - 1
-        const nextCard = shownItem + 1 > images.length - 1 ? 0 : shownItem + 1
 
-        return (
-            <Stack spacing={0}
-                   direction="row"
-                   useFlexGap
-                   sx={{ flexWrap: 'wrap',
-                       '& img': {
-                           width: '100%',
-                           height: '100%',
-                           objectFit: 'contain',
-                       },
-                   }}>
-                {images.length >= 2 && (
-                    <Paper
-                        sx={{
-                            width: { xs: '100%', md: '31%' },
-                            height: '300px',
-                            marginBottom: "1%",
-                            marginLeft: { xs: 0, md: '1%'},
-                            marginRight: { xs: 0, md: '1%'},
-                        }}
-                        onClick={() => {
-                            setImageClickedUrl(images[previousCard])
-                            handleOpen()
-                        }}
-                    >
-                        <img src={images[previousCard]} alt={"Previous Screenshot"}/>
-                    </Paper>
-                )}
-                <Paper
-                    sx={{
-                        width: { xs: '100%', md: '31%' },
-                        height: '300px',
-                        marginBottom: "1%",
-                        marginLeft: { xs: 0, md: '1%'},
-                        marginRight: { xs: 0, md: '1%'},
-                    }}
-                    onClick={() => {
-                        setImageClickedUrl(url)
-                        handleOpen()
-                    }}
-                >
-                    <img src={url} alt={"Current screenshot"}/>
-                </Paper>
-                {images.length >= 3 && (
-                    <Paper
-                        sx={{
-                            width: { xs: '100%', md: '31%' },
-                            height: '300px',
-                            marginBottom: "1%",
-                            marginLeft: { xs: 0, md: '1%'},
-                            marginRight: { xs: 0, md: '1%'},
-                        }}
-                        onClick={() => {
-                            setImageClickedUrl(images[nextCard])
-                            handleOpen()
-                        }}
-                    >
-                        <img src={images[nextCard]} alt={"Next Screenshot"}/>
-                    </Paper>
-                )}
-            </Stack>
-        )
-    }
 }
