@@ -1,4 +1,4 @@
-export interface Achievement {
+export type Achievement = {
     id: string
     title: string
     counterTotal: number
