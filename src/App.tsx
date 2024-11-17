@@ -6,6 +6,8 @@ import {IndividualGame} from "./pages/IndividualGame.tsx";
 import {Navbar} from "./components/Navbar.tsx";
 import './index.css'
 import theme from "./theme/theme.ts";
+import {ChatbotIcon} from "./components/ChatbotIcon.tsx";
+import {FriendsIcon} from "./components/FriendsIcon.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +24,10 @@ function App() {
                     <Routes>
                         <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
                     </Routes>
+                    <ChatbotIcon/>
+                    <FriendsIcon/>
                 </BrowserRouter>
+
 
                 {/*<SecurityContextProvider>*/}
                 {/*    <BrowserRouter>*/}

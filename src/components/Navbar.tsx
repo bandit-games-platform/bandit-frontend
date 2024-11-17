@@ -141,7 +141,7 @@ export function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        KDG
+                        BanditGames
                     </Typography>
 
                     <Box sx={{
@@ -176,9 +176,9 @@ export function Navbar() {
                     </Box>
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1}}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0, px: 1}}>
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 {/* later: picture for logged-in user */}
-                                <Avatar src="/public/sample-avatar.png"/>
+                                <Avatar src="/public/avatar.png"/>
                             </IconButton>
                         </Tooltip>
                         {/* later: Hello, {loggedInUser}! */}
