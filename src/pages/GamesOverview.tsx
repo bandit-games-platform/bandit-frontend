@@ -28,7 +28,6 @@ export function GamesOverview() {
             const lowestPrice = Math.min(...prices);
             const highestPrice = Math.max(...prices);
             setMinPrice(lowestPrice);
-            console.log(highestPrice)
             setMaxPrice(highestPrice);
             setFilteredPrice(filteredPrice);
         }
