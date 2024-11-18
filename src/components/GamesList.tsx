@@ -19,8 +19,10 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
     const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm, filteredPrice);
 
     useEffect(() => {
-        if (overview && searchTerm) {
+        if (overview && searchTerm ) {
             setFilteredGames(overview);
+        } else if (!searchTerm) {
+            setFilteredGames(games.filter(game => game.currentPrice <= filteredPrice));
         }
     }, [overview, searchTerm, games, filteredPrice]);
 
@@ -33,8 +35,6 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 alignItems: 'flex-start',
                 backgroundColor: '#32333f',
                 padding: '1rem',
-                width: '60vw',
-                maxHeight: '80vh',
                 borderRadius: '1rem',
             }}
         >

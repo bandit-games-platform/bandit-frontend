@@ -34,21 +34,75 @@ export function GamesOverview() {
     }
 
     return (
-        <div style={{ display: 'flex' }}>
-            {/* Left Side: GamesList */}
-            <div style={{ flex: 1, marginRight: '1rem' }}>
-                <GamesList games={overview} filteredPrice={filteredPrice} />
-            </div>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                width: '100vw',
+                boxSizing: 'border-box',
+            }}
+        >
+            <div
+                style={{
+                    display: 'flex',
+                    width: '80%',
+                    height: '80%',
+                    borderRadius: '10px',
+                }}
+            >
+                <div
+                    style={{
+                        flex: 2,
+                        marginRight: '1rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        padding: '1rem',
+                        overflowY: 'auto',
+                    }}
+                >
+                    <div
+                        style={{
+                            position: 'sticky',
+                            top: 0,
+                            zIndex: 10,
+                            paddingBottom: '10px',
+                        }}
+                    >
+                    </div>
+                    <div
+                        style={{
+                            marginTop: '0',
+                            position: 'sticky',
+                            top: 0,
+                        }}
+                    >
+                        <GamesList games={overview} filteredPrice={filteredPrice}/>
+                    </div>
+                </div>
 
-            {/* Right Side: filters */}
-            <div style={{ flex: 1, marginLeft: '1rem' }}>
-                <GamesFilter
-                    maxPrice={maxPrice}
-                    minPrice={minPrice}
-                    filteredPrice={filteredPrice}
-                    setFilteredPrice={setFilteredPrice}
-                />
+                <div
+                    style={{
+                        flex: 1,
+                        marginLeft: '1rem',
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        alignItems: 'flex-start',
+                        marginTop: '5.8rem',
+                        padding: '20px 0 0 0',
+                    }}
+                >
+                    <GamesFilter
+                        maxPrice={maxPrice}
+                        minPrice={minPrice}
+                        filteredPrice={filteredPrice}
+                        setFilteredPrice={setFilteredPrice}
+                    />
+                </div>
             </div>
         </div>
+
+
     );
 }
