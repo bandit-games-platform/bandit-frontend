@@ -1,33 +1,30 @@
-import { Box, TextField } from "@mui/material";
-import GameStoreCard from "./GameStoreCard";  // Assuming you have this component
-import { Game } from "../model/Game.ts";
-import { useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
-import { useState, useEffect } from "react";
+import {Box, TextField} from "@mui/material";
+import GameStoreCard from "./GameStoreCard"; // Assuming you have this component
+import {Game} from "../model/Game.ts";
+import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
+import {useEffect, useState} from "react";
 import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
 
-interface GameListProps {
+interface GamesListProps {
     games: Game[];
+    filteredPrice: number;
 }
 
-function GamesList({ games }: GameListProps) {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [maxPrice, setMaxPrice] = useState("1000");
-
-
-    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
-
-    const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm,maxPrice);
-
+function GamesList({ games, filteredPrice }: GamesListProps) {
     const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+    const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm, filteredPrice);
+
     useEffect(() => {
-        if (overview && searchTerm) {
+        if (overview && searchTerm ) {
             setFilteredGames(overview);
         } else if (!searchTerm) {
-            setFilteredGames(games);
+            setFilteredGames(games.filter(game => game.price <= filteredPrice));
         }
-    }, [overview, searchTerm, games]);
+    }, [overview, searchTerm, games, filteredPrice]);
 
     return (
         <Box
@@ -38,8 +35,6 @@ function GamesList({ games }: GameListProps) {
                 alignItems: 'flex-start',
                 backgroundColor: '#32333f',
                 padding: '1rem',
-                width: '60vw',
-                maxHeight: '80vh',
                 borderRadius: '1rem',
             }}
         >
@@ -55,7 +50,6 @@ function GamesList({ games }: GameListProps) {
                     backgroundColor: 'white',
                     width: '100%',
                     borderRadius: '1rem',
-
                 }}
             />
 
@@ -75,7 +69,7 @@ function GamesList({ games }: GameListProps) {
                         title={game.title}
                         description={game.description}
                         icon={game.icon}
-                        price={game.currentPrice}
+                        price={game.price}
                     />
                 ))
             )}

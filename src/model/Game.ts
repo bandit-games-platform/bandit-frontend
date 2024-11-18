@@ -14,6 +14,6 @@ export type Game = {
     developer: Developer
     screenshots: string[]
     achievements: Achievement[]
-    currentPrice: number
+    price: number
 }
 
