@@ -1,6 +1,6 @@
 import {Box, Card, CardContent, Typography} from '@mui/material';
 import GameIcon from './GameIcon';
-import {Link} from "react-router-dom"; // Assuming you created the GameIcon component earlier
+import {useLocation, useNavigate} from "react-router-dom"; // Assuming you created the GameIcon component earlier
 
 interface GameStoreCardProps {
     id: string;
@@ -12,10 +12,18 @@ interface GameStoreCardProps {
 
 function GameStoreCard({id,title, description, icon, price}: GameStoreCardProps) {
 
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const navigateToDetails = () => {
+        const currentUrl = location.pathname + location.search;
+        navigate(`/game/${id}`, { state: { from: currentUrl } });
+    };
+
 
     return (
             <Card
-                component={Link} to={`/game/${id}`}
+                onClick={navigateToDetails}
                 sx={{
                     display: 'flex',
                     padding: '1rem',

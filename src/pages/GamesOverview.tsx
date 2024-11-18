@@ -1,30 +1,52 @@
+import {useEffect, useState} from "react";
+import {useSearchParams} from "react-router-dom";
+import {CircularProgress} from "@mui/material";
 import GamesList from "../components/GamesList.tsx";
 import GamesFilter from "../components/GamesFilter.tsx";
-import {useGamesOverview} from "../hooks/useGamesOverview.ts";
-import {useEffect, useState} from "react";
-import {CircularProgress} from "@mui/material";
+import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts";
+import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
 
 export function GamesOverview() {
-
-    const { isLoading, isError, overview } = useGamesOverview();
-
-    const [maxPrice, setMaxPrice] = useState<number>(0);
     const [minPrice, setMinPrice] = useState<number>(0);
-    const [filteredPrice, setFilteredPrice] = useState<number>(0);
+    const [maxPrice, setMaxPrice] = useState<number>(150);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const urlSearchTerm = searchParams.get("searchTerm") || "";
+    const urlPrice = searchParams.get("price") ? parseInt(searchParams.get("price")!, 10) : 150;
+
+    const [searchTerm, setSearchTerm] = useState<string>(urlSearchTerm);
+    const [filteredPrice, setFilteredPrice] = useState<number>(urlPrice);
+
+    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
+
+    const {isLoading, isError, overview} = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm, filteredPrice);
 
     useEffect(() => {
+
         if (overview && overview.length > 0) {
             const prices = overview.map(game => game.price);
             const lowestPrice = Math.min(...prices);
             const highestPrice = Math.max(...prices);
             setMinPrice(lowestPrice);
+            console.log(highestPrice)
             setMaxPrice(highestPrice);
-            setFilteredPrice(highestPrice);
+            setFilteredPrice(filteredPrice);
         }
-    }, [overview]);
+
+        if (debouncedSearchTerm) {
+            setSearchParams({...Object.fromEntries(searchParams), searchTerm: debouncedSearchTerm});
+
+        } else {
+            setSearchParams({...Object.fromEntries(searchParams), searchTerm: ""});
+        }
+        if (filteredPrice !== urlPrice) {
+            setSearchParams({...Object.fromEntries(searchParams), price: filteredPrice.toString()});
+        }
+    }, [debouncedSearchTerm, filteredPrice, setSearchParams, searchParams, urlPrice]);
+
 
     if (isLoading) {
-        return <CircularProgress color="inherit" />;
+        return <CircularProgress color="inherit"/>;
     }
 
     if (isError || !overview) {
@@ -62,21 +84,16 @@ export function GamesOverview() {
                 >
                     <div
                         style={{
-                            position: 'sticky',
-                            top: 0,
-                            zIndex: 10,
-                            paddingBottom: '10px',
-                        }}
-                    >
-                    </div>
-                    <div
-                        style={{
                             marginTop: '0',
                             position: 'sticky',
                             top: 0,
                         }}
                     >
-                        <GamesList games={overview} filteredPrice={filteredPrice}/>
+                        <GamesList
+                            games={overview}
+                            searchTerm={searchTerm}
+                            setSearchTerm={setSearchTerm}
+                        />
                     </div>
                 </div>
 
@@ -91,6 +108,7 @@ export function GamesOverview() {
                         padding: '20px 0 0 0',
                     }}
                 >
+                    {/* Pass setFilteredPrice to GamesFilter to update the parent */}
                     <GamesFilter
                         maxPrice={maxPrice}
                         minPrice={minPrice}
@@ -100,7 +118,5 @@ export function GamesOverview() {
                 </div>
             </div>
         </div>
-
-
     );
 }

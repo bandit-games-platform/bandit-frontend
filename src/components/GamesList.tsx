@@ -1,30 +1,28 @@
 import {Box, TextField} from "@mui/material";
 import GameStoreCard from "./GameStoreCard";
 import {Game} from "../model/Game.ts";
-import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts";
-import {useEffect, useState} from "react";
-import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
+import {useEffect, useRef} from "react";
 
 interface GamesListProps {
     games: Game[];
-    filteredPrice: number;
+    searchTerm: string;
+    setSearchTerm: (term: string) => void;
 }
 
-function GamesList({ games, filteredPrice }: GamesListProps) {
+function GamesList({ games, searchTerm, setSearchTerm }: GamesListProps) {
 
-    const [filteredGames, setFilteredGames] = useState<Game[]>(games);
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
-    const { isLoading, isError, overview } = useGamesOverviewByTitleLikeAndPriceBelow(debouncedSearchTerm, filteredPrice);
+    const inputRef = useRef<HTMLInputElement>(null); // Correctly typed ref for the input element
 
     useEffect(() => {
-        if (overview && searchTerm ) {
-            setFilteredGames(overview);
-        } else if (!searchTerm) {
-            setFilteredGames(games.filter(game => game.price <= filteredPrice));
+        if (inputRef.current) {
+            inputRef.current.focus();
         }
-    }, [overview, searchTerm, games, filteredPrice]);
+    }, []);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newSearchTerm = e.target.value;
+        setSearchTerm(newSearchTerm);
+    };
 
     return (
         <Box
@@ -40,11 +38,12 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
         >
             {/* Search input */}
             <TextField
+                ref={inputRef}
                 id="search-game"
                 label="Search game by title"
                 variant="outlined"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)} // Update search term
+                onChange={handleSearchChange} // Update search term in the parent
                 sx={{
                     flex: 1,
                     width: '100%',
@@ -52,17 +51,13 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 }}
             />
 
-            {/* Display filtered games */}
-            {isLoading ? (
-                <Box sx={{ textAlign: 'center', color: 'gray' }}>
-                    Loading...
-                </Box>
-            ) : isError || !filteredGames || filteredGames.length === 0 ? (
+            {/* Display filtered games passed from the parent */}
+            {games.length === 0 ? (
                 <Box sx={{ textAlign: 'center', color: 'gray' }}>
                     No games found.
                 </Box>
             ) : (
-                filteredGames.map((game) => (
+                games.map((game) => (
                     <GameStoreCard
                         key={game.id}
                         id={game.id}

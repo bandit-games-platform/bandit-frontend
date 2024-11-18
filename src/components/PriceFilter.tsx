@@ -1,33 +1,40 @@
-import { Card, Slider, Typography} from "@mui/material";
+import {Card, Slider} from "@mui/material";
+import React, {useState} from "react";
 
 interface PriceFilterProps {
-    lowestPrice?: number;
-    highestPrice?: number;
+    minPrice: number;
+    maxPrice: number;
+    filteredPrice: number;
+    setFilteredPrice: (value: number) => void;
 }
 
-function PriceFilter({ lowestPrice, highestPrice}: PriceFilterProps) {
-    return (
-        <Card
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-start',
-                padding: '1rem',
-                backgroundColor: '#878c95',
-                borderRadius: '0.5rem',
-                boxShadow: 'none',
-                width: '90%',
-            }}>
+function PriceFilter({ minPrice, maxPrice, filteredPrice, setFilteredPrice }: PriceFilterProps) {
+    const [smoothSlidingPrice, setSmoothSlidingPrice] = useState(filteredPrice);
 
-                <Typography color="white" sx={{ color: 'black' }}>
-                    PRICE
-                </Typography>
-                <Slider
-                    sx={{ color: 'black' }}
-                    min={lowestPrice}
-                    max={highestPrice}
-                    defaultValue={highestPrice}
-                    aria-label="Default" valueLabelDisplay="auto" />
+    const handleChange = (_event: Event, newValue: number | number[]) => {
+        if (typeof newValue === "number") {
+            setSmoothSlidingPrice(newValue);
+        }
+    };
+
+    const handleCommit = (_event: Event | React.SyntheticEvent, priceFilterAmount: number | number[]) => {
+        if (typeof priceFilterAmount === "number") {
+            setFilteredPrice(priceFilterAmount);
+        }
+    };
+
+    return (
+        <Card style={{ backgroundColor: '#878c95', boxShadow: "none" }}>
+            <Slider
+                sx={{ color: 'black', padding: '3rem', width: '40%', marginLeft: '1rem' }}
+                min={minPrice}
+                max={maxPrice}
+                value={smoothSlidingPrice}
+                onChange={handleChange}
+                onChangeCommitted={handleCommit}
+                aria-label="Price Filter"
+                valueLabelDisplay="auto"
+            />
         </Card>
     );
 }

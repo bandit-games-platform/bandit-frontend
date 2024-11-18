@@ -1,5 +1,5 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
-import {Link, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/useGameDetails.ts";
 import {Box, Button, CircularProgress, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -8,6 +8,12 @@ import {ArrowBack} from "@mui/icons-material";
 export function IndividualGame() {
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
+
+    const navigate = useNavigate();
+
+    const navigateBack = () => {
+        navigate(-1);
+    };
 
     if (isLoading) {
         return (
@@ -29,7 +35,7 @@ export function IndividualGame() {
                 <Grid container justifyContent={"space-between"}>
                     <Grid>
                         <Stack direction={"row"} spacing={2}>
-                            <Button component={Link} to="/games">
+                            <Button onClick={navigateBack}>
                                 <ArrowBack/>
                             </Button>
                             <h1>{game.title}</h1>

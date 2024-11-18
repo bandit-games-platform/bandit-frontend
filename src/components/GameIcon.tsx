@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import {Box} from '@mui/material';
 
 interface GameIconProps {
     iconUrl: string;
@@ -7,8 +7,6 @@ interface GameIconProps {
 }
 
 function GameIcon({ iconUrl, width = '50px', height = '50px' }: GameIconProps) {
-
-    console.log(iconUrl)
 
     return (
         <Box
