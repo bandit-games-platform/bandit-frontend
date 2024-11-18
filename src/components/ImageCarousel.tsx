@@ -48,7 +48,7 @@ export function ImageCarousel({images}: ImageCarouselProps) {
                           navButtonsAlwaysInvisible={images.length <= 3}
                 >
                     {
-                        images.map((item, i) => <CarouselItem key={i} images={images} url={item} shownItem={shownItem} setImageClicked={setImageClicked} handleOpen={handleOpen}/> )
+                        images.map((item, i) => <CarouselItem key={i} images={images} currentUrl={item} shownItem={shownItem} setImageClicked={setImageClicked} handleOpen={handleOpen}/> )
                     }
                 </Carousel>
             </Box>
