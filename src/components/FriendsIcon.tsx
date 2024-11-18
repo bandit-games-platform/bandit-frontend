@@ -15,7 +15,7 @@ export function FriendsIcon() {
                     height: 42,
                     backgroundColor: (theme) => theme.palette.primary.light,
                     color: (theme) => theme.palette.common.white,
-                    zIndex: 1300,
+                    zIndex: 10,
                     boxShadow: 3,
                     '&:hover': {
                         backgroundColor: (theme) => theme.palette.primary.main,
