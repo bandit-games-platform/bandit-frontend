@@ -1,5 +1,5 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/useGameDetails.ts";
 import {Box, Button, CircularProgress, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -29,7 +29,7 @@ export function IndividualGame() {
                 <Grid container justifyContent={"space-between"}>
                     <Grid>
                         <Stack direction={"row"} spacing={2}>
-                            <Button>
+                            <Button component={Link} to="/games">
                                 <ArrowBack/>
                             </Button>
                             <h1>{game.title}</h1>

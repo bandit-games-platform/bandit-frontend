@@ -1,7 +1,7 @@
 import {Box, TextField} from "@mui/material";
-import GameStoreCard from "./GameStoreCard"; // Assuming you have this component
+import GameStoreCard from "./GameStoreCard";
 import {Game} from "../model/Game.ts";
-import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts"; // Assuming this hook fetches filtered data from the backend
+import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts";
 import {useEffect, useState} from "react";
 import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
 
@@ -11,8 +11,8 @@ interface GamesListProps {
 }
 
 function GamesList({ games, filteredPrice }: GamesListProps) {
-    const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
+    const [filteredGames, setFilteredGames] = useState<Game[]>(games);
 
     const [searchTerm, setSearchTerm] = useState('');
     const debouncedSearchTerm = useDebouncedSearch(searchTerm, 500);
@@ -47,7 +47,6 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 onChange={(e) => setSearchTerm(e.target.value)} // Update search term
                 sx={{
                     flex: 1,
-                    backgroundColor: 'white',
                     width: '100%',
                     borderRadius: '1rem',
                 }}
@@ -66,6 +65,7 @@ function GamesList({ games, filteredPrice }: GamesListProps) {
                 filteredGames.map((game) => (
                     <GameStoreCard
                         key={game.id}
+                        id={game.id}
                         title={game.title}
                         description={game.description}
                         icon={game.icon}

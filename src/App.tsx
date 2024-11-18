@@ -3,6 +3,7 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import {IndividualGame} from "./pages/IndividualGame.tsx";
+import {GamesOverview} from "./pages/GamesOverview.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
+                        <Route path={"/games"} element={<GamesOverview/>}></Route>
                     </Routes>
                 </BrowserRouter>
 

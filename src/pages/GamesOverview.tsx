@@ -3,8 +3,6 @@ import GamesFilter from "../components/GamesFilter.tsx";
 import {useGamesOverview} from "../hooks/useGamesOverview.ts";
 import {useEffect, useState} from "react";
 import {CircularProgress} from "@mui/material";
-import './GamesOverview.scss'
-
 
 export function GamesOverview() {
 
