@@ -2,13 +2,13 @@ import {Paper, Stack} from "@mui/material";
 
 interface CarouselItemProps {
     images: string[]
-    url: string
+    currentUrl: string
     shownItem: number
     setImageClicked: (url: string) => void
     handleOpen: () => void
 }
 
-export function CarouselItem({images, url, shownItem, setImageClicked, handleOpen}: CarouselItemProps)
+export function CarouselItem({images, currentUrl, shownItem, setImageClicked, handleOpen}: CarouselItemProps)
 {
     const previousCard = shownItem - 1 < 0 ? images.length - 1 : shownItem - 1
     const nextCard = shownItem + 1 > images.length - 1 ? 0 : shownItem + 1
@@ -50,11 +50,11 @@ export function CarouselItem({images, url, shownItem, setImageClicked, handleOpe
                     marginRight: { xs: 0, md: '1%'},
                 }}
                 onClick={() => {
-                    setImageClicked(url)
+                    setImageClicked(currentUrl)
                     handleOpen()
                 }}
             >
-                <img src={url} alt={"Current screenshot"}/>
+                <img src={currentUrl} alt={"Current screenshot"}/>
             </Paper>
             {images.length >= 3 && (
                 <Paper
