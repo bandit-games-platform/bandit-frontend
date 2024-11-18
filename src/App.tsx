@@ -1,20 +1,38 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import './App.css'
-import SecurityContextProvider from "./context/SecurityContextProvider";
-import {BrowserRouter, Routes} from "react-router-dom";
+// import SecurityContextProvider from "./context/SecurityContextProvider";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {IndividualGame} from "./pages/IndividualGame.tsx";
 
 const queryClient = new QueryClient();
+
+const theme = createTheme({
+    colorSchemes: {
+        dark: true,
+        light: true
+    },
+});
 
 function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <SecurityContextProvider>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+
                 <BrowserRouter>
                     <Routes>
+                        <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
                     </Routes>
                 </BrowserRouter>
-            </SecurityContextProvider>
+
+                {/*<SecurityContextProvider>*/}
+                {/*    <BrowserRouter>*/}
+                {/*        <Routes>*/}
+                {/*        </Routes>*/}
+                {/*    </BrowserRouter>*/}
+                {/*</SecurityContextProvider>*/}
+            </ThemeProvider>
         </QueryClientProvider>
     )
 }
