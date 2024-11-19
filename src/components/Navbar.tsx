@@ -11,9 +11,10 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import theme from '../theme/theme.ts';
-// import SecurityContext from "../context/SecurityContext.ts";
+import SecurityContext from "../context/SecurityContext.ts";
 import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
+import {useContext} from "react";
 
 const pages = [
     {name: 'Store', path: '/store'},
@@ -24,7 +25,7 @@ const pages = [
 const logoutSetting = 'Logout';
 
 export function Navbar() {
-    // const {logout, loggedInUser} = useContext(SecurityContext);
+    const {logout, loggedInUser} = useContext(SecurityContext);
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -181,13 +182,13 @@ export function Navbar() {
                                 <Avatar src="/public/avatar.png"/>
                             </IconButton>
                         </Tooltip>
-                        {/* later: Hello, {loggedInUser}! */}
+
                         <Typography
                             sx={{
                                 textAlign: 'right',
                                 display: {xs: 'none', sm: 'block'},
                             }}
-                        >Hello, User!</Typography>
+                        >Hello, {loggedInUser}!</Typography>
                         <Menu
                             sx={{mt: '45px'}}
                             id="menu-appbar"
@@ -207,7 +208,7 @@ export function Navbar() {
                             <MenuItem onClick={handleCloseUserMenu}>
                                 <Typography
                                     sx={{textAlign: 'center'}}
-                                    // onClick={logout}
+                                    onClick={logout}
                                 >
                                     <MenuItem onClick={handleCloseUserMenu}>
                                         <Typography
