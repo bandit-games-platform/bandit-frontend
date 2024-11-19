@@ -7,6 +7,7 @@ import {Navbar} from "./components/Navbar.tsx";
 import './index.css'
 import theme from "./theme/theme.ts";
 import {StickyFooter} from "./components/StickyFooter.tsx";
+import {GamesOverview} from "./pages/GamesOverview.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,8 @@ function App() {
                     <Navbar/>
                     <Routes>
                         <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
+                        <Route path={"/games"} element={<GamesOverview/>}></Route>
+
                     </Routes>
                     <StickyFooter/>
                 </BrowserRouter>

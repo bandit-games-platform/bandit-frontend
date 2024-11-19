@@ -17,3 +17,10 @@ export async function getGameDetails(gameId: string) {
     const {data: game} = await axios.get<Game>(url)
     return game
 }
+
+export async function getGamesOverviewByTitleLikeAndPriceBelow(title: string, maxPrice: number) {
+    const url = GAME_REGISTRY_BASE_URL + `/games/overview?title=${title}&maxPrice=${maxPrice}`
+    const {data: games} = await axios.get<Game[]>(`${url}`)
+
+    return games
+}
