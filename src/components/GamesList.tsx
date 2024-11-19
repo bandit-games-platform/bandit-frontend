@@ -1,6 +1,6 @@
 import {Box, TextField} from "@mui/material";
 import GameStoreCard from "./GameStoreCard";
-import {Game} from "../model/gameRegistry/Game.ts";
+import {Game} from "../model/Game.ts";
 import {useEffect, useRef} from "react";
 
 interface GamesListProps {

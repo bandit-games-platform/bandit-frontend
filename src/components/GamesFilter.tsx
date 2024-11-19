@@ -1,5 +1,6 @@
-import {Box, Card, Typography} from "@mui/material";
+import {Autocomplete, Box, Card, TextField, Typography} from "@mui/material";
 import PriceFilter from "./PriceFilter.tsx";
+import tags from "../constants/tags.ts";
 
 interface GamesFilterProps {
     maxPrice: number;
@@ -23,36 +24,36 @@ function GamesFilter({ maxPrice,minPrice, filteredPrice, setFilteredPrice }: Gam
             gap: "1rem"
         }}>
             {/* Tags */}
-            {/*<Box sx={{ width: "100%" }}>*/}
-            {/*    <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>*/}
-            {/*        TAGS*/}
-            {/*    </Typography>*/}
-            {/*    <Autocomplete*/}
-            {/*        multiple*/}
-            {/*        limitTags={2}*/}
-            {/*        id="multiple-limit-tags"*/}
-            {/*        options={tags}*/}
-            {/*        defaultValue={[*/}
-            {/*            tags[1], tags[2], tags[3], tags[13], tags[12], tags[11],*/}
-            {/*        ]}*/}
-            {/*        renderInput={(params) => (*/}
-            {/*            <TextField*/}
-            {/*                {...params}*/}
-            {/*                label="Select Tags"*/}
-            {/*                placeholder="Favorites"*/}
-            {/*                sx={{*/}
-            {/*                    borderRadius: "4px",*/}
-            {/*                }}*/}
-            {/*            />*/}
-            {/*        )}*/}
-            {/*        sx={{*/}
-            {/*            width: "100%",*/}
-            {/*            "& .MuiAutocomplete-tag:hover": {*/}
-            {/*                backgroundColor: "#e0e0e0",*/}
-            {/*            },*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</Box>*/}
+            <Box sx={{ width: "100%" }}>
+                <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>
+                    TAGS
+                </Typography>
+                <Autocomplete
+                    multiple
+                    limitTags={2}
+                    id="multiple-limit-tags"
+                    options={tags}
+                    defaultValue={[
+                        tags[1], tags[2], tags[3], tags[13], tags[12], tags[11],
+                    ]}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Select Tags"
+                            placeholder="Favorites"
+                            sx={{
+                                borderRadius: "4px",
+                            }}
+                        />
+                    )}
+                    sx={{
+                        width: "100%",
+                        "& .MuiAutocomplete-tag:hover": {
+                            backgroundColor: "#e0e0e0",
+                        },
+                    }}
+                />
+            </Box>
             {/* Price  */}
             <Box sx={{ width: "100%" }}>
                 <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>

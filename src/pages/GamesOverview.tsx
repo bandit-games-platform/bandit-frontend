@@ -3,8 +3,8 @@ import {useSearchParams} from "react-router-dom";
 import {CircularProgress} from "@mui/material";
 import GamesList from "../components/GamesList.tsx";
 import GamesFilter from "../components/GamesFilter.tsx";
-import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/gameRegistry/useGamesOverview.ts";
-import {useDebouncedSearch} from "../hooks/gameRegistry/useDebouncedSearch.ts";
+import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/useGamesOverview.ts";
+import {useDebouncedSearch} from "../hooks/useDebouncedSearch.ts";
 
 export function GamesOverview() {
     const [minPrice, setMinPrice] = useState<number>(0);
