@@ -3,14 +3,6 @@ import {Game} from "../model/gameRegistry/Game.ts";
 
 
 const GAME_REGISTRY_BASE_URL = import.meta.env.VITE_GAME_REGISTRY_URL;
-
-export async function getGamesOverview() {
-    const url = GAME_REGISTRY_BASE_URL + "/games/overview"
-
-    await axios.get(url)
-    return "Amazing overview"
-}
-
 export async function getGameDetails(gameId: string) {
     const url = GAME_REGISTRY_BASE_URL + "/games/" + gameId
 

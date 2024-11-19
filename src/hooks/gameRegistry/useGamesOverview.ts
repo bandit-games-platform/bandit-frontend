@@ -1,18 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getGamesOverview, getGamesOverviewByTitleLikeAndPriceBelow} from "../../services/gameRegistryService.ts";
-
-export function useGamesOverview() {
-    const {isLoading, isError, data: overview} = useQuery({
-        queryKey: ['games'],
-        queryFn: () => getGamesOverview(),
-    })
-
-    return {
-        isLoading,
-        isError,
-        overview
-    }
-}
+import {getGamesOverviewByTitleLikeAndPriceBelow} from "../../services/gameRegistryService.ts";
 
 
 export function useGamesOverviewByTitleLikeAndPriceBelow(title: string, maxPrice: number) {
