@@ -1,5 +1,5 @@
 import axios from "axios";
-import {Game} from "../model/Game.ts";
+import {Game} from "../model/gameRegistry/Game.ts";
 
 
 const GAME_REGISTRY_BASE_URL = import.meta.env.VITE_GAME_REGISTRY_URL;
