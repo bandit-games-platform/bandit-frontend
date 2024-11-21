@@ -1,4 +1,4 @@
-type CompletedSession = {
+export type CompletedSession = {
     sessionId: string;
     startTime: string;
     endTime: string;
@@ -12,7 +12,7 @@ type CompletedSession = {
     wasFirstToGo: boolean;
 };
 
-type AchievementProgress = {
+export type AchievementProgress = {
     achievementId: string;
     counterValue: number;
 };

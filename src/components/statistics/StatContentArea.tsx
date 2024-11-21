@@ -13,7 +13,7 @@ export default function StatContentArea({children, title, isSidebarOpen}: Conten
             flexGrow={1}
             p={2}
             sx={{
-                marginLeft: isSidebarOpen ? 15 : 7, // Shift content based on sidebar state
+                marginLeft: isSidebarOpen ? 12 : 20, // Shift content based on sidebar state
                 transition: "margin-left 0.3s", // Smooth transition for content shift
             }}
         >

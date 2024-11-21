@@ -47,7 +47,7 @@ export function Navbar() {
     };
 
     return (
-        <AppBar position="static" sx={{backgroundColor: theme.palette.primary.main}}>
+        <AppBar position="sticky" sx={{backgroundColor: theme.palette.primary.main}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{alignItems: 'center'}}>
                     <VideogameAssetIcon

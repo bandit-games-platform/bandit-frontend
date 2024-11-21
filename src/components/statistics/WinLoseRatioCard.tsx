@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import {useMediaQuery, Theme} from '@mui/material';
 
 // Mock data (replace with actual PlayerGameStats object)
 const playerGameStats = {
@@ -24,21 +25,39 @@ const calculateWinLoseRatio = () => {
 
 export default function WinLoseRatioCard() {
     const winLoseRatio = calculateWinLoseRatio();
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     return (
         <Box
             sx={{
-                width: '19vw',
-                position: 'fixed', // Fixes the position
-                margin: '16px', // Adds some spacing
+                width: isMobile ? '90%' : '19vw',
+                position: isMobile ? 'static' : 'absolute',
+                margin: '16px',
             }}
         >
-            <Card variant="outlined">
+            <Card
+                variant="outlined"
+                sx={{
+                    fontSize: isMobile ? '0.8rem' : '1rem',
+                    padding: '6px',
+                }}
+            >
                 <CardContent>
-                    <Typography sx={{fontSize: 14, color: 'text.secondary'}} gutterBottom>
+                    <Typography
+                        sx={{
+                            fontSize: isMobile ? 12 : 14,
+                            color: 'text.secondary',
+                        }}
+                        gutterBottom>
                         Player Performance
                     </Typography>
-                    <Typography variant="h5" component="div">
+                    <Typography
+                        variant="h5"
+                        component="div"
+                        sx={{
+                            fontSize: isMobile ? '1.2rem' : '1.5rem',
+                        }}
+                    >
                         Win:Loss Ratio
                     </Typography>
                     <Typography variant="h4" sx={{color: 'success.main', mt: 1}}>

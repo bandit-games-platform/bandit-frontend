@@ -1,4 +1,4 @@
-import React from "react";
+import {useState} from "react";
 import {
     Drawer,
     IconButton,
@@ -6,7 +6,7 @@ import {
     Typography,
     Box,
     Tooltip,
-    Collapse,
+    Collapse, useMediaQuery, Theme,
 } from "@mui/material";
 import {
     Menu as MenuIcon,
@@ -24,11 +24,14 @@ interface SidebarGamesProps {
     isOpen: boolean;
     toggleSidebar: () => void;
     games: Game[];
-    onGameSelect: (game: Game) => void; // Callback to select game
+    onGameSelect: (game: Game) => void;
 }
 
 export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect}: SidebarGamesProps) {
-    const [openSubmenu, setOpenSubmenu] = React.useState(false);
+    const [openSubmenu, setOpenSubmenu] = useState(false);
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const sidebarWidth = isOpen ? (isMobile ? 180 : 270) : (isMobile ? 60 : 70);
+
 
     const handleSubmenuClick = () => {
         setOpenSubmenu(!openSubmenu);
@@ -41,7 +44,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                 width: isOpen ? 270 : 70,
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: {
-                    width: isOpen ? 270 : 70,
+                    width: sidebarWidth,
                     overflowX: "hidden",
                     transition: "width 0.3s",
                     marginTop: 9,
@@ -60,7 +63,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/8002/8002111.png"
                         alt="Game"
-                        style={{width: 40, height: 40}}
+                        style={{width: isMobile ? 30 : 40, height: isMobile ? 30 : 40}}
                     />
                 )}
                 {isOpen && <Typography variant="h6">Games</Typography>}
@@ -70,7 +73,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
             </Box>
 
             {/* Menu Items */}
-            <List>
+            <List sx={{fontSize: isMobile ? 12 : 16}}>
                 {isOpen && (
                     <Typography variant="subtitle1" sx={{pl: 2, mt: 2}}>
                         GAMES
