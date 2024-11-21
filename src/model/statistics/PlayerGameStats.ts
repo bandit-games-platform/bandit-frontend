@@ -2,7 +2,7 @@ type CompletedSession = {
     sessionId: string;
     startTime: string;
     endTime: string;
-    endState: "WIN" | "LOSE" | "DRAW";
+    endState: string;
     turnsTaken: number;
     avgSecondsPerTurn: number;
     playerScore: number;
