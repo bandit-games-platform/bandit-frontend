@@ -6,7 +6,9 @@ import {
     Typography,
     Box,
     Tooltip,
-    Collapse, useMediaQuery, Theme,
+    Collapse,
+    useMediaQuery,
+    Theme,
 } from "@mui/material";
 import {
     Menu as MenuIcon,
@@ -29,9 +31,8 @@ interface SidebarGamesProps {
 
 export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect}: SidebarGamesProps) {
     const [openSubmenu, setOpenSubmenu] = useState(false);
-    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
     const sidebarWidth = isOpen ? (isMobile ? 180 : 270) : (isMobile ? 60 : 70);
-
 
     const handleSubmenuClick = () => {
         setOpenSubmenu(!openSubmenu);
@@ -52,13 +53,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
             }}
         >
             {/* Logo and Toggle Button */}
-            <Box
-                display="flex"
-                alignItems="center"
-                justifyContent={isOpen ? "space-between" : "center"}
-                px={2}
-                py={1}
-            >
+            <Box display="flex" alignItems="center" justifyContent={isOpen ? "space-between" : "center"} px={2} py={1}>
                 {isOpen && (
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/8002/8002111.png"
@@ -75,17 +70,12 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
             {/* Menu Items */}
             <List sx={{fontSize: isMobile ? 12 : 16}}>
                 {isOpen && (
-                    <Typography variant="subtitle1" sx={{pl: 2, mt: 2}}>
-                        GAMES
+                    <Typography variant="subtitle1" sx={{pl: 2, my: 2}}>
+                        Your Games
                     </Typography>
                 )}
                 {games.map((game) => (
-                    <Tooltip
-                        key={game.id}
-                        title={game.name}
-                        placement="right"
-                        disableHoverListener={isOpen}
-                    >
+                    <Tooltip key={game.id} title={game.name} placement="right" disableHoverListener={isOpen}>
                         <Box
                             onClick={() => onGameSelect(game)} // Select game on click
                             sx={{
@@ -145,4 +135,4 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
             </List>
         </Drawer>
     );
-};
+}

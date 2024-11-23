@@ -3,11 +3,11 @@ import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 import CompletedSessionCardDetails from "./CompletedSessionCardDetails.tsx"; // Ensure path is correct
 
 interface CompletedSessionsProps {
-    playerStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats;
 }
 
-export default function CompletedSessions({playerStats}: CompletedSessionsProps) {
-    const {completedSessions} = playerStats;
+export default function CompletedSessions({playerGameStats}: CompletedSessionsProps) {
+    const {completedSessions} = playerGameStats;
 
     return (
         <Card sx={{

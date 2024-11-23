@@ -6,9 +6,10 @@ import BestAchievementCard from "./BestAchievementCard.tsx";
 import {useState, useEffect} from "react";
 import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
 import CompletedSessions from "./CompletedSessions.tsx";
-import Achieve from "./TestAllAchievements.tsx";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import AchievementsList from "./AchievementsList.tsx";
+import {Achievement} from "../../model/statistics/Achievement.ts";
 
-// import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 interface Game {
     name: string;
@@ -73,9 +74,27 @@ export default function GameStats() {
         achievementProgress: [
             {achievementId: "achievement1", counterValue: 80},
             {achievementId: "achievement2", counterValue: 50},
-            {achievementId: "achievement3", counterValue: 100},
+            {achievementId: "achievement3", counterValue: 20},
         ],
     };
+
+
+    const achievements: Achievement[] = [
+        {
+            achievementId: 'ach1',
+            gameId: 'game1',
+            counterTotal: 10,
+            description: 'Complete 10 sessions in the game.',
+            title: 'Session Master',
+        },
+        {
+            achievementId: 'ach2',
+            gameId: 'game1',
+            counterTotal: 10,
+            description: 'Score 100 points in a single session.',
+            title: 'High Scorer',
+        },
+    ];
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -110,8 +129,8 @@ export default function GameStats() {
                         <Box style={{
                             display: "flex",
                             alignItems: "center",
-                            justifyContent: "space-between",
-                            padding: isMobile ? "3px" : "7px",
+                            justifyContent: isMobile ? "space-between" : "start",
+                            padding: isMobile ? "3px 12px 10px" : "7px",
                         }}>
                             <p style={{
                                 margin: isMobile ? '2px' : '7px 0 7px 1em',
@@ -119,24 +138,22 @@ export default function GameStats() {
                             }}
                             >
                                 {selectedGame.name}</p>
-                            {/*<button style={{*/}
-                            {/*    display: "flex",*/}
-                            {/*    alignItems: "center",*/}
-                            {/*    padding: "7px 15px",*/}
-                            {/*    margin: "7px 35em 7px 7px",*/}
-                            {/*    cursor: "pointer",*/}
-                            {/*    fontSize: "16px",*/}
-                            {/*    border: "none",*/}
-                            {/*    backgroundColor: "#007BFF",*/}
-                            {/*    color: "#fff",*/}
-                            {/*    borderRadius: "4px"*/}
-                            {/*}}>*/}
-                            {/*    <PlayArrowIcon style={{marginRight: "5px"}}/>*/}
-                            {/*    Play*/}
-                            {/*</button>*/}
+                            <button style={{
+                                padding: "3px",
+                                margin: "7px 15px",
+                                cursor: "pointer",
+                                fontSize: "16px",
+                                border: "none",
+                                backgroundColor: "#007BFF",
+                                color: "#fff",
+                                borderRadius: "4px"
+                            }}>
+
+                                <PlayArrowIcon/>
+                            </button>
                         </Box>
 
-                        {/* Button for Achievements */}
+                        {/* Show all Achievements Button */}
                         <Box display="flex" justifyContent="flex-end" style={{
                             margin: "7px 7em 1em 0"
                         }}>
@@ -149,7 +166,7 @@ export default function GameStats() {
                                     },
 
                                     marginRight: {
-                                        sm: isOpen ? '0' : '6em'
+                                        sm: isOpen ? '0' : '6.5em'
                                     }
                                 }}
 
@@ -161,11 +178,14 @@ export default function GameStats() {
 
                         {/* Conditionally render Achievements */}
                         {showAchievements ? (
-                            <Achieve/>
+                            <AchievementsList playerGameStats={hardCodedGames} achievements={achievements}/>
                         ) : (
                             <>
-                                <WinLoseRatioCard/>
-                                <BestAchievementCard gameStats={hardCodedGames} isSidebarOpen={isOpen}/>
+                                <WinLoseRatioCard
+                                    playerGameStats={hardCodedGames ? {completedSessions: hardCodedGames.completedSessions} : null}
+                                />
+
+                                <BestAchievementCard playerGameStats={hardCodedGames} isSidebarOpen={isOpen}/>
 
                                 {/* Button for Completed Sessions */}
                                 <Box display="flex" justifyContent="flex-start" style={{
@@ -182,9 +202,9 @@ export default function GameStats() {
 
                                 {/* Conditionally render Completed Sessions */}
                                 {showCompletedSessions ? (
-                                    <CompletedSessions playerStats={hardCodedGames}/>
+                                    <CompletedSessions playerGameStats={hardCodedGames}/>
                                 ) : (
-                                    <BestCompletedSessionsCard gameStats={hardCodedGames}/>
+                                    <BestCompletedSessionsCard playerGameStats={hardCodedGames}/>
                                 )}
                             </>
                         )}

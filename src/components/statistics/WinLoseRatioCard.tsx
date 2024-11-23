@@ -4,35 +4,30 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import {useMediaQuery, Theme} from '@mui/material';
 
-// Mock data (replace with actual PlayerGameStats object)
-const playerGameStats = {
-    completedSessions: [
-        {endState: "WIN"},
-        {endState: "LOSE"},
-        {endState: "WIN"},
-        {endState: "DRAW"},
-        {endState: "WIN"},
-        {endState: "LOSE"},
-    ],
-};
+interface WinLoseRatioCardProps {
+    playerGameStats: {
+        completedSessions: { endState: string }[];
+    } | null; // Allow null to handle no game selected.
+}
 
-const calculateWinLoseRatio = () => {
-    const {completedSessions} = playerGameStats;
+const calculateWinLoseRatio = (completedSessions: { endState: string }[]) => {
     const wins = completedSessions.filter((session) => session.endState === "WIN").length;
     const losses = completedSessions.filter((session) => session.endState === "LOSE").length;
     return `${wins}:${losses}`;
 };
 
-export default function WinLoseRatioCard() {
-    const winLoseRatio = calculateWinLoseRatio();
+export default function WinLoseRatioCard({playerGameStats}: WinLoseRatioCardProps) {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+    const winLoseRatio = playerGameStats
+        ? calculateWinLoseRatio(playerGameStats.completedSessions)
+        : "0:0"; // Default if no stats available.
 
     return (
         <Box
             sx={{
                 width: isMobile ? '90%' : '19vw',
                 position: isMobile ? 'static' : 'absolute',
-                margin: '16px',
+                margin: isMobile ? '7px 16px 20px 16px' : '3px 3px 3px 17px',
             }}
         >
             <Card
@@ -48,7 +43,8 @@ export default function WinLoseRatioCard() {
                             fontSize: isMobile ? 12 : 14,
                             color: 'text.secondary',
                         }}
-                        gutterBottom>
+                        gutterBottom
+                    >
                         Player Performance
                     </Typography>
                     <Typography
@@ -60,7 +56,13 @@ export default function WinLoseRatioCard() {
                     >
                         Win:Loss Ratio
                     </Typography>
-                    <Typography variant="h4" sx={{color: 'success.main', mt: 1}}>
+                    <Typography
+                        variant="h4"
+                        sx={{
+                            color: 'success.main',
+                            mt: 1,
+                        }}
+                    >
                         {winLoseRatio}
                     </Typography>
                 </CardContent>

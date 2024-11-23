@@ -4,11 +4,11 @@ import {Achievement} from "../../model/statistics/Achievement.ts";
 import AchievementCardDetails from "./AchievementCardDetails.tsx"; // Import path might need adjustment
 
 interface PlayerAchievementsProps {
-    gameStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats;
     achievements: Achievement[];
 }
 
-export default function PlayerAchievements({gameStats, achievements}: PlayerAchievementsProps) {
+export default function PlayerAchievements({playerGameStats, achievements}: PlayerAchievementsProps) {
     return (
         <Card sx={{padding: 2}}>
             <CardContent>
@@ -16,10 +16,10 @@ export default function PlayerAchievements({gameStats, achievements}: PlayerAchi
                     Player Achievements
                 </Typography>
 
-                {gameStats.achievementProgress.length === 0 ? (
+                {playerGameStats.achievementProgress.length === 0 ? (
                     <Typography variant="body2">No achievements unlocked yet.</Typography>
                 ) : (
-                    gameStats.achievementProgress.map((progress) => {
+                    playerGameStats.achievementProgress.map((progress) => {
                         const achievement = achievements.find(
                             (ach) => ach.achievementId === progress.achievementId
                         );
@@ -28,7 +28,7 @@ export default function PlayerAchievements({gameStats, achievements}: PlayerAchi
                                 <AchievementCardDetails
                                     key={progress.achievementId}
                                     achievement={achievement}
-                                    playerGameStat={gameStats}
+                                    playerGameStat={playerGameStats}
                                 />
                             )
                         );

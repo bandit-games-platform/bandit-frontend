@@ -3,15 +3,15 @@ import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
 interface AchievementCardProps {
-    gameStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats;
     isSidebarOpen: boolean; // Add this prop to track sidebar state
 }
 
-export default function BestAchievementCard({gameStats, isSidebarOpen}: AchievementCardProps) {
+export default function BestAchievementCard({playerGameStats, isSidebarOpen}: AchievementCardProps) {
     // Calculate the highest achievement based on the achievement progress
-    const highestAchievement = gameStats.achievementProgress.reduce((max, achievement) => {
+    const highestAchievement = playerGameStats.achievementProgress.reduce((max, achievement) => {
         return achievement.counterValue > max.counterValue ? achievement : max;
-    }, gameStats.achievementProgress[0]);
+    }, playerGameStats.achievementProgress[0]);
 
     const progress = (highestAchievement.counterValue / 100) * 100;
 
@@ -108,6 +108,7 @@ export default function BestAchievementCard({gameStats, isSidebarOpen}: Achievem
                         marginTop: 2,
                         height: {xs: 6, sm: 10},
                         borderRadius: 5,
+                        backgroundColor: (theme) => theme.palette.primary.light,
                     }}
                 />
                 <Typography

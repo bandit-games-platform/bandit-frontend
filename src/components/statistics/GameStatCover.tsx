@@ -14,7 +14,7 @@ export default function GameStatCover({children, title, isSidebarOpen}: ContentA
             flexGrow={1}
             p={2}
             sx={{
-                marginLeft: isMobile ? 6 : isSidebarOpen ? 12 : 27,
+                marginLeft: isMobile ? 6 : isSidebarOpen ? 12 : 26,
                 transition: "margin-left 0.3s",
                 paddingRight: isMobile ? 1 : 4,
             }}
