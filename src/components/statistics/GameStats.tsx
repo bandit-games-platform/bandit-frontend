@@ -1,26 +1,19 @@
-import {Box, Button, useMediaQuery, Theme, CircularProgress} from "@mui/material";
+import {Box, Button, CircularProgress, useMediaQuery, Theme} from "@mui/material";
 import SidebarGames from "./SidebarGames.tsx";
 import GameStatCover from "./GameStatCover.tsx";
 import WinLoseRatioCard from "./WinLoseRatioCard.tsx";
 import BestAchievementCard from "./BestAchievementCard.tsx";
 import {useState, useEffect} from "react";
-import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
 import CompletedSessions from "./CompletedSessions.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AchievementsList from "./AchievementsList.tsx";
-import {Achievement} from "../../model/Achievement.ts";
-import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
+import {usePlayerGameStats} from "../../hooks/statistics/usePlayerGameStats.ts";
+import {useGameAchievementDetails} from "../../hooks/useGameAchievementDetails.ts";
+import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
 
 interface Game {
     name: string;
-    id: number;
-}
-
-interface PlayerGameStats {
-    playerId: string;
-    gameId: string;
-    completedSessions: CompletedSession[];
-    achievementProgress: AchievementProgress[];
+    id: string;
 }
 
 export default function GameStats() {
@@ -29,69 +22,55 @@ export default function GameStats() {
     const [selectedGame, setSelectedGame] = useState<Game | null>(null);
     const [showAchievements, setShowAchievements] = useState(false);
     const [showCompletedSessions, setShowCompletedSessions] = useState(false);
-    const [playerGameStats, setPlayerGameStats] = useState<PlayerGameStats | null>(null);
-    const [gameAchievements, setGameAchievements] = useState<Achievement[] | null>([]);
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
-    const [isLoading, setIsLoading] = useState(false);
+    const {playerGameStats, isLoading: statsLoading} = usePlayerGameStats(selectedGame?.id.toString() || '');
+    const {
+        gameAchievements,
+        isLoading: achievementsLoading
+    } = useGameAchievementDetails(selectedGame?.id.toString() || '');
+    const isLoading = statsLoading || achievementsLoading;
+
+    const defaultPlayerGameStats = {
+        playerId: '',
+        gameId: '',
+        completedSessions: [],
+        achievementProgress: []
+    };
+
+    const playerGameStatsToUse = playerGameStats || defaultPlayerGameStats;
+
+    //TODO: Fetch use bought games (Write a query to get all games from a player's library along with their favorite games)
+    useEffect(() => {
+        const fetchGames = async () => {
+            const data: Game[] = [
+                {name: "Chess", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c001'},
+                {name: "Checkers", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c002'},
+                {name: "Go", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c003'},
+            ];
+            setGames(data);
+        };
+        fetchGames();
+    }, []);
+
+    const handleGameSelect = (game: Game) => {
+        setSelectedGame(game);
+    };
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
 
-    const toggleAchievements = () => {
-        setShowAchievements(!showAchievements);
-    };
-
-    const toggleCompletedSessions = () => {
-        setShowCompletedSessions(!showCompletedSessions);
-    };
-
-    // Fetch registered games
-    useEffect(() => {
-        const fetchGames = async () => {
-            const gamesData = await getGames();  // Call service to get games
-            setGames(gamesData);
-        };
-        fetchGames();
-    }, []);
-
-    const fetchPlayerGameStats = async (gameId: number) => {
-        setIsLoading(true);
-        try {
-            // Replace with your service call
-            const stats: PlayerGameStats = await yourService.getPlayerGameStats(gameId);
-            setPlayerGameStats(stats);
-        } catch (error) {
-            console.error("Failed to fetch player game stats:", error);
-        } finally {
-            setIsLoading(false);
+    const toggleSection = (section: 'achievements' | 'completedSessions') => {
+        if (section === 'achievements') {
+            setShowAchievements(!showAchievements);
+        } else {
+            setShowCompletedSessions(!showCompletedSessions);
         }
     };
-
-    const fetchGameAchievements = async (gameId: number) => {
-        try {
-            // Replace with your service call
-            const achievements: Achievement[] = await yourService.getGameAchievements(gameId);
-            setGameAchievements(achievements);
-        } catch (error) {
-            console.error("Failed to fetch achievements:", error);
-        }
-    };
-
-    const handleGameSelect = (game: Game) => {
-        setSelectedGame(game);
-        fetchPlayerGameStats(game.id);
-        fetchGameAchievements(game.id);
-    };
-
 
     return (
-        <Box
-            display="flex"
-            flexDirection={isMobile ? "column" : "row"}
-            flexWrap="wrap"
-            sx={{width: isMobile ? "100vw" : "auto"}}
-        >
+        <Box display="flex" flexDirection={isMobile ? "column" : "row"} flexWrap="wrap"
+             sx={{width: isMobile ? "100vw" : "auto"}}>
             {!isMobile && (
                 <SidebarGames
                     isOpen={isOpen}
@@ -107,33 +86,28 @@ export default function GameStats() {
                     </Box>
                 ) : selectedGame ? (
                     <>
-                        <Box style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: isMobile ? "space-between" : "start",
-                            padding: isMobile ? "3px 12px 10px" : "7px",
-                        }}>
+                        <Box display="flex" alignItems="center" justifyContent={isMobile ? "space-between" : "start"}
+                             padding={isMobile ? "3px 12px 10px" : "7px"}>
                             <p style={{
                                 margin: isMobile ? '2px' : '7px 0 7px 1em',
                                 fontSize: isMobile ? '20px' : '30px'
                             }}>
-                                {selectedGame.name}</p>
-                            <button style={{
+                                {selectedGame.name}
+                            </p>
+                            <Button sx={{
                                 padding: "3px",
                                 margin: "7px 15px",
-                                cursor: "pointer",
                                 fontSize: "16px",
-                                border: "none",
                                 backgroundColor: "#007BFF",
                                 color: "#fff",
                                 borderRadius: "4px"
                             }}>
                                 <PlayArrowIcon/>
-                            </button>
+                            </Button>
                         </Box>
 
                         {/* Show all Achievements Button */}
-                        <Box display="flex" justifyContent="flex-end" style={{margin: "7px 7em 1em 0"}}>
+                        <Box display="flex" justifyContent="flex-end" sx={{margin: "7px 7em 1em 0"}}>
                             <Button
                                 variant="contained"
                                 color="primary"
@@ -141,7 +115,7 @@ export default function GameStats() {
                                     marginLeft: {sm: isOpen ? '15em' : '25'},
                                     marginRight: {sm: isOpen ? '0' : '6.5em'}
                                 }}
-                                onClick={toggleAchievements}
+                                onClick={() => toggleSection('achievements')}
                             >
                                 {showAchievements ? "Back to Stats" : "Show All Achievements"}
                             </Button>
@@ -149,43 +123,26 @@ export default function GameStats() {
 
                         {/* Conditionally render Achievements */}
                         {showAchievements ? (
-                            <AchievementsList playerGameStats={playerGameStats} achievements={gameAchievements}/>
+                            <AchievementsList playerGameStats={playerGameStatsToUse}
+                                              achievements={gameAchievements ?? []}/>
                         ) : (
                             <>
-                                <WinLoseRatioCard playerGameStats={playerGameStats}/>
-                                <BestAchievementCard
-                                    playerGameStats={playerGameStats || {
-                                        playerId: '',
-                                        gameId: '',
-                                        completedSessions: [],
-                                        achievementProgress: []
-                                    }}
-                                    isSidebarOpen={isOpen}
-                                />
-
+                                <WinLoseRatioCard playerGameStats={playerGameStatsToUse}/>
+                                <BestAchievementCard playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}/>
 
                                 {/* Button for Completed Sessions */}
-                                <Box display="flex" justifyContent="flex-start" style={{margin: "27px 20px 20px 20px"}}>
-                                    <Button
-                                        variant="contained"
-                                        color="primary"
-                                        onClick={toggleCompletedSessions}
-                                    >
+                                <Box display="flex" justifyContent="flex-start" sx={{margin: "27px 20px 20px 20px"}}>
+                                    <Button variant="contained" color="primary"
+                                            onClick={() => toggleSection('completedSessions')}>
                                         {showCompletedSessions ? "Back to Overall" : "Show Completed Sessions"}
                                     </Button>
                                 </Box>
 
                                 {/* Conditionally render Completed Sessions */}
                                 {showCompletedSessions ? (
-                                    <CompletedSessions playerGameStats={playerGameStats}/>
+                                    <CompletedSessions playerGameStats={playerGameStatsToUse}/>
                                 ) : (
-                                    <BestCompletedSessionsCard
-                                        playerGameStats={playerGameStats || {
-                                            playerId: '',
-                                            gameId: '',
-                                            completedSessions: [],
-                                            achievementProgress: []
-                                        }}/>
+                                    <BestCompletedSessionsCard playerGameStats={playerGameStatsToUse}/>
                                 )}
                             </>
                         )}

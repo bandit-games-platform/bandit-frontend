@@ -19,7 +19,7 @@ import {
 
 interface Game {
     name: string;
-    id: number;
+    id: string;
 }
 
 interface SidebarGamesProps {
