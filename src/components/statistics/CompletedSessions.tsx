@@ -3,7 +3,7 @@ import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 import CompletedSessionCardDetails from "./CompletedSessionCardDetails.tsx"; // Ensure path is correct
 
 interface CompletedSessionsProps {
-    playerGameStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats | null;
 }
 
 export default function CompletedSessions({playerGameStats}: CompletedSessionsProps) {

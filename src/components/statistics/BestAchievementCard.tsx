@@ -3,7 +3,7 @@ import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
 interface AchievementCardProps {
-    playerGameStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats | null;
     isSidebarOpen: boolean; // Add this prop to track sidebar state
 }
 

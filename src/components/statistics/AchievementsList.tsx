@@ -5,8 +5,8 @@ import {Achievement} from "../../model/statistics/Achievement.ts"; // Adjust as 
 
 
 interface AchievementsListProps {
-    playerGameStats: PlayerGameStats;
-    achievements: Achievement[];
+    playerGameStats: PlayerGameStats | null;
+    achievements: Achievement[] | null;
 }
 
 export default function AchievementsList({playerGameStats, achievements}: AchievementsListProps) {
