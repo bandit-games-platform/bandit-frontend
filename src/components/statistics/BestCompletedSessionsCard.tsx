@@ -6,7 +6,7 @@ interface CompletedSessionsCardProps {
 }
 
 export default function BestCompletedSessionsCard({gameStats}: CompletedSessionsCardProps) {
-    // Calculate stats
+
     const totalSessions = gameStats.completedSessions.length;
     const totalPlayerScore = gameStats.completedSessions.reduce((sum, session) => sum + session.playerScore, 0);
     const averagePlayerScore = totalSessions > 0 ? totalPlayerScore / totalSessions : 0;

@@ -28,7 +28,7 @@ export default function PlayerAchievements({gameStats, achievements}: PlayerAchi
                                 <AchievementCardDetails
                                     key={progress.achievementId}
                                     achievement={achievement}
-                                    playerGameStat={gameStats} // Pass gameStats as playerGameStat
+                                    playerGameStat={gameStats}
                                 />
                             )
                         );

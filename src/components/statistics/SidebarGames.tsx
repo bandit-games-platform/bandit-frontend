@@ -106,7 +106,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
 
                 {isOpen && (
                     <Typography variant="subtitle1" sx={{pl: 2, mt: 2}}>
-                        OTHERS
+                        Favourites
                     </Typography>
                 )}
                 <Tooltip title="Menu Level" placement="right" disableHoverListener={isOpen}>

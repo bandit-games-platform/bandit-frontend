@@ -1,13 +1,14 @@
 import {Box, Button, useMediaQuery, Theme} from "@mui/material";
 import SidebarGames from "./SidebarGames.tsx";
-import StatContentArea from "./StatContentArea.tsx";
+import GameStatCover from "./GameStatCover.tsx";
 import WinLoseRatioCard from "./WinLoseRatioCard.tsx";
 import BestAchievementCard from "./BestAchievementCard.tsx";
 import {useState, useEffect} from "react";
 import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
 import CompletedSessions from "./CompletedSessions.tsx";
 import Achieve from "./TestAllAchievements.tsx";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
+// import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 interface Game {
     name: string;
@@ -89,7 +90,12 @@ export default function GameStats() {
     }, []);
 
     return (
-        <Box display="flex" flexDirection={isMobile ? "column" : "row"} flexWrap="wrap">
+        <Box
+            display="flex"
+            flexDirection={isMobile ? "column" : "row"}
+            flexWrap="wrap"
+            sx={{width: isMobile ? "100vw" : "auto"}}
+        >
             {!isMobile && (
                 <SidebarGames
                     isOpen={isOpen}
@@ -98,30 +104,36 @@ export default function GameStats() {
                     onGameSelect={handleGameSelect}
                 />
             )}
-            <StatContentArea title="Game Statistics" isSidebarOpen={!isMobile || isOpen}>
+            <GameStatCover title="Game Statistics" isSidebarOpen={!isMobile && isOpen}>
                 {selectedGame ? (
                     <>
                         <Box style={{
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "space-between",
-                            padding: "7px"
+                            padding: isMobile ? "3px" : "7px",
                         }}>
-                            <h1 style={{margin: 0}}>{selectedGame.name}</h1>
-                            <button style={{
-                                display: "flex",
-                                alignItems: "center",
-                                padding: "7px 15px",
-                                cursor: "pointer",
-                                fontSize: "16px",
-                                border: "none",
-                                backgroundColor: "#007BFF",
-                                color: "#fff",
-                                borderRadius: "4px"
-                            }}>
-                                <PlayArrowIcon style={{marginRight: "5px"}}/>
-                                Play
-                            </button>
+                            <p style={{
+                                margin: isMobile ? '2px' : '7px 0 7px 1em',
+                                fontSize: isMobile ? '20px' : '30px'
+                            }}
+                            >
+                                {selectedGame.name}</p>
+                            {/*<button style={{*/}
+                            {/*    display: "flex",*/}
+                            {/*    alignItems: "center",*/}
+                            {/*    padding: "7px 15px",*/}
+                            {/*    margin: "7px 35em 7px 7px",*/}
+                            {/*    cursor: "pointer",*/}
+                            {/*    fontSize: "16px",*/}
+                            {/*    border: "none",*/}
+                            {/*    backgroundColor: "#007BFF",*/}
+                            {/*    color: "#fff",*/}
+                            {/*    borderRadius: "4px"*/}
+                            {/*}}>*/}
+                            {/*    <PlayArrowIcon style={{marginRight: "5px"}}/>*/}
+                            {/*    Play*/}
+                            {/*</button>*/}
                         </Box>
 
                         {/* Button for Achievements */}
@@ -134,6 +146,10 @@ export default function GameStats() {
                                 sx={{
                                     marginLeft: {
                                         sm: isOpen ? '15em' : '25'
+                                    },
+
+                                    marginRight: {
+                                        sm: isOpen ? '0' : '6em'
                                     }
                                 }}
 
@@ -176,7 +192,7 @@ export default function GameStats() {
                 ) : (
                     <p>Please select a game from the sidebar.</p>
                 )}
-            </StatContentArea>
+            </GameStatCover>
             {isMobile && (
                 <SidebarGames
                     isOpen={isOpen}

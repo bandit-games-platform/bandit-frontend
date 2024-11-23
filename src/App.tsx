@@ -24,7 +24,7 @@ function App() {
                         <Navbar/>
                         <Routes>
                             <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
-                            <Route path={"/stat2"} element={<GameStats/>}></Route>
+                            <Route path={"/stats"} element={<GameStats/>}></Route>
                         </Routes>
                         <StickyFooter/>
                     </BrowserRouter>

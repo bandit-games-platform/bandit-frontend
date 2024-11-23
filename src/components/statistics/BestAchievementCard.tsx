@@ -8,7 +8,7 @@ interface AchievementCardProps {
 }
 
 export default function BestAchievementCard({gameStats, isSidebarOpen}: AchievementCardProps) {
-    // Calculate the highest achievement based on the completed sessions and achievement progress
+    // Calculate the highest achievement based on the achievement progress
     const highestAchievement = gameStats.achievementProgress.reduce((max, achievement) => {
         return achievement.counterValue > max.counterValue ? achievement : max;
     }, gameStats.achievementProgress[0]);
