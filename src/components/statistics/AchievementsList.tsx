@@ -2,6 +2,7 @@ import {Box, Divider, Theme, Typography, useMediaQuery} from '@mui/material';
 import PlayerAchievements from './PlayerAchievements.tsx';
 import {PlayerGameStats} from '../../model/statistics/PlayerGameStats.ts';
 import {Achievement} from "../../model/Achievement.ts";
+import LockIcon from '@mui/icons-material/Lock';
 
 interface AchievementsListProps {
     playerGameStats: PlayerGameStats | null;
@@ -44,11 +45,36 @@ export default function AchievementsList({playerGameStats, achievements}: Achiev
                     <Typography variant="h6" sx={{marginBottom: 2}}>
                         Other Locked Achievements
                     </Typography>
-                    {lockedAchievements.map(achievement => (
-                        <Typography key={achievement.id} variant="body2" sx={{marginBottom: 1}}>
-                            {achievement.title}: {achievement.description}
-                        </Typography>
-                    ))}
+                    <Box
+                        sx={{
+                            display: 'grid',
+                            gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                            gap: '16px',
+                        }}
+                    >
+                        {lockedAchievements.map(achievement => (
+                            <Box
+                                key={achievement.id}
+                                sx={{
+                                    border: '1px solid #ccc',
+                                    borderRadius: '8px',
+                                    padding: '16px',
+                                    backgroundColor: 'primary.dark',
+                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+                                }}
+                            >
+                                <LockIcon sx={{color: 'gray', fontSize: 20}}/> {/* Lock Icon */}
+                                <Box>
+                                    <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+                                        {achievement.title}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary">
+                                        {achievement.description}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        ))}
+                    </Box>
                 </>
             )}
         </Box>

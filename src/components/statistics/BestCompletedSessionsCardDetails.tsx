@@ -39,7 +39,7 @@ export default function BestCompletedSessionsCardDetails({
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    backgroundColor: 'secondary.main',
+                    backgroundColor: 'secondary.dark',
                     color: 'white',
                     borderRadius: 2,
                     padding: {xs: 1, sm: 2},

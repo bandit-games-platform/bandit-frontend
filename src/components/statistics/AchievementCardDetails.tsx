@@ -1,4 +1,4 @@
-import {Card, CardContent, Typography, Box} from '@mui/material';
+import {Card, CardContent, Typography, Box, LinearProgress} from '@mui/material';
 import {Achievement} from "../../model/Achievement.ts";
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
@@ -19,6 +19,13 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
         return achievement ? achievement.counterValue : undefined;
     };
 
+    const calculateProgressPercentage = (progress: number | undefined, total: number | undefined): number => {
+        if (progress === undefined || total === undefined || total === 0) {
+            return 0; // Return 0% if no progress or total is available
+        }
+        return (progress / total) * 100;
+    };
+
     if (!achievement) {
         return (
             <Card sx={{marginBottom: 2}}>
@@ -31,6 +38,9 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
         );
     }
 
+    const progress = getAchievementProgress(playerGameStat, achievement.id);
+    const progressPercentage = calculateProgressPercentage(progress, achievement.counterTotal);
+
     return (
         <Card sx={{marginBottom: 2}}>
             <CardContent>
@@ -40,9 +50,16 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
                 <Typography variant="body2" sx={{marginBottom: 1}}>
                     {achievement.description || "No description provided."}
                 </Typography>
+                <Box sx={{marginBottom: 2}}>
+                    <LinearProgress
+                        variant="determinate"
+                        value={progressPercentage}
+                        sx={{height: 8}}
+                    />
+                </Box>
                 <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                     <Typography variant="body2">
-                        Progress: {getAchievementProgress(playerGameStat, achievement.id) ?? "N/A"}
+                        Progress: {progress ?? "N/A"}
                     </Typography>
                     <Typography variant="body2">
                         Total: {achievement.counterTotal ?? "N/A"}
