@@ -7,7 +7,25 @@ interface CompletedSessionsProps {
 }
 
 export default function CompletedSessions({playerGameStats}: CompletedSessionsProps) {
-    const {completedSessions} = playerGameStats;
+    if (!playerGameStats || !playerGameStats.completedSessions) {
+        return (
+            <Card sx={{
+                width: {xs: '90%', sm: '70vw'},
+                borderRadius: 2,
+                boxShadow: 3,
+                margin: {xs: '10px auto', sm: 2},
+                padding: {xs: 1, sm: 2}
+            }}>
+                <CardContent>
+                    <Typography variant="h5" sx={{fontWeight: 'bold', marginBottom: 2}}>
+                        Completed Sessions
+                    </Typography>
+                    <Typography variant="body2">Player statistics or completed sessions data is
+                        unavailable.</Typography>
+                </CardContent>
+            </Card>
+        );
+    }
 
     return (
         <Card sx={{
@@ -22,10 +40,10 @@ export default function CompletedSessions({playerGameStats}: CompletedSessionsPr
                     Completed Sessions
                 </Typography>
 
-                {completedSessions.length === 0 ? (
+                {playerGameStats.completedSessions.length === 0 ? (
                     <Typography variant="body2">No completed sessions available.</Typography>
                 ) : (
-                    completedSessions.map((session) => (
+                    playerGameStats.completedSessions.map((session) => (
                         <CompletedSessionCardDetails key={session.sessionId} session={session}/>
                     ))
                 )}

@@ -2,7 +2,7 @@ import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 import BestCompletedSessionsCardDetails from './BestCompletedSessionsCardDetails.tsx';
 
 interface CompletedSessionsCardProps {
-    playerGameStats: PlayerGameStats | null;
+    playerGameStats: PlayerGameStats;
 }
 
 export default function BestCompletedSessionsCard({playerGameStats}: CompletedSessionsCardProps) {

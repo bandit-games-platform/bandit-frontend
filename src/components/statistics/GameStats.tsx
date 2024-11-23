@@ -8,7 +8,7 @@ import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
 import CompletedSessions from "./CompletedSessions.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AchievementsList from "./AchievementsList.tsx";
-import {Achievement} from "../../model/statistics/Achievement.ts";
+import {Achievement} from "../../model/Achievement.ts";
 import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
 
 interface Game {
@@ -153,7 +153,17 @@ export default function GameStats() {
                         ) : (
                             <>
                                 <WinLoseRatioCard playerGameStats={playerGameStats}/>
-                                <BestAchievementCard playerGameStats={playerGameStats} isSidebarOpen={isOpen}/>
+                                <BestAchievementCard
+                                    playerGameStats={playerGameStats || {
+                                        playerId: '',
+                                        gameId: '',
+                                        completedSessions: [],
+                                        achievementProgress: []
+                                    }}
+                                    isSidebarOpen={isOpen}
+                                />
+
+
                                 {/* Button for Completed Sessions */}
                                 <Box display="flex" justifyContent="flex-start" style={{margin: "27px 20px 20px 20px"}}>
                                     <Button
@@ -169,7 +179,13 @@ export default function GameStats() {
                                 {showCompletedSessions ? (
                                     <CompletedSessions playerGameStats={playerGameStats}/>
                                 ) : (
-                                    <BestCompletedSessionsCard playerGameStats={playerGameStats}/>
+                                    <BestCompletedSessionsCard
+                                        playerGameStats={playerGameStats || {
+                                            playerId: '',
+                                            gameId: '',
+                                            completedSessions: [],
+                                            achievementProgress: []
+                                        }}/>
                                 )}
                             </>
                         )}
