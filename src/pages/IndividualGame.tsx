@@ -1,22 +1,22 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
 import {useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/useGameDetails.ts";
-import {Box, Button, CircularProgress, Stack} from "@mui/material";
+import {Box, Button, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import {ArrowBack} from "@mui/icons-material";
+import {LoadingComponent} from "../components/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/ErrorComponent.tsx";
 
 export function IndividualGame() {
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
 
     if (isLoading) {
-        return (
-            <CircularProgress color="inherit" />
-        )
+        return <LoadingComponent/>
     }
 
     if (isError || !game) {
-        return <div>Whoops: Something went wrong!</div>
+        return <ErrorComponent/>
     }
 
     return (

@@ -19,7 +19,7 @@ import {useContext} from "react";
 const pages = [
     {name: 'Store', path: '/store'},
     {name: 'Library', path: '/library'},
-    {name: 'Stats', path: '/stats'},
+    {name: 'Statistics', path: '/statistics'},
 ];
 
 const logoutSetting = 'Logout';
