@@ -47,7 +47,6 @@ export default function GameStats() {
             const data: Game[] = [
                 {name: "Battleship", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c001'},
                 {name: "Chess", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c002'},
-                {name: "Go", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c003'},
             ];
             setGames(data);
         };
