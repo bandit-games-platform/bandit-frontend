@@ -1,5 +1,5 @@
 import {Box, Divider, Theme, Typography, useMediaQuery} from '@mui/material';
-import PlayerAchievements from './PlayerAchievements.tsx';
+import AchievementsIdMapper from './AchievementsIdMapper.tsx';
 import {PlayerGameStats} from '../../model/statistics/PlayerGameStats.ts';
 import {Achievement} from "../../model/Achievement.ts";
 import LockIcon from '@mui/icons-material/Lock';
@@ -9,7 +9,7 @@ interface AchievementsListProps {
     achievements: Achievement[];
 }
 
-export default function AchievementsList({playerGameStats, achievements}: AchievementsListProps) {
+export default function AchievementsDetailParent({playerGameStats, achievements}: AchievementsListProps) {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
     if (!playerGameStats || !achievements) {
@@ -31,14 +31,14 @@ export default function AchievementsList({playerGameStats, achievements}: Achiev
 
     return (
         <Box sx={{
-            width: isMobile ? '90vw' : '60vw',
+            width: isMobile ? '90vw' : '63vw',
             margin: isMobile ? '2px 2px 2px 5px' : '0 auto',
-            padding: isMobile ? '7px 3.2em 2px 2px' : '7px 4em 2px 2px'
+            padding: isMobile ? '7px 3em 2px 2px' : '7px 4em 2px 2px'
         }}>
-            {/* Pass only unlocked achievements */}
-            <PlayerAchievements playerGameStats={playerGameStats} achievements={unlockedAchievements}/>
 
-            {/* Display locked achievements below */}
+            <AchievementsIdMapper playerGameStats={playerGameStats} achievements={unlockedAchievements}/>
+
+            {/* Displays locked achievements below */}
             {lockedAchievements.length > 0 && (
                 <>
                     <Divider sx={{margin: '20px 0'}}/>

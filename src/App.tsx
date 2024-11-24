@@ -7,7 +7,9 @@ import {Navbar} from "./components/Navbar.tsx";
 import './index.css'
 import theme from "./theme/theme.ts";
 import {StickyFooter} from "./components/StickyFooter.tsx";
-import GameStats from "./components/statistics/GameStats.tsx";
+import GameStats from "./pages/GameStats.tsx";
+import {GamesOverview} from "./pages/GamesOverview.tsx";
+import {RouteGuard} from "./components/RouteGuard.tsx";
 
 const queryClient = new QueryClient();
 
@@ -23,8 +25,9 @@ function App() {
                     <BrowserRouter>
                         <Navbar/>
                         <Routes>
-                            <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
-                            <Route path={"/stats"} element={<GameStats/>}></Route>
+                            <Route path={"/"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
+                            <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
+                            <Route path={"/stats"} element={<RouteGuard><GameStats/></RouteGuard>}></Route>
                         </Routes>
                         <StickyFooter/>
                     </BrowserRouter>

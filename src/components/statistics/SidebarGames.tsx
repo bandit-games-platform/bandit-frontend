@@ -48,7 +48,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                     width: sidebarWidth,
                     overflowX: "hidden",
                     transition: "width 0.3s",
-                    marginTop: 9,
+                    marginTop: 7,
                 },
             }}
         >

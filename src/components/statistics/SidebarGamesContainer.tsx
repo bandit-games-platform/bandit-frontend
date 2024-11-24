@@ -3,7 +3,7 @@ import SidebarGames from "./SidebarGames"; // Import the presentational componen
 
 interface Game {
     name: string;
-    id: number;
+    id: string;
 }
 
 interface SidebarGamesContainerProps {

@@ -1,15 +1,15 @@
 import {Box, Button, CircularProgress, useMediaQuery, Theme} from "@mui/material";
-import SidebarGames from "./SidebarGames.tsx";
-import GameStatCover from "./GameStatCover.tsx";
-import WinLoseRatioCard from "./WinLoseRatioCard.tsx";
-import BestAchievementCard from "./BestAchievementCard.tsx";
+import SidebarGames from "../components/statistics/SidebarGames.tsx";
+import GameStatCover from "../components/statistics/GameStatCover.tsx";
+import WinLoseRatioCard from "../components/statistics/WinLoseRatioCard.tsx";
+import BestAchievementCard from "../components/statistics/BestAchievementCard.tsx";
 import {useState, useEffect} from "react";
-import CompletedSessions from "./CompletedSessions.tsx";
+import CompletedSessions from "../components/statistics/CompletedSessions.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import AchievementsList from "./AchievementsList.tsx";
-import {usePlayerGameStats} from "../../hooks/statistics/usePlayerGameStats.ts";
-import {useGameAchievementDetails} from "../../hooks/useGameAchievementDetails.ts";
-import BestCompletedSessionsCard from "./BestCompletedSessionsCard.tsx";
+import AchievementsDetailParent from "../components/statistics/AchievementsDetailParent.tsx";
+import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
+import {useGameAchievementDetails} from "../hooks/useGameAchievementDetails.ts";
+import BestCompletedSessionsCard from "../components/statistics/BestCompletedSessionsCard.tsx";
 
 interface Game {
     name: string;
@@ -28,6 +28,7 @@ export default function GameStats() {
         gameAchievements,
         isLoading: achievementsLoading
     } = useGameAchievementDetails(selectedGame?.id.toString() || '');
+
     const isLoading = statsLoading || achievementsLoading;
 
     const defaultPlayerGameStats = {
@@ -43,8 +44,8 @@ export default function GameStats() {
     useEffect(() => {
         const fetchGames = async () => {
             const data: Game[] = [
-                {name: "Chess", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c001'},
-                {name: "Checkers", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c002'},
+                {name: "Battleship", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c001'},
+                {name: "Chess", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c002'},
                 {name: "Go", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c003'},
             ];
             setGames(data);
@@ -87,7 +88,8 @@ export default function GameStats() {
                 ) : selectedGame ? (
                     <>
                         <Box display="flex" alignItems="center" justifyContent={isMobile ? "space-between" : "start"}
-                             padding={isMobile ? "3px 12px 10px" : "7px"}>
+                             padding={isMobile ? "3px 12px 10px" : "7px"}
+                             maxWidth={isMobile ? '300px' : 'auto'}>
                             <p style={{
                                 margin: isMobile ? '2px' : '7px 0 7px 1em',
                                 fontSize: isMobile ? '20px' : '30px'
@@ -123,8 +125,8 @@ export default function GameStats() {
 
                         {/* Conditionally render Achievements */}
                         {showAchievements ? (
-                            <AchievementsList playerGameStats={playerGameStatsToUse}
-                                              achievements={gameAchievements ?? []}/>
+                            <AchievementsDetailParent playerGameStats={playerGameStatsToUse}
+                                                      achievements={gameAchievements ?? []}/>
                         ) : (
                             <>
                                 <WinLoseRatioCard playerGameStats={playerGameStatsToUse}/>

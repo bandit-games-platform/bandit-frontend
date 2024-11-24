@@ -8,7 +8,7 @@ interface PlayerAchievementsProps {
     achievements: Achievement[] | null;
 }
 
-export default function PlayerAchievements({playerGameStats, achievements}: PlayerAchievementsProps) {
+export default function AchievementsIdMapper({playerGameStats, achievements}: PlayerAchievementsProps) {
     if (!playerGameStats || !achievements) {
         return (
             <Card sx={{padding: 2}}>

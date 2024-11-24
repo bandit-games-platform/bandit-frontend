@@ -15,23 +15,35 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Ac
 
     const progress = (highestAchievement.counterValue / 100) * 100;
 
+    const getAchievementMessage = (progress: number): string => {
+        if (progress === 100) {
+            return "Amazing! You've unlocked all achievements. You are unstoppable!";
+        } else if (progress >= 75) {
+            return "Great job! You're so close to the finish line. Keep pushing!";
+        } else if (progress >= 50) {
+            return "You're halfway there! Stay consistent, and you'll make it.";
+        } else if (progress >= 25) {
+            return "Good start! Keep climbing, and the next level will be yours.";
+        } else {
+            return "Every journey begins with a single step. Keep going, and you'll get there!";
+        }
+    };
+
     return (
         <Card
             sx={{
                 display: 'flex',
                 borderRadius: 2,
                 boxShadow: 3,
-                // Adjust width responsively
                 width: {xs: '90%', sm: 750},
                 margin: {xs: '0 auto', sm: 0},
                 marginLeft: {
                     sm: isSidebarOpen ? '36em' : '36em',
-                }, // Adjust margin based on sidebar state
-                transition: 'margin-left 0.3s ease', // Smooth transition for sidebar toggle
-                flexDirection: {xs: 'column', sm: 'row'}, // Stack on mobile, row layout on larger screens
+                },
+                transition: 'margin-left 0.3s ease',
+                flexDirection: {xs: 'column', sm: 'row'},
             }}
         >
-            {/* Left Section: Icon and Achievement Percentage */}
             <Box
                 sx={{
                     display: 'flex',
@@ -41,7 +53,7 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Ac
                     width: {xs: '100%', sm: 180},
                     backgroundColor: 'primary.main',
                     color: 'white',
-                    borderRadius: {xs: '8px 8px 0 0', sm: 2}, // Rounded corners on mobile
+                    borderRadius: {xs: '8px 8px 0 0', sm: 2},
                     padding: 2,
                 }}
             >
@@ -73,14 +85,13 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Ac
                 </Typography>
             </Box>
 
-            {/* Right Section: Achievement Details and Progress */}
             <CardContent
                 sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
                     padding: {xs: 2, sm: 3},
-                    textAlign: {xs: 'center', sm: 'left'}, // Centered text on mobile
+                    textAlign: {xs: 'center', sm: 'left'},
                 }}
             >
                 <Typography
@@ -96,9 +107,10 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Ac
                     sx={{
                         marginTop: 0.5,
                         fontSize: {xs: '0.8rem', sm: '1rem'},
+                        color: "text.secondary"
                     }}
                 >
-                    You've unlocked the highest achievement in this game. Keep going to reach the next level!
+                    {getAchievementMessage(progress)}
                 </Typography>
 
                 <LinearProgress

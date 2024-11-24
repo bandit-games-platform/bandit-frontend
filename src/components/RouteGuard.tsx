@@ -6,11 +6,11 @@ export interface RouteGuardProps {
 }
 
 export function RouteGuard({children}: RouteGuardProps) {
-    const {isAuthenticated} = useContext(SecurityContext)
+    const {isAuthenticated, login} = useContext(SecurityContext)
 
     if (isAuthenticated()) {
         return children
     } else {
-        return <h2>🌀 Loading...</h2>;
+        return <button onClick={login}>Login</button>;
     }
 }
