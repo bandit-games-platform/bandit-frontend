@@ -2,13 +2,14 @@ import {Card, CardContent, Typography, LinearProgress, IconButton, Box} from '@m
 import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
-interface AchievementCardProps {
+interface BestAchievementCardProps {
     playerGameStats: PlayerGameStats;
-    isSidebarOpen: boolean; // Add this prop to track sidebar state
+    isSidebarOpen: boolean;
 }
 
-export default function BestAchievementCard({playerGameStats, isSidebarOpen}: AchievementCardProps) {
-    // Calculate the highest achievement based on the achievement progress
+export default function BestAchievementCard({playerGameStats, isSidebarOpen}: BestAchievementCardProps) {
+
+    // Calculates the highest achievement based on the achievement progress
     const highestAchievement = playerGameStats.achievementProgress.reduce((max, achievement) => {
         return achievement.counterValue > max.counterValue ? achievement : max;
     }, playerGameStats.achievementProgress[0]);

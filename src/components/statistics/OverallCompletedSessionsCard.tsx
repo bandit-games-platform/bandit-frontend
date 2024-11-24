@@ -1,11 +1,11 @@
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
-import BestCompletedSessionsCardDetails from './BestCompletedSessionsCardDetails.tsx';
+import OverallCompletedSessionsCardDetails from './OverallCompletedSessionsCardDetails.tsx';
 
-interface CompletedSessionsCardProps {
+interface OverallCompletedSessionsCardProps {
     playerGameStats: PlayerGameStats;
 }
 
-export default function BestCompletedSessionsCard({playerGameStats}: CompletedSessionsCardProps) {
+export default function OverallCompletedSessionsCard({playerGameStats}: OverallCompletedSessionsCardProps) {
 
     const totalSessions = playerGameStats.completedSessions.length;
     const totalPlayerScore = playerGameStats.completedSessions.reduce((sum, session) => sum + session.playerScore, 0);
@@ -20,7 +20,7 @@ export default function BestCompletedSessionsCard({playerGameStats}: CompletedSe
     const losses = totalSessions - wins;
 
     return (
-        <BestCompletedSessionsCardDetails
+        <OverallCompletedSessionsCardDetails
             totalSessions={totalSessions}
             averagePlayerScore={averagePlayerScore}
             averageOpponentScore={averageOpponentScore}

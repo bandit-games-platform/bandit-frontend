@@ -4,7 +4,7 @@ import {ReactNode} from "react";
 interface ContentAreaProps {
     children: ReactNode;
     title?: string;
-    isSidebarOpen: boolean; // Add this prop to track if sidebar is open
+    isSidebarOpen: boolean;
 }
 
 export default function GameStatCover({children, title, isSidebarOpen}: ContentAreaProps) {

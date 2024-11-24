@@ -1,6 +1,6 @@
 import {Card, CardContent, Typography, Box} from '@mui/material';
 
-interface CompletedSessionsCardDetailsProps {
+interface OverallCompletedSessionsCardDetailsProps {
     totalSessions: number;
     averagePlayerScore: number;
     averageOpponentScore: number;
@@ -10,15 +10,15 @@ interface CompletedSessionsCardDetailsProps {
     losses: number;
 }
 
-export default function BestCompletedSessionsCardDetails({
-                                                             totalSessions,
-                                                             averagePlayerScore,
-                                                             averageOpponentScore,
-                                                             averageTurnsTaken,
-                                                             averageTimePerTurn,
-                                                             wins,
-                                                             losses,
-                                                         }: CompletedSessionsCardDetailsProps) {
+export default function OverallCompletedSessionsCardDetails({
+                                                                totalSessions,
+                                                                averagePlayerScore,
+                                                                averageOpponentScore,
+                                                                averageTurnsTaken,
+                                                                averageTimePerTurn,
+                                                                wins,
+                                                                losses,
+                                                            }: OverallCompletedSessionsCardDetailsProps) {
     return (
         <Card
             sx={{

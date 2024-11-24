@@ -1,14 +1,14 @@
 import {Card, CardContent, Typography} from '@mui/material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 import {Achievement} from "../../model/Achievement.ts";
-import AchievementCardDetails from "./AchievementCardDetails.tsx"; // Adjust path if necessary
+import AchievementCardDetails from "./AchievementCardDetails.tsx";
 
-interface PlayerAchievementsProps {
+interface AchievementsIdMapperProps {
     playerGameStats: PlayerGameStats | null;
     achievements: Achievement[] | null;
 }
 
-export default function AchievementsIdMapper({playerGameStats, achievements}: PlayerAchievementsProps) {
+export default function AchievementsIdMapper({playerGameStats, achievements}: AchievementsIdMapperProps) {
     if (!playerGameStats || !achievements) {
         return (
             <Card sx={{padding: 2}}>

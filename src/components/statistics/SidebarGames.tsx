@@ -17,7 +17,7 @@ import {
     ExpandMore,
 } from "@mui/icons-material";
 
-interface Game {
+interface GameProps {
     name: string;
     id: string;
 }
@@ -25,8 +25,8 @@ interface Game {
 interface SidebarGamesProps {
     isOpen: boolean;
     toggleSidebar: () => void;
-    games: Game[];
-    onGameSelect: (game: Game) => void;
+    games: GameProps[];
+    onGameSelect: (game: GameProps) => void;
 }
 
 export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect}: SidebarGamesProps) {

@@ -1,6 +1,6 @@
 import {Card, CardContent, Typography} from '@mui/material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
-import CompletedSessionCardDetails from "./CompletedSessionCardDetails.tsx"; // Ensure path is correct
+import CompletedSessionCardDetails from "./CompletedSessionCardDetails.tsx";
 
 interface CompletedSessionsProps {
     playerGameStats: PlayerGameStats | null;

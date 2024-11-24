@@ -11,7 +11,7 @@ interface SidebarGamesContainerProps {
 }
 
 export default function SidebarGamesContainer({games}: SidebarGamesContainerProps) {
-    const [isOpen, setIsOpen] = useState(true); // Handle sidebar state
+    const [isOpen, setIsOpen] = useState(true);
 
     const toggleSidebar = () => {
         setIsOpen(!isOpen);

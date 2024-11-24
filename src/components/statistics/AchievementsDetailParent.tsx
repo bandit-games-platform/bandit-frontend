@@ -4,12 +4,12 @@ import {PlayerGameStats} from '../../model/statistics/PlayerGameStats.ts';
 import {Achievement} from "../../model/Achievement.ts";
 import LockIcon from '@mui/icons-material/Lock';
 
-interface AchievementsListProps {
+interface AchievementsDetailParentProps {
     playerGameStats: PlayerGameStats | null;
     achievements: Achievement[];
 }
 
-export default function AchievementsDetailParent({playerGameStats, achievements}: AchievementsListProps) {
+export default function AchievementsDetailParent({playerGameStats, achievements}: AchievementsDetailParentProps) {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
     if (!playerGameStats || !achievements) {

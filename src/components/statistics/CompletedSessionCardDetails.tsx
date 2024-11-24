@@ -8,7 +8,6 @@ interface CompletedSessionCardDetailsProps {
 export default function CompletedSessionCardDetails({session}: CompletedSessionCardDetailsProps) {
     const theme = useTheme();
 
-    // Define colors for end states
     const endStateColors: Record<string, string> = {
         Win: theme.palette.success.main,
         Lose: theme.palette.error.main,
@@ -122,7 +121,7 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                         marginTop: 2,
                         fontSize: {xs: '0.875rem', sm: '1rem'},
                         fontWeight: 600,
-                        color: endStateColors[session.endState] || theme.palette.text.primary, // Fallback to default text color
+                        color: endStateColors[session.endState] || theme.palette.text.primary,
                     }}
                 >
                     End State: {session.endState}

@@ -7,7 +7,7 @@ import {useMediaQuery, Theme} from '@mui/material';
 interface WinLoseRatioCardProps {
     playerGameStats: {
         completedSessions: { endState: string }[];
-    } | null; // Allow null to handle no game selected.
+    } | null; // null to handle no game selected.
 }
 
 const calculateWinLoseRatio = (completedSessions: { endState: string }[]) => {

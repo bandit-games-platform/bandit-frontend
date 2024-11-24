@@ -2,12 +2,12 @@ import {Card, CardContent, Typography, Box, LinearProgress, Avatar} from '@mui/m
 import {Achievement} from "../../model/Achievement.ts";
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
-interface AchievementCardProps {
+interface AchievementCardDetailsProps {
     achievement: Achievement | null;
     playerGameStat: PlayerGameStats | null;
 }
 
-export default function AchievementCardDetails({achievement, playerGameStat}: AchievementCardProps) {
+export default function AchievementCardDetails({achievement, playerGameStat}: AchievementCardDetailsProps) {
     const getAchievementProgress = (playerGameStat: PlayerGameStats | null, achievementId: string): number | undefined => {
         if (!playerGameStat || !achievementId) {
             return undefined;
@@ -21,7 +21,7 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
 
     const calculateProgressPercentage = (progress: number | undefined, total: number | undefined): number => {
         if (progress === undefined || total === undefined || total === 0) {
-            return 0; // Return 0% if no progress or total is available
+            return 0;
         }
         return (progress / total) * 100;
     };

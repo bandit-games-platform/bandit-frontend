@@ -9,8 +9,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AchievementsDetailParent from "../components/statistics/AchievementsDetailParent.tsx";
 import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
 import {useGameAchievementDetails} from "../hooks/useGameAchievementDetails.ts";
-import BestCompletedSessionsCard from "../components/statistics/BestCompletedSessionsCard.tsx";
+import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
 
+//TODO: retrieve users registered games
 interface Game {
     name: string;
     id: string;
@@ -40,7 +41,7 @@ export default function GameStats() {
 
     const playerGameStatsToUse = playerGameStats || defaultPlayerGameStats;
 
-    //TODO: Fetch use bought games (Write a query to get all games from a player's library along with their favorite games)
+    //TODO: Fetch user bought/registered games (Write a query to get all games from a player's library along with their favorite games)
     useEffect(() => {
         const fetchGames = async () => {
             const data: Game[] = [
@@ -140,11 +141,11 @@ export default function GameStats() {
                                     </Button>
                                 </Box>
 
-                                {/* Conditionally render Completed Sessions */}
+                                {/* Conditionally render Completed Sessions or overview of all sessions */}
                                 {showCompletedSessions ? (
                                     <CompletedSessions playerGameStats={playerGameStatsToUse}/>
                                 ) : (
-                                    <BestCompletedSessionsCard playerGameStats={playerGameStatsToUse}/>
+                                    <OverallCompletedSessionsCard playerGameStats={playerGameStatsToUse}/>
                                 )}
                             </>
                         )}
