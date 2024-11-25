@@ -39,7 +39,7 @@ function TagFilter() {
                     )}
                     sx={{
                         '& .MuiAutocomplete-tag:hover': {
-                            backgroundColor: '#e0e0e0', // Optional: set custom hover effect
+                            backgroundColor: '#e0e0e0',
                         },
                     }}
                 />

@@ -11,7 +11,7 @@ interface GamesListProps {
 
 function GamesList({ games, searchTerm, setSearchTerm }: GamesListProps) {
 
-    const inputRef = useRef<HTMLInputElement>(null); // Correctly typed ref for the input element
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (inputRef.current) {

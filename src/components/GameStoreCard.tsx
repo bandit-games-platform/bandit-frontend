@@ -1,6 +1,6 @@
 import {Box, Card, CardContent, Typography} from '@mui/material';
 import GameIcon from './GameIcon';
-import {useLocation, useNavigate} from "react-router-dom"; // Assuming you created the GameIcon component earlier
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface GameStoreCardProps {
     id: string;
