@@ -17,7 +17,6 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-
                 <BrowserRouter>
                     <Navbar/>
                     <Routes>
