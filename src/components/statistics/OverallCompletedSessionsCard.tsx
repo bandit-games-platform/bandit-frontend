@@ -17,7 +17,9 @@ export default function OverallCompletedSessionsCard({playerGameStats}: OverallC
     const totalTimePerTurn = playerGameStats.completedSessions.reduce((sum, session) => sum + session.avgSecondsPerTurn, 0);
     const averageTimePerTurn = totalSessions > 0 ? totalTimePerTurn / totalSessions : 0;
     const wins = playerGameStats.completedSessions.filter(session => session.playerScore > session.opponentScore).length;
-    const losses = totalSessions - wins;
+    const draws = playerGameStats.completedSessions.filter(session => session.playerScore === session.opponentScore).length;
+    const losses = totalSessions - wins - draws;
+
 
     return (
         <OverallCompletedSessionsCardDetails
@@ -27,6 +29,7 @@ export default function OverallCompletedSessionsCard({playerGameStats}: OverallC
             averageTurnsTaken={averageTurnsTaken}
             averageTimePerTurn={averageTimePerTurn}
             wins={wins}
+            draws={draws}
             losses={losses}
         />
     );

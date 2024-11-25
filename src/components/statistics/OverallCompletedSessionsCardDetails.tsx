@@ -7,6 +7,7 @@ interface OverallCompletedSessionsCardDetailsProps {
     averageTurnsTaken: number;
     averageTimePerTurn: number;
     wins: number;
+    draws: number;
     losses: number;
 }
 
@@ -17,6 +18,7 @@ export default function OverallCompletedSessionsCardDetails({
                                                                 averageTurnsTaken,
                                                                 averageTimePerTurn,
                                                                 wins,
+                                                                draws,
                                                                 losses,
                                                             }: OverallCompletedSessionsCardDetailsProps) {
     return (
@@ -217,6 +219,27 @@ export default function OverallCompletedSessionsCardDetails({
                             {losses}
                         </Typography>
                     </Box>
+                </Box>
+
+                {/* Draws */}
+                <Box sx={{flex: '1 1 45%'}}>
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            fontSize: {xs: '0.8rem', sm: '1rem'},
+                        }}
+                    >
+                        Draws
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontWeight: 'bold',
+                            fontSize: {xs: '1rem', sm: '1.25rem'},
+                        }}
+                    >
+                        {draws}
+                    </Typography>
                 </Box>
 
                 <Typography

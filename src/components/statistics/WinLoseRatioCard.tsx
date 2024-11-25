@@ -7,12 +7,12 @@ import {useMediaQuery, Theme} from '@mui/material';
 interface WinLoseRatioCardProps {
     playerGameStats: {
         completedSessions: { endState: string }[];
-    } | null; // null to handle no game selected.
+    } | null;
 }
 
 const calculateWinLoseRatio = (completedSessions: { endState: string }[]) => {
     const wins = completedSessions.filter((session) => session.endState === "WIN").length;
-    const losses = completedSessions.filter((session) => session.endState === "LOSE").length;
+    const losses = completedSessions.filter((session) => session.endState === "LOSS").length;
     return `${wins}:${losses}`;
 };
 
