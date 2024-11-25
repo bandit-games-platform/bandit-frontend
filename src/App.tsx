@@ -23,18 +23,9 @@ function App() {
                     <Routes>
                         <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
                         <Route path={"/games"} element={<GamesOverview/>}></Route>
-
                     </Routes>
                     <StickyFooter/>
                 </BrowserRouter>
-
-
-                {/*<SecurityContextProvider>*/}
-                {/*    <BrowserRouter>*/}
-                {/*        <Routes>*/}
-                {/*        </Routes>*/}
-                {/*    </BrowserRouter>*/}
-                {/*</SecurityContextProvider>*/}
             </ThemeProvider>
         </QueryClientProvider>
     )

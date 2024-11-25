@@ -22,6 +22,8 @@ function GamesFilter({ maxPrice,minPrice, filteredPrice, setFilteredPrice }: Gam
             height: "auto",
             gap: "1rem"
         }}>
+            {/*TODO uncomment for when backend tags will be implemented*/}
+
             {/* Tags */}
             {/*<Box sx={{ width: "100%" }}>*/}
             {/*    <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>*/}
