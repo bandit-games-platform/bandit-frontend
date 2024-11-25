@@ -7,6 +7,7 @@ import './index.css'
 import theme from "./theme/theme.ts";
 import {StickyFooter} from "./components/StickyFooter.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
+import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 
 const queryClient = new QueryClient();
 
@@ -17,14 +18,16 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-                <BrowserRouter>
-                    <Navbar/>
-                    <Routes>
-                        <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
-                        <Route path={"/games"} element={<GamesOverview/>}></Route>
-                    </Routes>
-                    <StickyFooter/>
-                </BrowserRouter>
+                <SecurityContextProvider>
+                    <BrowserRouter>
+                        <Navbar/>
+                        <Routes>
+                            <Route path={"/game/:gameId"} element={<IndividualGame/>}></Route>
+                            <Route path={"/games"} element={<GamesOverview/>}></Route>
+                        </Routes>
+                        <StickyFooter/>
+                    </BrowserRouter>
+                </SecurityContextProvider>
             </ThemeProvider>
         </QueryClientProvider>
     )
