@@ -1,8 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
-import {getGameDetails} from "../services/gameRegistryService.ts";
 import axios from "axios";
-import {Game} from "../model/Game.ts";
 import {getGameDetails} from "../../services/gameRegistryService.ts";
+import {Game} from "../../model/gameRegistry/Game.ts";
 
 export function useGameDetails(gameId: string) {
     const {isLoading, isError, data: game} = useQuery({

@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import {getGamesOverview, getGamesOverviewByTitleLikeAndPriceBelow} from "../services/gameRegistryService.ts";
+import {getGamesOverviewByTitleLikeAndPriceBelow} from "../services/gameRegistryService.ts";
+import {getGamesOverview} from "./gameRegistry/useGameDetails.ts";
 
 export function useGamesOverview() {
     const {isLoading, isError, data: overview} = useQuery({
