@@ -1,4 +1,4 @@
-import {Box, Button, CircularProgress, useMediaQuery, Theme} from "@mui/material";
+import {Box, Button, useMediaQuery, Theme, CircularProgress} from "@mui/material";
 import SidebarGames from "../components/statistics/SidebarGames.tsx";
 import GameStatCover from "../components/statistics/GameStatCover.tsx";
 import WinLoseRatioCard from "../components/statistics/WinLoseRatioCard.tsx";
@@ -84,7 +84,7 @@ export default function GameStats() {
             <GameStatCover title="Game Statistics" isSidebarOpen={!isMobile && isOpen}>
                 {isLoading ? (
                     <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                        <CircularProgress/>
+                        <CircularProgress color="inherit"/>
                     </Box>
                 ) : selectedGame ? (
                     <>
