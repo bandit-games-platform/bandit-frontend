@@ -3,11 +3,59 @@ import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
 interface BestAchievementCardProps {
-    playerGameStats: PlayerGameStats;
+    playerGameStats: PlayerGameStats | null;
     isSidebarOpen: boolean;
 }
 
 export default function BestAchievementCard({playerGameStats, isSidebarOpen}: BestAchievementCardProps) {
+    if (!playerGameStats || !playerGameStats.achievementProgress.length) {
+        return (
+            <Card
+                sx={{
+                    display: 'flex',
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    width: {xs: '90%', sm: 750},
+                    margin: {xs: '0 auto', sm: 0},
+                    marginLeft: {
+                        sm: isSidebarOpen ? '36em' : '36em',
+                    },
+                    transition: 'margin-left 0.3s ease',
+                    flexDirection: {xs: 'column', sm: 'row'},
+                }}
+            >
+                <CardContent
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: {xs: 2, sm: 3},
+                        textAlign: 'center',
+                    }}
+                >
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: {xs: '1rem', sm: '1.25rem'},
+                        }}
+                    >
+                        No Achievements Found
+                    </Typography>
+                    <Typography
+                        variant="body2"
+                        sx={{
+                            marginTop: 0.5,
+                            fontSize: {xs: '0.8rem', sm: '1rem'},
+                            color: "text.secondary"
+                        }}
+                    >
+                        Please play games to unlock achievements.
+                    </Typography>
+                </CardContent>
+            </Card>
+        );
+    }
 
     // Calculates the highest achievement based on the achievement progress
     const highestAchievement = playerGameStats.achievementProgress.reduce((max, achievement) => {
