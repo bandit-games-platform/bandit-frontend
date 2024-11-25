@@ -43,7 +43,7 @@ function GamesList({ games, searchTerm, setSearchTerm }: GamesListProps) {
                 label="Search game by title"
                 variant="outlined"
                 value={searchTerm}
-                onChange={handleSearchChange} // Update search term in the parent
+                onChange={handleSearchChange}
                 sx={{
                     flex: 1,
                     width: '100%',
