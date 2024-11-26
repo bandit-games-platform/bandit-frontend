@@ -25,9 +25,9 @@ export default function WinLoseRatioCard({playerGameStats}: WinLoseRatioCardProp
     return (
         <Box
             sx={{
-                width: isMobile ? '90%' : '19vw',
-                position: isMobile ? 'static' : 'absolute',
-                margin: isMobile ? '7px 16px 20px 16px' : '3px 3px 3px 17px',
+                flex: isMobile ? '1 1 auto' : '1 1 auto',
+                position: 'relative',
+                margin: isMobile ? '0.5em' : '0 auto',
             }}
         >
             <Card

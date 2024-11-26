@@ -25,12 +25,11 @@ export default function OverallCompletedSessionsCardDetails({
         <Card
             sx={{
                 display: 'flex',
+                flex: '1 1 auto',
                 flexDirection: 'column',
                 alignItems: 'center',
-                width: {xs: '90%', sm: '70vw'},
                 borderRadius: 2,
                 boxShadow: 3,
-                margin: {xs: '10px auto', sm: 2},
                 padding: {xs: 1, sm: 2},
             }}
         >

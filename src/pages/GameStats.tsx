@@ -1,8 +1,6 @@
 import {Box, Button, useMediaQuery, Theme, CircularProgress} from "@mui/material";
 import SidebarGames from "../components/statistics/SidebarGames.tsx";
 import GameStatCover from "../components/statistics/GameStatCover.tsx";
-import WinLoseRatioCard from "../components/statistics/WinLoseRatioCard.tsx";
-import BestAchievementCard from "../components/statistics/BestAchievementCard.tsx";
 import {useState, useEffect} from "react";
 import CompletedSessions from "../components/statistics/CompletedSessions.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -10,6 +8,7 @@ import AchievementsDetailParent from "../components/statistics/AchievementsDetai
 import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
 import {useGameAchievementDetails} from "../hooks/useGameAchievementDetails.ts";
 import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
+import UpperComponentsCover from "../components/statistics/UpperComponentsCover.tsx";
 
 //TODO: retrieve users registered games
 interface Game {
@@ -71,8 +70,22 @@ export default function GameStats() {
     };
 
     return (
-        <Box display="flex" flexDirection={isMobile ? "column" : "row"} flexWrap="wrap"
-             sx={{width: isMobile ? "100vw" : "auto"}}>
+        <Box display="flex"
+             flexDirection={isMobile ? "column" : "row"}
+             flexWrap="wrap"
+             sx={{
+                 maxWidth: {
+                     xs: '100vw',
+                     sm: '95vw',
+                     md: '80vw',
+                     lg: '100vw',
+                     xl: '100vw',
+                 },
+                 margin: '0 auto',
+                 padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'), // Adjust padding based on screen size
+                 zoom: isMobile ? '1.0' : '0.9'
+             }}
+        >
             {!isMobile && (
                 <SidebarGames
                     isOpen={isOpen}
@@ -89,7 +102,7 @@ export default function GameStats() {
                 ) : selectedGame ? (
                     <>
                         <Box display="flex" alignItems="center" justifyContent={isMobile ? "space-between" : "start"}
-                             padding={isMobile ? "3px 12px 10px" : "7px"}
+                             padding={isMobile ? "3px 12px 10px" : "0.5em"}
                              maxWidth={isMobile ? '300px' : 'auto'}>
                             <p style={{
                                 margin: isMobile ? '2px' : '7px 0 7px 1em',
@@ -130,8 +143,7 @@ export default function GameStats() {
                                                       achievements={gameAchievements ?? []}/>
                         ) : (
                             <>
-                                <WinLoseRatioCard playerGameStats={playerGameStatsToUse}/>
-                                <BestAchievementCard playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}/>
+                                <UpperComponentsCover playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}/>
 
                                 {/* Button for Completed Sessions */}
                                 <Box display="flex" justifyContent="flex-start" sx={{margin: "27px 20px 20px 20px"}}>

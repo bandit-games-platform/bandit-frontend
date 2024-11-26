@@ -1,4 +1,4 @@
-import {Card, CardContent, Typography, LinearProgress, IconButton, Box} from '@mui/material';
+import {Card, CardContent, Typography, LinearProgress, IconButton, Box, useMediaQuery, Theme} from '@mui/material';
 import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
@@ -7,7 +7,9 @@ interface BestAchievementCardProps {
     isSidebarOpen: boolean;
 }
 
-export default function BestAchievementCard({playerGameStats, isSidebarOpen}: BestAchievementCardProps) {
+export default function BestAchievementCard({playerGameStats}: BestAchievementCardProps) {
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+
     if (!playerGameStats || !playerGameStats.achievementProgress.length) {
         return (
             <Card
@@ -17,9 +19,6 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Be
                     boxShadow: 3,
                     width: {xs: '90%', sm: 750},
                     margin: {xs: '0 auto', sm: 0},
-                    marginLeft: {
-                        sm: isSidebarOpen ? '36em' : '36em',
-                    },
                     transition: 'margin-left 0.3s ease',
                     flexDirection: {xs: 'column', sm: 'row'},
                 }}
@@ -82,14 +81,10 @@ export default function BestAchievementCard({playerGameStats, isSidebarOpen}: Be
         <Card
             sx={{
                 display: 'flex',
+                flex: '1.5 1 auto',
                 borderRadius: 2,
                 boxShadow: 3,
-                width: {xs: '90%', sm: 750},
-                margin: {xs: '0 auto', sm: 0},
-                marginLeft: {
-                    sm: isSidebarOpen ? '36em' : '36em',
-                },
-                transition: 'margin-left 0.3s ease',
+                margin: '0 auto',
                 flexDirection: {xs: 'column', sm: 'row'},
             }}
         >
