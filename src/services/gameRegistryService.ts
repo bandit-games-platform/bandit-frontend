@@ -1,5 +1,6 @@
 import axios from "axios";
 import {Game} from "../model/gameRegistry/Game.ts";
+import {GameProgress} from "../model/statistics/GameProgress.ts";
 
 
 const GAME_REGISTRY_BASE_URL = import.meta.env.VITE_GAME_REGISTRY_URL;
@@ -14,5 +15,11 @@ export async function getGamesOverviewByTitleLikeAndPriceBelow(title: string, ma
     const url = GAME_REGISTRY_BASE_URL + `/games/overview?title=${title}&maxPrice=${maxPrice}`
     const {data: games} = await axios.get<Game[]>(`${url}`)
 
+    return games
+}
+
+export async function getGameDetailsFromList(progresses: GameProgress[]) {
+    const url = GAME_REGISTRY_BASE_URL + "/games"
+    const {data: games} = await axios.post<Game[]>(url, progresses)
     return games
 }
