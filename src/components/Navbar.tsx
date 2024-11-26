@@ -206,7 +206,10 @@ export function Navbar() {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography sx={{textAlign: 'center'}}>
+                                <Typography
+                                    sx={{textAlign: 'center'}}
+                                    onClick={logout}
+                                >
                                     {logoutSetting}
                                 </Typography>
                             </MenuItem>
