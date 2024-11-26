@@ -30,12 +30,7 @@ export default function AchievementsDetailParent({playerGameStats, achievements}
     );
 
     return (
-        <Box sx={{
-            width: isMobile ? '90vw' : '63vw',
-            margin: isMobile ? '2px 2px 2px 5px' : '0 auto',
-            padding: isMobile ? '7px 3em 2px 2px' : '7px 4em 2px 2px'
-        }}>
-
+        <Box>
             <AchievementsIdMapper playerGameStats={playerGameStats} achievements={unlockedAchievements}/>
 
             {/* Displays locked achievements below */}

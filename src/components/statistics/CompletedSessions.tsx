@@ -14,7 +14,8 @@ export default function CompletedSessions({playerGameStats}: CompletedSessionsPr
                 borderRadius: 2,
                 boxShadow: 3,
                 margin: {xs: '10px auto', sm: 2},
-                padding: {xs: 1, sm: 2}
+                padding: {xs: 1, sm: 2},
+                zoom: 0.9
             }}>
                 <CardContent>
                     <Typography variant="h5" sx={{fontWeight: 'bold', marginBottom: 2}}>
@@ -29,14 +30,14 @@ export default function CompletedSessions({playerGameStats}: CompletedSessionsPr
 
     return (
         <Card sx={{
-            width: {xs: '90%', sm: '70vw'},
             borderRadius: 2,
             boxShadow: 3,
-            margin: {xs: '10px auto', sm: 2},
-            padding: {xs: 1, sm: 2}
+            margin: '0 auto',
+            padding: '0.3em',
+            zoom: 0.9
         }}>
             <CardContent>
-                <Typography variant="h5" sx={{fontWeight: 'bold', marginBottom: 2}}>
+                <Typography variant="h5" sx={{marginBottom: 2}}>
                     Completed Sessions
                 </Typography>
 

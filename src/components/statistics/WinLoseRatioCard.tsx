@@ -27,14 +27,16 @@ export default function WinLoseRatioCard({playerGameStats}: WinLoseRatioCardProp
             sx={{
                 flex: isMobile ? '1 1 auto' : '1 1 auto',
                 position: 'relative',
-                margin: isMobile ? '0.5em' : '0 auto',
+                margin: '0 auto',
+                padding: '0.3em',
+                width: isMobile ? '100%' : 'auto'
             }}
         >
             <Card
                 variant="outlined"
                 sx={{
                     fontSize: isMobile ? '0.8rem' : '1rem',
-                    padding: '6px',
+                    padding: '0.3em 0.1',
                 }}
             >
                 <CardContent>

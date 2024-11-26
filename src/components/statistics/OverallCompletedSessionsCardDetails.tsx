@@ -30,7 +30,8 @@ export default function OverallCompletedSessionsCardDetails({
                 alignItems: 'center',
                 borderRadius: 2,
                 boxShadow: 3,
-                padding: {xs: 1, sm: 2},
+                margin: '0 auto',
+                padding: '0.3em',
             }}
         >
             {/* Left Section: Completed Sessions Summary */}

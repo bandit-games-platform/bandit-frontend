@@ -45,7 +45,7 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
             <Card
                 sx={{
                     marginBottom: 2,
-                    padding: 2,
+                    padding: 1,
                     backgroundColor: '#1a1a1a',
                     border: '1px solid #333',
                     borderRadius: '12px',
@@ -68,7 +68,7 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
         <Card
             sx={{
                 marginBottom: 2,
-                padding: 1,
+                padding: 0.2,
                 borderRadius: '12px',
                 backgroundColor: '#180541',
                 boxShadow: '0 4px 6px rgba(0, 0, 0, 0.2)',

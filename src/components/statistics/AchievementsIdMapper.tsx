@@ -13,7 +13,15 @@ export default function AchievementsIdMapper({playerGameStats, achievements}: Ac
         return (
             <Card sx={{padding: 2}}>
                 <CardContent>
-                    <Typography variant="h5" sx={{fontWeight: 'bold', marginBottom: 2}}>
+                    <Typography variant="h5" sx={{
+                        fontWeight: 'bold',
+                        marginBottom: 2,
+                        fontSize: {
+                            xs: '1rem',
+                            sm: '1.25rem',
+                            md: '1.5rem',
+                        },
+                    }}>
                         Player Achievements
                     </Typography>
                     <Typography variant="body2">Player statistics or achievements data is unavailable.</Typography>
@@ -25,7 +33,16 @@ export default function AchievementsIdMapper({playerGameStats, achievements}: Ac
     return (
         <Card sx={{padding: 2}}>
             <CardContent>
-                <Typography variant="h5" sx={{fontWeight: 'bold', marginBottom: 2}}>
+                <Typography variant="h5" sx={{
+                    fontWeight: 'bold',
+                    marginBottom: 2,
+                    fontSize: {
+                        xs: '1rem',
+                        sm: '1.25rem',
+                        md: '1.5rem',
+                    },
+                }}
+                >
                     Player Achievements
                 </Typography>
 

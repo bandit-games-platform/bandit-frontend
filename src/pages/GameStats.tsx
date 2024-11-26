@@ -83,7 +83,7 @@ export default function GameStats() {
                  },
                  margin: '0 auto',
                  padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'), // Adjust padding based on screen size
-                 zoom: isMobile ? '1.0' : '0.9'
+                 zoom: isMobile ? '0.9' : '0.8'
              }}
         >
             {!isMobile && (
@@ -94,7 +94,7 @@ export default function GameStats() {
                     onGameSelect={handleGameSelect}
                 />
             )}
-            <GameStatCover title="Game Statistics" isSidebarOpen={!isMobile && isOpen}>
+            <GameStatCover title="Game Statistics">
                 {isLoading ? (
                     <Box display="flex" justifyContent="center" alignItems="center" height="100%">
                         <CircularProgress color="inherit"/>
@@ -123,14 +123,10 @@ export default function GameStats() {
                         </Box>
 
                         {/* Show all Achievements Button */}
-                        <Box display="flex" justifyContent="flex-end" sx={{margin: "7px 7em 1em 0"}}>
+                        <Box display="flex" justifyContent="flex-end" sx={{padding: '0.3em'}}>
                             <Button
                                 variant="contained"
                                 color="primary"
-                                sx={{
-                                    marginLeft: {sm: isOpen ? '15em' : '25'},
-                                    marginRight: {sm: isOpen ? '0' : '6.5em'}
-                                }}
                                 onClick={() => toggleSection('achievements')}
                             >
                                 {showAchievements ? "Back to Stats" : "Show All Achievements"}
@@ -146,7 +142,7 @@ export default function GameStats() {
                                 <UpperComponentsCover playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}/>
 
                                 {/* Button for Completed Sessions */}
-                                <Box display="flex" justifyContent="flex-start" sx={{margin: "27px 20px 20px 20px"}}>
+                                <Box display="flex" justifyContent="flex-start" sx={{padding: '0.3em'}}>
                                     <Button variant="contained" color="primary"
                                             onClick={() => toggleSection('completedSessions')}>
                                         {showCompletedSessions ? "Back to Overall" : "Show Completed Sessions"}

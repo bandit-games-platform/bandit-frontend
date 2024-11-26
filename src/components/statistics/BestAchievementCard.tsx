@@ -1,4 +1,4 @@
-import {Card, CardContent, Typography, LinearProgress, IconButton, Box, useMediaQuery, Theme} from '@mui/material';
+import {Card, CardContent, Typography, LinearProgress, IconButton, Box} from '@mui/material';
 import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
@@ -8,7 +8,6 @@ interface BestAchievementCardProps {
 }
 
 export default function BestAchievementCard({playerGameStats}: BestAchievementCardProps) {
-    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     if (!playerGameStats || !playerGameStats.achievementProgress.length) {
         return (

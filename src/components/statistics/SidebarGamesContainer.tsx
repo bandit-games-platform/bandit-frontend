@@ -1,5 +1,5 @@
 import {useState} from "react";
-import SidebarGames from "./SidebarGames"; // Import the presentational component
+import SidebarGames from "./SidebarGames";
 
 interface Game {
     name: string;
