@@ -53,7 +53,7 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
             <Card>
                 <CardContent>
                     <Typography variant="h6" component="div">
-                        Per game completion
+                        Achievement Completion
                     </Typography>
                     <List>
                         {allGames.map((game) => {

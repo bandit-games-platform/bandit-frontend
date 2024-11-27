@@ -18,13 +18,13 @@ export function WinLossCard({allProgresses}: WinLossCardProps) {
             <Card>
                 <CardContent>
                     <Typography variant="h6" component="div">
-                        Overall your win/loss ratio is
+                        Win/Loss Ratio
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{color: (theme) => theme.palette.secondary.main}}
                     >
-                        {totalWins}:{totalLosses}
+                        {(totalWins/totalLosses).toFixed(2)} ({totalWins}:{totalLosses})
                     </Typography>
                 </CardContent>
             </Card>

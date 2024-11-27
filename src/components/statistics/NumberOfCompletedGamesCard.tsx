@@ -54,7 +54,7 @@ export function NumberOfCompletedGamesCard({allProgresses, allGames}: NumberOfCo
                     </Typography>
                     <Divider sx={{marginTop: "10px", marginBottom: "10px"}}/>
                     <Typography variant="h6" component="div">
-                        Your average game completion is...
+                        Average Game Completion
                     </Typography>
                     <Typography
                         variant="h6"
