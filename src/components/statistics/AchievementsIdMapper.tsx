@@ -1,6 +1,6 @@
 import {Card, CardContent, Typography} from '@mui/material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
-import {Achievement} from "../../model/Achievement.ts";
+import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 import AchievementCardDetails from "./AchievementCardDetails.tsx";
 
 interface AchievementsIdMapperProps {

@@ -1,7 +1,7 @@
 import {Box, Divider, Theme, Typography, useMediaQuery} from '@mui/material';
 import AchievementsIdMapper from './AchievementsIdMapper.tsx';
 import {PlayerGameStats} from '../../model/statistics/PlayerGameStats.ts';
-import {Achievement} from "../../model/Achievement.ts";
+import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 import LockIcon from '@mui/icons-material/Lock';
 
 interface AchievementsDetailParentProps {

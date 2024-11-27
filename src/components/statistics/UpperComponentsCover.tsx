@@ -2,7 +2,7 @@ import {Box, useMediaQuery, Theme} from '@mui/material';
 import WinLoseRatioCard from './WinLoseRatioCard';
 import HighestAchievementCard from './HighestAchievementCard.tsx';
 import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
-import {Achievement} from "../../model/Achievement.ts";
+import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 
 interface UpperComponentsCoverProps {
     playerGameStats: {

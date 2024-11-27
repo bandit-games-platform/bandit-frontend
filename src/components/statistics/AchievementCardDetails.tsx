@@ -1,5 +1,5 @@
 import {Card, CardContent, Typography, Box, LinearProgress, Avatar} from '@mui/material';
-import {Achievement} from "../../model/Achievement.ts";
+import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
 
 interface AchievementCardDetailsProps {
