@@ -4,7 +4,13 @@ import {getGameAchievements} from "../services/gameRegistryService.ts";
 export function useGameAchievementDetails(gameId: string) {
     const {isLoading, isError, data: gameAchievements} = useQuery({
         queryKey: ['gameAchievements', gameId],
-        queryFn: () => getGameAchievements(gameId),
+        queryFn: () => {
+            if (gameId) {
+                return getGameAchievements(gameId)
+            }
+            return Promise.resolve(null);
+        },
+        enabled: !!gameId
     })
 
     return {

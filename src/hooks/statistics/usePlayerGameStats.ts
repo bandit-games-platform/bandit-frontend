@@ -9,7 +9,7 @@ export function usePlayerGameStats(gameId: string) {
     const {isLoading, isError, data: playerGameStats} = useQuery({
         queryKey: ['playerGameStats', userId, gameId],
         queryFn: () => {
-            if (userId) {
+            if (userId && gameId) {
                 return getPlayerGameStatistics(userId, gameId);
             }
             //  prevents the query from actually firing

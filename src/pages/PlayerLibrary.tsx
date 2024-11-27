@@ -16,7 +16,7 @@ interface Game {
     id: string;
 }
 
-export default function GameStats() {
+export default function PlayerLibrary() {
     const [isOpen, setIsOpen] = useState(true);
     const [games, setGames] = useState<Game[]>([]);
     const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -27,7 +27,7 @@ export default function GameStats() {
     const {
         gameAchievements,
         isLoading: achievementsLoading
-    } = useGameAchievementDetails(selectedGame?.id.toString() || '');
+    } = useGameAchievementDetails(selectedGame?.id || '');
 
     const isLoading = statsLoading || achievementsLoading;
 
