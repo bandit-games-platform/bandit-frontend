@@ -9,6 +9,7 @@ import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
 import {useGameAchievementDetails} from "../hooks/gameRegistry/useGameAchievementDetails.ts";
 import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
 import UpperComponentsCover from "../components/statistics/UpperComponentsCover.tsx";
+import SelectGameAnimation from "../components/statistics/SelectGameAnimation.tsx";
 
 //TODO: retrieve users registered games
 interface Game {
@@ -160,7 +161,7 @@ export default function PlayerLibrary() {
                         )}
                     </>
                 ) : (
-                    <p>Please select a game from the sidebar.</p>
+                    <SelectGameAnimation/>
                 )}
             </GameStatCover>
             {isMobile && (
