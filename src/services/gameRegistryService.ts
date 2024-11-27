@@ -1,9 +1,10 @@
 import axios from "axios";
 import {Game} from "../model/gameRegistry/Game.ts";
-import {Achievement} from "../model/Achievement.ts";
+import {Achievement} from "../model/gameRegistry/Achievement.ts";
 
 
 const GAME_REGISTRY_BASE_URL = import.meta.env.VITE_GAME_REGISTRY_URL;
+
 export async function getGameDetails(gameId: string) {
     const url = GAME_REGISTRY_BASE_URL + "/games/" + gameId
 

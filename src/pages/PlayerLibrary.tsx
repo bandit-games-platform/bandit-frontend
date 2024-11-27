@@ -6,7 +6,7 @@ import CompletedSessions from "../components/statistics/CompletedSessions.tsx";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import AchievementsDetailParent from "../components/statistics/AchievementsDetailParent.tsx";
 import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
-import {useGameAchievementDetails} from "../hooks/useGameAchievementDetails.ts";
+import {useGameAchievementDetails} from "../hooks/gameRegistry/useGameAchievementDetails.ts";
 import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
 import UpperComponentsCover from "../components/statistics/UpperComponentsCover.tsx";
 
