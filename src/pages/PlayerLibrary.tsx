@@ -81,9 +81,9 @@ export default function PlayerLibrary() {
                      lg: '100vw',
                      xl: '100vw',
                  },
-                 margin: '0 auto',
+                 margin: isMobile ? '0 auto 0.5em' : '0 auto 2em',
                  padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'),
-                 zoom: isMobile ? '0.9' : '0.8'
+                 zoom: isMobile ? '0.9' : '0.825'
              }}
         >
             {!isMobile && (

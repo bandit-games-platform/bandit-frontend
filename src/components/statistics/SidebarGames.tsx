@@ -33,9 +33,15 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
     const [openSubmenu, setOpenSubmenu] = useState(false);
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
     const sidebarWidth = isOpen ? (isMobile ? 180 : 270) : (isMobile ? 60 : 70);
+    const [selectedGameId, setSelectedGameId] = useState<string | null>(null);
 
     const handleSubmenuClick = () => {
         setOpenSubmenu(!openSubmenu);
+    };
+
+    const handleGameSelect = (game: GameProps) => {
+        setSelectedGameId(game.id); // Set selected game
+        onGameSelect(game);
     };
 
     return (
@@ -77,16 +83,20 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                 {games.map((game) => (
                     <Tooltip key={game.id} title={game.name} placement="right" disableHoverListener={isOpen}>
                         <Box
-                            onClick={() => onGameSelect(game)} // Select game on click
+                            onClick={() => handleGameSelect(game)} // Select game on click
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
                                 px: isOpen ? 2 : 0,
-                                py: 1,
+                                py: 1.25,
                                 cursor: "pointer",
                                 justifyContent: isOpen ? "flex-start" : "center",
-                                "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
+                                backgroundColor: selectedGameId === game.id ? "rgb(22 55 121)" : "transparent",
+                                "&:hover": {zoom: '1.1'},
+                                fontWeight: selectedGameId === game.id ? "bold" : "normal",
+                                color: selectedGameId === game.id ? "white" : "inherit",
                             }}
+
                         >
                             <Inbox sx={{marginRight: isOpen ? 2 : 0}}/>
                             {isOpen && <Typography>{game.name}</Typography>}

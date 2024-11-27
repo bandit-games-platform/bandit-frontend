@@ -1,7 +1,7 @@
 import {Card, CardContent, Typography, LinearProgress, IconButton, Box} from '@mui/material';
 import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
-import {Achievement} from "../../model/Achievement.ts";
+import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 
 interface HighestAchievementCardProps {
     playerGameStats: PlayerGameStats | null;
@@ -57,6 +57,12 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
 
     }
 
+    // Filter achievements with progress
+    const achievementsWithProgress = playerGameStats.achievementProgress.filter(progress => progress.counterValue > 0);
+
+    // Calculate the total number of achievements
+    const totalAchievements = achievement?.length || 0;
+
     // Calculates the highest achievement based on the achievement progress
     const highestAchievement = playerGameStats?.achievementProgress.reduce((max, current) => {
         // Find the corresponding achievement from the achievement array
@@ -92,7 +98,7 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
 
     const getAchievementMessage = (progress: number): string => {
         if (progress === 100) {
-            return "Amazing! You've unlocked all achievements. You are unstoppable!";
+            return "Amazing! You've unlocked an achievement. You are unstoppable!";
         } else if (progress >= 75) {
             return "Great job! You're so close to the finish line. Keep pushing!";
         } else if (progress >= 50) {
@@ -144,15 +150,16 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
                         fontSize: {xs: '1rem', sm: '1.25rem'},
                     }}
                 >
-                    {highestAchievement.counterValue}%
+                    {achievementsWithProgress.length} / {totalAchievements}
                 </Typography>
                 <Typography
                     variant="body2"
                     sx={{
                         fontSize: {xs: '0.8rem', sm: '1rem'},
+                        margin: '0 auto',
                     }}
                 >
-                    Achievement Unlocked
+                    Achievement Progressed
                 </Typography>
             </Box>
 
