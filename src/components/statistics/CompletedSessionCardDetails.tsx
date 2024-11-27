@@ -25,17 +25,6 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
             }}
         >
             <CardContent>
-                <Typography
-                    variant="h6"
-                    sx={{
-                        fontWeight: 250,
-                        fontSize: {xs: '1rem', sm: '1.5rem'},
-                        color: theme.palette.text.secondary,
-                        marginBottom: 2,
-                    }}
-                >
-                    Session ID: {session.sessionId}
-                </Typography>
                 <Box
                     sx={{
                         display: 'flex',

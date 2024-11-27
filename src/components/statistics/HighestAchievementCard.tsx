@@ -1,13 +1,14 @@
 import {Card, CardContent, Typography, LinearProgress, IconButton, Box} from '@mui/material';
 import {Star} from '@mui/icons-material';
 import {PlayerGameStats} from "../../model/statistics/PlayerGameStats.ts";
+import {Achievement} from "../../model/Achievement.ts";
 
-interface BestAchievementCardProps {
+interface HighestAchievementCardProps {
     playerGameStats: PlayerGameStats | null;
-    isSidebarOpen: boolean;
+    achievement: Achievement[] | null;
 }
 
-export default function BestAchievementCard({playerGameStats}: BestAchievementCardProps) {
+export default function HighestAchievementCard({playerGameStats, achievement}: HighestAchievementCardProps) {
 
     if (!playerGameStats || !playerGameStats.achievementProgress.length) {
         return (
@@ -53,14 +54,41 @@ export default function BestAchievementCard({playerGameStats}: BestAchievementCa
                 </CardContent>
             </Card>
         );
+
     }
 
     // Calculates the highest achievement based on the achievement progress
-    const highestAchievement = playerGameStats.achievementProgress.reduce((max, achievement) => {
-        return achievement.counterValue > max.counterValue ? achievement : max;
-    }, playerGameStats.achievementProgress[0]);
+    const highestAchievement = playerGameStats?.achievementProgress.reduce((max, current) => {
+        // Find the corresponding achievement from the achievement array
+        const currentAchievement = achievement?.find(a => a.id === current.achievementId);
 
-    const progress = (highestAchievement.counterValue / 100) * 100;
+        // Skip if no matching achievement is found
+        if (!currentAchievement) {
+            return max;
+        }
+
+        // Calculate completion percentage for the current achievement
+        const currentPercentage = currentAchievement.counterTotal
+            ? (current.counterValue / currentAchievement.counterTotal) * 100
+            : 0;
+
+        // Find the corresponding achievement for the max progress
+        const maxAchievement = achievement?.find(a => a.id === max.achievementId);
+        const maxPercentage = maxAchievement?.counterTotal
+            ? (max.counterValue / maxAchievement.counterTotal) * 100
+            : 0;
+
+        // Return the progress with the higher percentage
+        return currentPercentage > maxPercentage ? current : max;
+    }, playerGameStats?.achievementProgress[0]);
+
+    // Calculate progress for the highest achievement
+    const highestAchievementData = achievement?.find(a => a.id === highestAchievement?.achievementId);
+
+    const progress = highestAchievementData?.counterTotal
+        ? (highestAchievement?.counterValue / highestAchievementData.counterTotal) * 100
+        : 0;
+
 
     const getAchievementMessage = (progress: number): string => {
         if (progress === 100) {

@@ -82,7 +82,7 @@ export default function GameStats() {
                      xl: '100vw',
                  },
                  margin: '0 auto',
-                 padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'), // Adjust padding based on screen size
+                 padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'),
                  zoom: isMobile ? '0.9' : '0.8'
              }}
         >
@@ -139,7 +139,8 @@ export default function GameStats() {
                                                       achievements={gameAchievements ?? []}/>
                         ) : (
                             <>
-                                <UpperComponentsCover playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}/>
+                                <UpperComponentsCover playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}
+                                                      achievement={gameAchievements ?? []}/>
 
                                 {/* Button for Completed Sessions */}
                                 <Box display="flex" justifyContent="flex-start" sx={{padding: '0.3em'}}>

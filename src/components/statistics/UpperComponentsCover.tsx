@@ -1,7 +1,8 @@
 import {Box, useMediaQuery, Theme} from '@mui/material';
 import WinLoseRatioCard from './WinLoseRatioCard';
-import BestAchievementCard from './BestAchievementCard';
+import HighestAchievementCard from './HighestAchievementCard.tsx';
 import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
+import {Achievement} from "../../model/Achievement.ts";
 
 interface UpperComponentsCoverProps {
     playerGameStats: {
@@ -11,10 +12,11 @@ interface UpperComponentsCoverProps {
         achievementProgress: AchievementProgress[];
     };
     isSidebarOpen: boolean;
+    achievement: Achievement[] | null;
 }
 
 
-export default function UpperComponentsCover({playerGameStats, isSidebarOpen}: UpperComponentsCoverProps) {
+export default function UpperComponentsCover({playerGameStats, achievement}: UpperComponentsCoverProps) {
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 
     return (
@@ -30,9 +32,9 @@ export default function UpperComponentsCover({playerGameStats, isSidebarOpen}: U
             }}
         >
             <WinLoseRatioCard playerGameStats={playerGameStats}/>
-            <BestAchievementCard
+            <HighestAchievementCard
                 playerGameStats={playerGameStats}
-                isSidebarOpen={isSidebarOpen}
+                achievement={achievement}
             />
         </Box>
     );
