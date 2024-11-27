@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,7 +15,6 @@ import theme from '../theme/theme.ts';
 import SecurityContext from "../context/SecurityContext.ts";
 import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
-import {useContext} from "react";
 
 const pages = [
     {name: 'Store', path: '/store'},
@@ -179,7 +179,7 @@ export function Navbar() {
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                                 {/* later: picture for logged-in user */}
-                                <Avatar src="/public/avatar.png"/>
+                                <Avatar src="/avatar.png"/>
                             </IconButton>
                         </Tooltip>
 
@@ -210,10 +210,7 @@ export function Navbar() {
                                     sx={{textAlign: 'center'}}
                                     onClick={logout}
                                 >
-                                    <MenuItem onClick={handleCloseUserMenu}>
-                                        <Typography
-                                            sx={{textAlign: 'center'}}>{logoutSetting}</Typography>
-                                    </MenuItem>
+                                    {logoutSetting}
                                 </Typography>
                             </MenuItem>
                         </Menu>

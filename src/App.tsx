@@ -1,5 +1,4 @@
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import SecurityContextProvider from "./context/SecurityContextProvider";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {IndividualGame} from "./pages/IndividualGame.tsx";
@@ -9,6 +8,7 @@ import theme from "./theme/theme.ts";
 import {StickyFooter} from "./components/StickyFooter.tsx";
 import PlayerLibrary from "./pages/PlayerLibrary.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
+import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
 
 const queryClient = new QueryClient();
@@ -20,7 +20,6 @@ function App() {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
-
                 <SecurityContextProvider>
                     <BrowserRouter>
                         <Navbar/>

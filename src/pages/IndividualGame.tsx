@@ -1,6 +1,6 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
 import {useParams} from "react-router-dom";
-import {useGameDetails} from "../hooks/useGameDetails.ts";
+import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, CircularProgress, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import {ArrowBack} from "@mui/icons-material";
