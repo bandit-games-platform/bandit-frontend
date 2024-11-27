@@ -5,6 +5,9 @@ import IconButton from "@mui/material/IconButton";
 import theme from "../theme/theme.ts";
 import SendIcon from "@mui/icons-material/Send";
 import React, {useEffect, useState} from "react";
+import {usePostFollowUpQuestion} from "../hooks/chatbot/usePostFollowUpQuestion.ts";
+import {postFollowUpQuestion} from "../services/chatbotService.ts";
+import {Question} from "../model/chatbot/Question.ts";
 
 function formatChatbotResponse(response: string) {
     return response
@@ -19,10 +22,17 @@ export function ChatbotPage() {
     // answer
     const {
         postInitialQuestion,
-        answer,
-        isPending,
-        isError,
+        answer: initialAnswer,
+        isPending: initialPending,
+        isError: initialError,
     } = usePostInitialQuestion();
+
+    const {
+        postFollowUpQuestionQuestion,
+        answer: followUpAnswer,
+        isPending: followUpPending,
+        isError: followUpError,
+    } = usePostFollowUpQuestion();
 
     useEffect(() => {
         postInitialQuestion()
@@ -39,8 +49,16 @@ export function ChatbotPage() {
     const [message, setMessage] = useState('');
 
     const handleSendMessage = () => {
-        // Send the message to the chatbot (you might need to set up another mutation or API call here)
-        console.log('Sending message:', message);
+        const question: Question = {
+            text: message,
+        };
+        console.log('Sending message:', question);
+
+        // Use the postFollowUpQuestion method here
+        postFollowUpQuestion(question);
+
+        // Optionally, handle pending, error, or success states here
+
         setMessage(''); // Clear the input after sending
     };
 
@@ -50,17 +68,17 @@ export function ChatbotPage() {
         }
     };
 
-    if (isPending) {
+    if (initialPending) {
         return (
             <CircularProgress color="inherit"/>
         )
     }
 
-    if (isError || !answer) {
+    if (initialError || !initialAnswer) {
         return <div>Error fetching the answer from the Chatbot!</div>
     }
 
-    const chatbotResponseLines = formatChatbotResponse(answer.text);
+    const chatbotResponseLines = formatChatbotResponse(initialAnswer.text);
 
     return (
         <Box
