@@ -22,6 +22,29 @@ const theme = createTheme({
             fontWeight: 600,
         },
     },
+
+    components: {
+        MuiTab: {
+            styleOverrides: {
+                root: ({ theme }) => ({
+                    fontFamily: '"Sarpanch", sans-serif',
+                    textTransform: "uppercase",
+                    letterSpacing: '.3rem',
+                    fontSize: '1.1rem',
+                    "&.Mui-selected": {
+                        color: theme.palette.secondary.main,
+                    },
+                }),
+            },
+        },
+        MuiTabs: {
+            styleOverrides: {
+                indicator: ({ theme }) => ({
+                    backgroundColor: theme.palette.secondary.main,
+                }),
+            },
+        },
+    },
 });
 
 export default theme;
