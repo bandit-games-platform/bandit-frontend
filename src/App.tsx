@@ -10,6 +10,8 @@ import {StickyFooter} from "./components/StickyFooter.tsx";
 import {OverallStatistics} from "./pages/OverallStatistics.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
+import {Gameplay} from "./pages/Gameplay.tsx";
+import {ExcludeForPaths} from "./components/ExcludeForPaths.tsx";
 
 const queryClient = new QueryClient();
 
@@ -22,13 +24,14 @@ function App() {
                 <CssBaseline/>
                 <SecurityContextProvider>
                     <BrowserRouter>
-                        <Navbar/>
+                        <ExcludeForPaths paths={["/play"]}><Navbar/></ExcludeForPaths>
                         <Routes>
                             <Route path={"/statistics"} element={<RouteGuard><OverallStatistics/></RouteGuard>}></Route>
                             <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
                             <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
+                            <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
                         </Routes>
-                        <StickyFooter/>
+                        <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>
                 </SecurityContextProvider>
             </ThemeProvider>
