@@ -6,6 +6,14 @@ interface CalculateAchievementProgressForGameProps {
     allGames: Game[]
 }
 
+/**
+ * This function is responsible for taking in a players game progress and a list of games, matching the progress to
+ * a game and then for each achievement in that game calculating a players progress between 0 and 1 where 1 is
+ * 100% complete.
+ * Returns a game and a list of numbers to signify achievement progresses
+ * @param progress A players game progress, contains their progress for achievements
+ * @param allGames A list of games
+ */
 export function calculateAchievementProgressForGame({progress, allGames}: CalculateAchievementProgressForGameProps) {
     let gameWithProgress: Game | undefined;
     for (const game of allGames) {

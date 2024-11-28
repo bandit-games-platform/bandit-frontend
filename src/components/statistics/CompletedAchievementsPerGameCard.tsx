@@ -20,13 +20,14 @@ interface CompletedAchievementsPerGameCardProps {
 }
 
 export function CompletedAchievementsPerGameCard({allProgresses, allGames}: CompletedAchievementsPerGameCardProps) {
-    const completionPerGame: (Game|number)[][] = [];
+    const completionPerGame: [Game, number][] = [];
 
     for (const progress of allProgresses) {
         const achievementProgress = calculateAchievementProgressForGame({progress, allGames});
         if (achievementProgress === null) continue;
         const allAchievementProgressForGame: number[] = achievementProgress.allAchievementProgressForGame;
 
+        // Sum up the number of achievements that are fully complete, if progress is 1 or more add 1
         const completedAchievementsNum = allAchievementProgressForGame.reduce((accumulator, achievementProgress) => {
             if (achievementProgress >= 1) return accumulator + 1;
             return accumulator;

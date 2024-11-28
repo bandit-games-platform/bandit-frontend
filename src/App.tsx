@@ -10,9 +10,7 @@ import {StickyFooter} from "./components/StickyFooter.tsx";
 import {OverallStatistics} from "./pages/OverallStatistics.tsx";
 import PlayerLibrary from "./pages/PlayerLibrary.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
-import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
-import {GamesOverview} from "./pages/GamesOverview.tsx";
 import {Gameplay} from "./pages/Gameplay.tsx";
 import {ExcludeForPaths} from "./components/ExcludeForPaths.tsx";
 
