@@ -3,20 +3,24 @@ import {SyntheticEvent, useState} from "react";
 import Container from "@mui/material/Container";
 import {useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
+import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
+
+const modalProps = {
+    confirmTitle: "Leave Game?",
+    confirmDescription: "The current game state may be lost. This match might be counted as a loss for you.",
+    confirmAction: "Leave"
+}
 
 export function Gameplay() {
     const [tab, setTab] = useState(0);
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
 
+    const library = "/library?selected="+gameId;
+
     if (isLoading) {
         return (
-            <Box
-                sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    height: "100vh",
-                }}>
+            <Box display="flex" flexDirection="column" height="100vh">
                 <Box display="flex" flexDirection="row" gap={1} m={1}>
                     <Skeleton variant="rectangular" width={110} height={48} />
                     <Skeleton variant="rectangular" width={110} height={48} />
@@ -25,14 +29,16 @@ export function Gameplay() {
                 <Container sx={{height: 0.8, marginY: 'auto'}}>
                     <Skeleton variant="rounded" height="100%" />
                 </Container>
+                <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
             </Box>
         );
     }
 
     if (isError || !game) {
         return (
-            <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+            <Box display="flex" justifyContent="center" alignItems="start" height="100vh" p={1}>
                 <Alert severity="error">We could not load this game for you at this time. Please check back later!</Alert>
+                <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
             </Box>
         );
     }
@@ -42,17 +48,13 @@ export function Gameplay() {
     }
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100vh", // Full viewport height
-            }}>
+        <Box display="flex" flexDirection="column" height="100vh">
             <Tabs value={tab} onChange={handleChange}>
                 <Tab label="Game"/>
                 <Tab label="Rules"/>
                 <Tab label="Invite" disabled/>
             </Tabs>
+            <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
 
             {tab === 0 && <Box sx={{
                 flex: 1, // Take up the remaining space
