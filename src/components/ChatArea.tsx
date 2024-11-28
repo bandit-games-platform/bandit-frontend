@@ -9,10 +9,10 @@ interface ChatAreaProps {
 
 function formatChatbotResponse(response: string) {
     return response
-        .replace(/\\n/g, '\n') // Replace escaped newlines with actual newlines
-        .replace(/\\+/g, '')   // Remove stray backslashes
-        .replace(/"/g, '')    // Remove quotation marks
-        .trim()               // Trim leading/trailing whitespace
+        .replace(/\\n/g, '\n')
+        .replace(/\\+/g, '')
+        .replace(/"/g, '')
+        .trim()
         .split('\n');
 }
 
@@ -44,9 +44,37 @@ export function ChatArea({messages}: ChatAreaProps) {
                                wordWrap: "break-word",
                            }}
                     >
-                        <Typography component="div" sx={{color: "white"}}
-                        >
-                            {message.text}
+                        <Typography component="div" sx={{color: "white"}}>
+                            {message.sender === "bot" ? (
+                                <>
+                                    {/* Avatar (Chatbot Icon) */}
+                                    <Box sx={{display: "flex", alignItems: "start", marginBottom: 1}}>
+                                        <img
+                                            src="/robot-icon-color.png"
+                                            alt="Chatbot Avatar"
+                                            style={{
+                                                width: 24,
+                                                height: 24,
+                                                marginRight: 8,
+                                                objectFit: "contain",
+                                            }}
+                                        />
+                                        <Typography variant="body1" sx={{color: "white"}}>
+                                            {/* Display the first line of the message */}
+                                            {formatChatbotResponse(message.text)[0]}
+                                        </Typography>
+                                    </Box>
+
+                                    {/* Remaining lines of the response (without chatbot avatar) */}
+                                    {formatChatbotResponse(message.text).slice(1).map((line, index) => (
+                                        <Typography key={index} variant="body1" sx={{color: "white", marginBottom: 1}}>
+                                            {line}
+                                        </Typography>
+                                    ))}
+                                </>
+                            ) : (
+                                message.text
+                            )}
                         </Typography>
                     </Paper>
                 </Box>
