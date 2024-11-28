@@ -33,18 +33,33 @@ export function NumberOfCompletedGamesCard({allProgresses, allGames}: NumberOfCo
         <Box>
             <Card>
                 <CardContent>
-                    <Typography variant="h6" component="div">
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{
+                            fontSize: { xs: '15px', md: '20px' }
+                        }}
+                    >
                         You have completed
                         <Box component={"span"} sx={{color: (theme) => theme.palette.secondary.main}}> {completedGames.length} </Box>
                         games
                     </Typography>
                     <Divider sx={{marginTop: "10px", marginBottom: "10px"}}/>
-                    <Typography variant="h6" component="div">
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{
+                            fontSize: { xs: '15px', md: '20px' }
+                        }}
+                    >
                         Average Game Completion
                     </Typography>
                     <Typography
                         variant="h6"
-                        sx={{color: (theme) => theme.palette.secondary.main}}
+                        sx={{
+                            color: (theme) => theme.palette.secondary.main,
+                            fontSize: { xs: '15px', md: '20px' }
+                        }}
                     >
                         {(averageGameCompletion * 100).toFixed(2)}%
                     </Typography>

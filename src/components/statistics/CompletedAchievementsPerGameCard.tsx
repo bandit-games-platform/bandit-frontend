@@ -49,7 +49,13 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
         <Box>
             <Card>
                 <CardContent>
-                    <Typography variant="h6" component="div">
+                    <Typography
+                        variant="h6"
+                        component="div"
+                        sx={{
+                            fontSize: { xs: '15px', md: '20px' }
+                        }}
+                    >
                         Achievement Completion
                     </Typography>
                     <List>
@@ -79,10 +85,14 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
 function titlePercentage(title: string, progress: number) {
     return (
         <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            <Typography variant="body1">
+            <Typography
+                sx={{typography: {xs: 'body2', md: 'body1'}}}
+            >
                 {title}
             </Typography>
-            <Typography variant="body1">
+            <Typography
+                sx={{typography: {xs: 'body2', md: 'body1'}}}
+            >
                 {progress.toFixed(2)}%
             </Typography>
         </Box>

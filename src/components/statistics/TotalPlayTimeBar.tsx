@@ -4,6 +4,7 @@ import {LoadingComponent} from "../LoadingComponent.tsx";
 import {ErrorComponent} from "../ErrorComponent.tsx";
 import dayjs from "dayjs";
 import {Box} from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 export function TotalPlayTimeBar() {
     const {isLoading: joinDateLoading, isError: joinDateError, joinDate} = usePlayerJoinDate();
@@ -88,9 +89,36 @@ export function TotalPlayTimeBar() {
         <Box sx={{
             textAlign: "center"
         }}>
-            <h2 style={{marginTop: "5px", marginBottom: "5px"}}>You have played for</h2>
-            <h1 style={{fontSize: "40px", marginTop: "5px", marginBottom: "5px"}}>{calculatePlaytime(playtime)}</h1>
-            <h3 style={{marginTop: "5px", marginBottom: "5px"}}>In the {timeSince(dayjs(joinDate))} since you joined</h3>
+            <Typography
+                variant={"h2"}
+                sx={{
+                    fontSize: { xs: '19px', md: '24px' },
+                    marginTop: '5px',
+                    marginBottom: '5px',
+                }}
+            >
+                <b>You have played for</b>
+            </Typography>
+            <Typography
+                variant={"h1"}
+                sx={{
+                    fontSize: { xs: '33px', md: '40px' },
+                    marginTop: '5px',
+                    marginBottom: '5px',
+                }}
+            >
+                <b>{calculatePlaytime(playtime)}</b>
+            </Typography>
+            <Typography
+                variant={"h3"}
+                sx={{
+                    fontSize: { xs: '15px', md: '20px' },
+                    marginTop: '5px',
+                    marginBottom: '5px',
+                }}
+            >
+                <b>In the {timeSince(dayjs(joinDate))} since you joined</b>
+            </Typography>
         </Box>
     )
 }
