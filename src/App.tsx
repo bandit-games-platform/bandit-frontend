@@ -23,17 +23,13 @@ function App() {
                 <CssBaseline/>
                 <SecurityContextProvider>
                     <BrowserRouter>
-                        <ExcludeForPaths paths={["/play"]}>
-                            <Navbar/>
-                        </ExcludeForPaths>
+                        <ExcludeForPaths paths={["/play"]}><Navbar/></ExcludeForPaths>
                         <Routes>
                             <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
                             <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
                             <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
                         </Routes>
-                        <ExcludeForPaths paths={["/play"]}>
-                            <StickyFooter/>
-                        </ExcludeForPaths>
+                        <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>
                 </SecurityContextProvider>
             </ThemeProvider>
