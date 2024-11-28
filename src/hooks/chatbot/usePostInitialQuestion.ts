@@ -1,5 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
 import {postInitialQuestion} from "../../services/chatbotService.ts";
+import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 
 export function usePostInitialQuestion() {
     const {
@@ -9,8 +10,7 @@ export function usePostInitialQuestion() {
         data: answer
     } = useMutation(
         {
-            // mutationFn: (question: string) => postInitialQuestion(question),
-            mutationFn: () => postInitialQuestion(),
+            mutationFn: (initialQuestionDto: InitialQuestionDto) => postInitialQuestion(initialQuestionDto),
         })
 
     return {

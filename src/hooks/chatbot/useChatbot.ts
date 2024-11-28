@@ -2,8 +2,15 @@ import {useEffect, useState} from "react";
 import {Message} from "../../model/chatbot/Message.ts";
 import {usePostInitialQuestion} from "./usePostInitialQuestion.ts";
 import {usePostFollowUpQuestion} from "./usePostFollowUpQuestion.ts";
+import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
+import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 
 export function useChatbot() {
+    const initialQuestionDto: InitialQuestionDto = {
+        userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
+        gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c001", // TODO
+    };
+
     const [messages, setMessages] = useState<Message[]>([]);
     const {
         postInitialQuestion,
@@ -16,7 +23,7 @@ export function useChatbot() {
     useEffect(() => {
         const fetchInitialQuestion = async () => {
             try {
-                const answer = await postInitialQuestion();
+                const answer = await postInitialQuestion(initialQuestionDto);
                 if (answer?.text) {
                     setMessages([{sender: "bot", text: answer.text}]);
                 } else {
@@ -32,14 +39,22 @@ export function useChatbot() {
     }, [postInitialQuestion]);
 
     const handleSendMessage = async (message: string) => {
+        const followUpQuestionDto: FollowUpQuestionDto = {
+            userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
+            gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c001", // TODO
+            question: {
+                text: message,
+            },
+        };
+
         setMessages(prevMessages => [
             ...prevMessages,
-            {sender: "user", text: message},  // Add the user's message
-            {sender: "bot", isThinking: true}, // Show thinking state for bot
+            {sender: "user", text: message},
+            {sender: "bot", isThinking: true}, // Thinking state for bot
         ]);
 
         try {
-            const answer = await postFollowUpQuestion({text: message});
+            const answer = await postFollowUpQuestion(followUpQuestionDto);
             if (answer?.text) {
                 // Replace thinking state with the actual message
                 setMessages(prevMessages => {

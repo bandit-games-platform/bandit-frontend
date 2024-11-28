@@ -1,6 +1,6 @@
 import {useMutation} from "@tanstack/react-query";
 import {postFollowUpQuestion} from "../../services/chatbotService.ts";
-import {Question} from "../../model/chatbot/Question.ts";
+import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
 
 export function usePostFollowUpQuestion() {
     const {
@@ -10,7 +10,7 @@ export function usePostFollowUpQuestion() {
         data: answer
     } = useMutation(
         {
-            mutationFn: (question: Question) => postFollowUpQuestion(question),
+            mutationFn: (followUpQuestionDto: FollowUpQuestionDto) => postFollowUpQuestion(followUpQuestionDto),
         })
 
     return {

@@ -42,7 +42,7 @@ export function BotMessage({text, isThinking}: BotMessageProps) {
                 <div>
                     {/* Show three dots if bot is thinking */}
                     {isThinking ? (
-                        <TypingDots/>  // Show the typing dots animation when thinking
+                        <TypingDots/>
                     ) : (
                         text && (
                             <>
