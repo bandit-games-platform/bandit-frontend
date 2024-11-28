@@ -2,9 +2,8 @@ import {Box, CircularProgress} from '@mui/material';
 import {usePostInitialQuestion} from "../hooks/chatbot/usePostInitialQuestion.ts";
 import {useEffect, useState} from "react";
 import {usePostFollowUpQuestion} from "../hooks/chatbot/usePostFollowUpQuestion.ts";
-import {ChatArea} from "../components/ChatArea.tsx";
-import {ChatInputBar} from "../components/ChatInputBar.tsx";
-
+import {ChatInputBar} from "../components/chatbot/ChatInputBar.tsx";
+import {ChatArea} from "../components/chatbot/ChatArea.tsx";
 
 interface Message {
     sender: "user" | "bot" | string;
@@ -85,16 +84,33 @@ export function ChatbotPage() {
         <Box
             sx={{
                 display: 'flex',
-                flexDirection: 'column',
                 justifyContent: 'center',
-                height: 'calc(100vh - 64px)',
-                width: '80%',
+                alignItems: 'center',
+                height: '90vh',
+                width: '100%',
                 backgroundColor: 'background.default',
                 padding: 2,
+                // overflowY: 'hidden'
             }}
         >
-            <ChatArea messages={messages}/>
-            <ChatInputBar onSend={handleSendMessage} disabled={isLoading}/>
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: 'calc(90vh - 64px)',
+                    width: {xs: '90%', sm: '70%', md: '55%'},
+                    backgroundColor: '#202020',
+                    padding: 3,
+                    borderRadius: 3,
+                    border: '1px solid',
+                    borderColor: "black",
+                    boxShadow: 3, // Subtle shadow for depth
+                }}
+            >
+                <ChatArea messages={messages}/>
+                <ChatInputBar onSend={handleSendMessage} disabled={isLoading}/>
+            </Box>
         </Box>
     );
 }

@@ -1,7 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import {TextField} from "@mui/material";
 import Box from "@mui/material/Box";
-import theme from "../theme/theme.ts";
+import theme from "../../theme/theme.ts";
 import SendIcon from "@mui/icons-material/Send";
 import {useState} from "react";
 
