@@ -2,14 +2,27 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import {Paper} from "@mui/material";
 
-export function ChatArea() {
+interface ChatAreaProps {
+    messages: { sender: "user" | "bot" | string; text: string }[];
+}
+
+function formatChatbotResponse(response: string) {
+    return response
+        .replace(/\\n/g, '\n') // Replace escaped newlines with actual newlines
+        .replace(/\\+/g, '')   // Remove stray backslashes
+        .replace(/"/g, '')    // Remove quotation marks
+        .trim()               // Trim leading/trailing whitespace
+        .split('\n');
+}
+
+export function ChatArea({messages}: ChatAreaProps) {
     return (
         <Box
             sx={{
-                height: '100%',          // Take full height of the parent container
-                display: 'flex',         // Use flexbox for inner content
-                flexDirection: 'column', // Ensure vertical layout
-                overflowY: 'auto',       // Enable scrolling if needed
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                overflowY: 'auto',
                 padding: 2,
                 backgroundColor: 'background.paper',
                 borderRadius: 2,
@@ -25,11 +38,19 @@ export function ChatArea() {
                     backgroundColor: 'background.paper',
                 }}
             >
-                <Typography variant="body1" color="textSecondary">
-                    {/* Example messages */}
-                    <div style={{marginBottom: 8}}>Bot: Hello! How can I help you?</div>
-                    <div style={{textAlign: 'right', marginBottom: 8}}>You: Hi there!</div>
-                    {/* Map your messages here */}
+                <Typography variant="body1" color="textSecondary" component="div">
+                    {messages.map((message, index) => (
+                        <Typography
+                            key={index}
+                            variant="body1"
+                            sx={{
+                                marginBottom: 1,
+                                color: 'text.primary',
+                            }}
+                        >
+                            {message.text}
+                        </Typography>
+                    ))}
                 </Typography>
             </Paper>
         </Box>

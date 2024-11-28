@@ -1,159 +1,100 @@
-import {Box, CircularProgress, Paper, TextField} from '@mui/material';
+import {Box, CircularProgress} from '@mui/material';
 import {usePostInitialQuestion} from "../hooks/chatbot/usePostInitialQuestion.ts";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
-import theme from "../theme/theme.ts";
-import SendIcon from "@mui/icons-material/Send";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {usePostFollowUpQuestion} from "../hooks/chatbot/usePostFollowUpQuestion.ts";
-import {postFollowUpQuestion} from "../services/chatbotService.ts";
-import {Question} from "../model/chatbot/Question.ts";
+import {ChatArea} from "../components/ChatArea.tsx";
+import {ChatInputBar} from "../components/ChatInputBar.tsx";
 
-function formatChatbotResponse(response: string) {
-    return response
-        .replace(/\\n/g, '\n') // Replace escaped newlines with actual newlines
-        .replace(/\\+/g, '')   // Remove stray backslashes
-        .replace(/"/g, '')    // Remove quotation marks
-        .trim()               // Trim leading/trailing whitespace
-        .split('\n');
+
+interface Message {
+    sender: "user" | "bot" | string;
+    text: string;
 }
 
 export function ChatbotPage() {
-    // answer
+    const [messages, setMessages] = useState<Message[]>([]);
+
     const {
         postInitialQuestion,
         answer: initialAnswer,
-        isPending: initialPending,
-        isError: initialError,
+        isPending: isInitialPending,
+        isError: isInitialError
     } = usePostInitialQuestion();
 
     const {
-        postFollowUpQuestionQuestion,
+        postFollowUpQuestion,
         answer: followUpAnswer,
-        isPending: followUpPending,
-        isError: followUpError,
+        isPending: isFollowUpPending,
+        isError: isFollowUpError,
     } = usePostFollowUpQuestion();
 
     useEffect(() => {
-        postInitialQuestion()
+        const fetchInitialQuestion = async () => {
+            try {
+                const answer = await postInitialQuestion();
+                if (answer?.text) {
+                    setMessages([{sender: "bot", text: answer.text}]);
+                } else {
+                    console.error("Error initializing chat: No answer text.");
+                    setMessages([{sender: "bot", text: "Sorry, something went wrong. Please try again later."}]);
+                }
+            } catch (error) {
+                console.error("Failed to fetch the initial question:", error);
+                setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
+            }
+        };
+
+        fetchInitialQuestion()
             .then(() => {
-                // Optionally handle success
+                console.log("Initial question fetched successfully.");
             })
             .catch((error) => {
-                console.error("Failed to fetch the initial question:", error);
+                console.error("Promise rejection during initialization:", error);
             });
     }, [postInitialQuestion]);
 
 
-    // question
-    const [message, setMessage] = useState('');
+    const handleSendMessage = async (message: string) => {
+        const newMessages = [...messages, {sender: "user", text: message}];
+        setMessages(newMessages);
 
-    const handleSendMessage = () => {
-        const question: Question = {
-            text: message,
-        };
-        console.log('Sending message:', question);
-
-        // Use the postFollowUpQuestion method here
-        postFollowUpQuestion(question);
-
-        // Optionally, handle pending, error, or success states here
-
-        setMessage(''); // Clear the input after sending
-    };
-
-    const handleKeyPress = (event: React.KeyboardEvent) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            handleSendMessage();
+        try {
+            const answer = await postFollowUpQuestion({text: message});
+            if (answer?.text) {
+                setMessages([...newMessages, {sender: "bot", text: answer.text}]);
+            }
+        } catch (error) {
+            console.error("Error fetching chatbot response:", error);
+            setMessages([...newMessages, {sender: "bot", text: "Sorry, something went wrong. Please try again."}]);
         }
     };
 
-    if (initialPending) {
+    if (isInitialPending || isFollowUpPending) {
         return (
             <CircularProgress color="inherit"/>
         )
     }
 
-    if (initialError || !initialAnswer) {
+    if (isInitialError || !initialAnswer) {
         return <div>Error fetching the answer from the Chatbot!</div>
     }
 
-    const chatbotResponseLines = formatChatbotResponse(initialAnswer.text);
+    const isLoading = isInitialPending || isFollowUpPending;
 
     return (
         <Box
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'center', // Center horizontally
-                height: 'calc(100vh - 64px)', // Adjust if your navbar height differs
+                justifyContent: 'center',
+                height: 'calc(100vh - 64px)',
                 width: '80%',
                 backgroundColor: 'background.default',
                 padding: 2,
             }}
         >
-            <Box
-                sx={{
-                    height: '100%',          // Take full height of the parent container
-                    display: 'flex',         // Use flexbox for inner content
-                    flexDirection: 'column', // Ensure vertical layout
-                    overflowY: 'auto',       // Enable scrolling if needed
-                    padding: 2,
-                    backgroundColor: 'background.paper',
-                    borderRadius: 2,
-                }}
-            >
-                <Paper
-                    elevation={3}
-                    sx={{
-                        flex: 1,
-                        overflowY: 'auto',
-                        padding: 2,
-                        borderRadius: 2,
-                        backgroundColor: 'background.paper',
-                    }}
-                >
-                    <Typography variant="body1" color="textSecondary" component="div">
-                        <strong>Chatbot:</strong>
-                        {chatbotResponseLines.map((line, index) => (
-                            <Typography
-                                key={index}
-                                variant="body1"
-                                sx={{
-                                    marginBottom: 1,
-                                    color: 'text.primary',
-                                }}
-                            >
-                                {line}
-                            </Typography>
-                        ))}
-                    </Typography>
-                </Paper>
-            </Box>
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    marginTop: 2,
-                }}
-            >
-                <TextField
-                    fullWidth
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Type your message..."
-                    variant="outlined"
-                    onKeyDown={handleKeyPress}
-                    sx={{flex: 1, marginRight: 1}}
-                />
-                <IconButton
-                    aria-label="send message"
-                    sx={{color: theme.palette.secondary.light}}
-                    onClick={handleSendMessage}
-                >
-                    <SendIcon/>
-                </IconButton>
-            </Box>
+            <ChatArea messages={messages}/>
+            <ChatInputBar onSend={handleSendMessage} disabled={isLoading}/>
         </Box>
     );
 }
