@@ -12,6 +12,7 @@ import {
     ListItemText,
     Typography
 } from "@mui/material";
+import {calculateAchievementProgressForGame} from "../../functions/calculateAchievementProgressForGame.ts";
 
 interface CompletedAchievementsPerGameCardProps {
     allProgresses: GameProgress[]
@@ -22,30 +23,15 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
     const completionPerGame: (string|number)[][] = [];
 
     for (const progress of allProgresses) {
-        let gameWithProgress: Game | undefined;
-        for (const game of allGames) {
-            if (progress.gameId == game.id) {
-                gameWithProgress = game;
-                break;
-            }
-        }
-        if (!gameWithProgress) continue;
-        const allAchievementProgressForGame: number[] = [];
-        for (const gameAchievement of gameWithProgress.achievements) {
-            let achievementProgress = 0;
-            for (const achievement of progress.achievementProgresses) {
-                if (gameAchievement.id == achievement.achievementId) {
-                    achievementProgress = achievement.counterValue/gameAchievement.counterTotal;
-                    break;
-                }
-            }
-            allAchievementProgressForGame.push(achievementProgress)
-        }
+        const achievementProgress = calculateAchievementProgressForGame({progress, allGames});
+        if (achievementProgress === null) continue;
+        const allAchievementProgressForGame: number[] = achievementProgress.allAchievementProgressForGame;
+
         const completedAchievementsNum = allAchievementProgressForGame.reduce((accumulator, achievementProgress) => {
             if (achievementProgress >= 1) return accumulator + 1;
             return accumulator;
         }, 0);
-        completionPerGame.push([gameWithProgress.id, completedAchievementsNum/allAchievementProgressForGame.length])
+        completionPerGame.push([achievementProgress.gameWithProgress.id, completedAchievementsNum/allAchievementProgressForGame.length])
     }
 
     return (
