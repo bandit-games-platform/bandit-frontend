@@ -9,7 +9,7 @@ import {StickyFooter} from "./components/StickyFooter.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
 import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
-import {ChatbotPage} from "./pages/ChatbotPage.tsx";
+import {ChatbotTab} from "./components/chatbot/ChatbotTab.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ function App() {
                             <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
                             <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
 
-                            <Route path={"/chatbot"} element={<RouteGuard><ChatbotPage/></RouteGuard>}></Route>
+                            <Route path={"/chatbot"} element={<RouteGuard><ChatbotTab/></RouteGuard>}></Route>
                         </Routes>
                         <StickyFooter/>
                     </BrowserRouter>
