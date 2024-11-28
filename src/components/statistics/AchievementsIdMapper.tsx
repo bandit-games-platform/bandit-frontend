@@ -66,7 +66,7 @@ export default function AchievementsIdMapper({playerGameStats, achievements}: Ac
                                     variant="body2"
                                     sx={{marginBottom: 1}}
                                 >
-                                    Achievement not found for ID: {progress.achievementId}
+                                    Achievement not found
                                 </Typography>
                             )
                         );
