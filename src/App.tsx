@@ -6,9 +6,12 @@ import {Navbar} from "./components/Navbar.tsx";
 import './index.css'
 import theme from "./theme/theme.ts";
 import {StickyFooter} from "./components/StickyFooter.tsx";
+import PlayerLibrary from "./pages/PlayerLibrary.tsx";
 import {GamesOverview} from "./pages/GamesOverview.tsx";
 import SecurityContextProvider from "./context/SecurityContextProvider.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
+import {Gameplay} from "./pages/Gameplay.tsx";
+import {ExcludeForPaths} from "./components/ExcludeForPaths.tsx";
 import {ChatbotTab} from "./components/chatbot/ChatbotTab.tsx";
 
 const queryClient = new QueryClient();
@@ -22,14 +25,16 @@ function App() {
                 <CssBaseline/>
                 <SecurityContextProvider>
                     <BrowserRouter>
-                        <Navbar/>
+                        <ExcludeForPaths paths={["/play"]}><Navbar/></ExcludeForPaths>
                         <Routes>
                             <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
                             <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
+                            <Route path={"/library"} element={<RouteGuard><PlayerLibrary/></RouteGuard>}></Route>
+                            <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
 
                             <Route path={"/chatbot"} element={<RouteGuard><ChatbotTab/></RouteGuard>}></Route>
                         </Routes>
-                        <StickyFooter/>
+                        <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>
                 </SecurityContextProvider>
             </ThemeProvider>
