@@ -60,11 +60,11 @@ export default function AchievementsDetailParent({playerGameStats, achievements}
                             >
                                 <LockIcon sx={{color: 'gray', fontSize: 20}}/> {/* Lock Icon */}
                                 <Box>
+                                    <Typography variant="body2" color="text.secondary" sx={{paddingBottom: 0.5}}>
+                                        {achievement.description}
+                                    </Typography>
                                     <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
                                         {achievement.title}
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                        {achievement.description}
                                     </Typography>
                                 </Box>
                             </Box>

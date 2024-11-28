@@ -37,19 +37,19 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                         variant="body2"
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
-                            color: theme.palette.text.secondary,
+                            color: session?.startTime ? theme.palette.text.secondary : theme.palette.text.secondary,
                         }}
                     >
-                        Start: {new Date(session.startTime).toLocaleString()}
+                        Start: {session?.startTime ? new Date(session.startTime).toLocaleString() : 'N/A'}
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
-                            color: theme.palette.text.secondary,
+                            color: session?.endTime ? theme.palette.text.secondary : theme.palette.text.secondary,
                         }}
                     >
-                        End: {new Date(session.endTime).toLocaleString()}
+                        End: {session?.endTime ? new Date(session.endTime).toLocaleString() : 'N/A'}
                     </Typography>
                 </Box>
                 <Box sx={{display: 'flex', justifyContent: 'space-between', marginBottom: 2}}>
@@ -58,20 +58,20 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
                             fontWeight: 500,
-                            color: theme.palette.text.primary,
+                            color: session?.turnsTaken ? theme.palette.text.primary : theme.palette.text.secondary,
                         }}
                     >
-                        Turns: {session.turnsTaken}
+                        Turns: {session?.turnsTaken ?? 'N/A'}
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
                             fontWeight: 500,
-                            color: theme.palette.text.primary,
+                            color: session?.avgSecondsPerTurn ? theme.palette.text.primary : theme.palette.text.secondary,
                         }}
                     >
-                        Avg Sec/Turn: {session.avgSecondsPerTurn}
+                        Avg Sec/Turn: {session?.avgSecondsPerTurn ?? 'N/A'}
                     </Typography>
                 </Box>
                 <Box sx={{display: 'flex', justifyContent: 'space-between', marginBottom: 2}}>
@@ -79,19 +79,19 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                         variant="body2"
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
-                            color: theme.palette.text.primary,
+                            color: session?.playerScore ? theme.palette.text.primary : theme.palette.text.secondary,
                         }}
                     >
-                        Player Score: <b>{session.playerScore}</b>
+                        Player Score: <b>{session?.playerScore ?? 'N/A'}</b>
                     </Typography>
                     <Typography
                         variant="body2"
                         sx={{
                             fontSize: {xs: '0.875rem', sm: '1rem'},
-                            color: theme.palette.secondary.main,
+                            color: session?.opponentScore ? theme.palette.secondary.main : theme.palette.text.secondary,
                         }}
                     >
-                        Opponent Score: <b>{session.opponentScore}</b>
+                        Opponent Score: <b>{session?.opponentScore ?? 'N/A'}</b>
                     </Typography>
                 </Box>
                 <Typography
@@ -99,10 +99,10 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                     sx={{
                         marginTop: 1,
                         fontSize: {xs: '0.875rem', sm: '1rem'},
-                        color: theme.palette.text.secondary,
+                        color: session?.character ? theme.palette.text.secondary : theme.palette.text.secondary,
                     }}
                 >
-                    Character: <b>{session.character}</b> | {session.wasFirstToGo ? "First to Go" : "Second to Go"}
+                    Character: <b>{session?.character ?? 'N/A'}</b> | {session?.wasFirstToGo != null ? (session.wasFirstToGo ? "First to Go" : "Second to Go") : 'N/A'}
                 </Typography>
                 <Typography
                     variant="body2"
@@ -110,10 +110,10 @@ export default function CompletedSessionCardDetails({session}: CompletedSessionC
                         marginTop: 2,
                         fontSize: {xs: '0.875rem', sm: '1rem'},
                         fontWeight: 600,
-                        color: endStateColors[session.endState] || theme.palette.text.primary,
+                        color: session?.endState ? endStateColors[session.endState] || theme.palette.text.primary : theme.palette.text.secondary,
                     }}
                 >
-                    End State: {session.endState}
+                    End State: {session?.endState ?? 'N/A'}
                 </Typography>
             </CardContent>
         </Card>
