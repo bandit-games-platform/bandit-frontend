@@ -20,7 +20,7 @@ interface CompletedAchievementsPerGameCardProps {
 }
 
 export function CompletedAchievementsPerGameCard({allProgresses, allGames}: CompletedAchievementsPerGameCardProps) {
-    const completionPerGame: (string|number)[][] = [];
+    const completionPerGame: (Game|number)[][] = [];
 
     for (const progress of allProgresses) {
         const achievementProgress = calculateAchievementProgressForGame({progress, allGames});
@@ -31,7 +31,18 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
             if (achievementProgress >= 1) return accumulator + 1;
             return accumulator;
         }, 0);
-        completionPerGame.push([achievementProgress.gameWithProgress.id, completedAchievementsNum/allAchievementProgressForGame.length])
+        completionPerGame.push([achievementProgress.gameWithProgress, completedAchievementsNum/allAchievementProgressForGame.length])
+    }
+    completionPerGame.sort(sortArrayByCompletion);
+
+    function sortArrayByCompletion(a: (Game | number)[], b: (Game | number)[]) {
+        if (typeof a[1] !== "number" || typeof b[1] !== "number") return 0;
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] > b[1]) ? -1 : 1;
+        }
     }
 
     return (
@@ -42,9 +53,10 @@ export function CompletedAchievementsPerGameCard({allProgresses, allGames}: Comp
                         Achievement Completion
                     </Typography>
                     <List>
-                        {allGames.map((game) => {
-                            const completionEntry = completionPerGame.find(([gameId]) => gameId === game.id)??[1];
-                            const completionPercentage = typeof completionEntry[1] === "number" ? completionEntry[1] * 100 : 0
+                        {completionPerGame.map((completion) => {
+                            const completionPercentage = typeof completion[1] === "number" ? completion[1] * 100 : 0
+                            const game = typeof completion[0] === "object" ? completion[0] : null
+                            if (game === null) return;
                             return (
                                 <ListItem key={"game-progress-" + game.id}>
                                     <ListItemAvatar>
