@@ -32,17 +32,31 @@ export function useChatbot() {
     }, [postInitialQuestion]);
 
     const handleSendMessage = async (message: string) => {
-        const newMessages = [...messages, {sender: "user", text: message}];
-        setMessages(newMessages);
+        setMessages(prevMessages => [
+            ...prevMessages,
+            {sender: "user", text: message},  // Add the user's message
+            {sender: "bot", isThinking: true}, // Show thinking state for bot
+        ]);
 
         try {
             const answer = await postFollowUpQuestion({text: message});
             if (answer?.text) {
-                setMessages([...newMessages, {sender: "bot", text: answer.text}]);
+                // Replace thinking state with the actual message
+                setMessages(prevMessages => {
+                    const updatedMessages = [...prevMessages];
+                    const thinkingIndex = updatedMessages.findIndex(m => m.isThinking);
+                    if (thinkingIndex !== -1) {
+                        updatedMessages[thinkingIndex] = {sender: "bot", text: answer.text, isThinking: false};
+                    }
+                    return updatedMessages;
+                });
             }
         } catch (error) {
             console.error("Error fetching chatbot response:", error);
-            setMessages([...newMessages, {sender: "bot", text: "Sorry, something went wrong. Please try again."}]);
+            setMessages(prevMessages => [
+                ...prevMessages,
+                {sender: "bot", text: "Sorry, something went wrong. Please try again."},
+            ]);
         }
     };
 

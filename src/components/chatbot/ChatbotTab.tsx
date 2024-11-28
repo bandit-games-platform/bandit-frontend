@@ -1,4 +1,4 @@
-import {Box, CircularProgress} from '@mui/material';
+import {Box} from '@mui/material';
 import {ChatInputBar} from "./ChatInputBar.tsx";
 import {ChatArea} from "./ChatArea.tsx";
 import {useChatbot} from "../../hooks/chatbot/useChatbot.ts";
@@ -12,10 +12,6 @@ export function ChatbotTab() {
         isError,
         initialAnswer,
     } = useChatbot();
-
-    if (isLoading) {
-        return <CircularProgress color="inherit"/>;
-    }
 
     if (isError || !initialAnswer) {
         return (

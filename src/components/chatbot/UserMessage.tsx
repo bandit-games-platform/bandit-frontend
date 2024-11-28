@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 interface UserMessageProps {
-    text: string;
+    text?: string;
 }
 
 export function UserMessage({text}: UserMessageProps) {

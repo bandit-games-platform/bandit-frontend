@@ -3,9 +3,10 @@ import theme from "../../theme/theme.ts";
 import {CustomScrollbar} from "./CustomScrollbar.tsx";
 import {BotMessage} from "./BotMessage.tsx";
 import {UserMessage} from "./UserMessage.tsx";
+import {Message} from "../../model/chatbot/Message.ts";
 
 interface ChatAreaProps {
-    messages: { sender: "user" | "bot" | string; text: string }[];
+    messages: Message[]
 }
 
 export function ChatArea({messages}: ChatAreaProps) {
@@ -24,7 +25,7 @@ export function ChatArea({messages}: ChatAreaProps) {
                 {messages.map((message, index) => (
                     <Box key={index}>
                         {message.sender === "bot" ? (
-                            <BotMessage text={message.text}/>
+                            <BotMessage text={message.text} isThinking={message.isThinking}/>
                         ) : (
                             <UserMessage text={message.text}/>
                         )}
