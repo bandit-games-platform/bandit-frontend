@@ -4,7 +4,7 @@ import {useContext} from "react";
 import SecurityContext from "../../context/SecurityContext.ts";
 
 export function usePlayerGameStats(gameId: string) {
-    const {userId} = useContext(SecurityContext)
+    const {userId: loggedInUserId} = useContext(SecurityContext)
 
     const {isLoading, isError, data: playerGameStats} = useQuery({
         queryKey: ['playerGameStats', userId, gameId],
