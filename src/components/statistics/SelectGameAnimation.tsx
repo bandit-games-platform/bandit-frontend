@@ -1,4 +1,4 @@
-import {Box, Typography, keyframes, useTheme} from '@mui/material';
+import {Box, Typography, keyframes, useTheme, useMediaQuery, Theme} from '@mui/material';
 
 // Defines the animation for fading in, sliding up, and scaling
 const slideInUp = keyframes`
@@ -31,6 +31,7 @@ const gradientBackground = keyframes`
 
 export default function SelectGameAnimation() {
     const theme = useTheme();
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
 
     return (
         <Box
@@ -39,14 +40,14 @@ export default function SelectGameAnimation() {
                 flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '90vh',
+                height: '75vh',
                 textAlign: 'center',
                 padding: '5em',
                 borderRadius: '16px',
-                maxWidth: '350px',
+                maxWidth: '35em',
                 width: '100%',
                 boxShadow: 4,
-                margin: 'auto',
+                margin: isMobile ? '2.5em auto 1em' : '5em auto',
                 animation: `${slideInUp} 1s ease-out, ${gradientBackground} 3s ease-in-out infinite`,
                 background: `linear-gradient(45deg, ${theme.palette.secondary.main}, ${theme.palette.primary.main})`,
                 backgroundSize: '400% 400%',
