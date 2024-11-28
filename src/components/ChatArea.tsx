@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import theme from "../theme/theme.ts";
 import {Paper} from "@mui/material";
 
 interface ChatAreaProps {
@@ -19,40 +20,37 @@ export function ChatArea({messages}: ChatAreaProps) {
     return (
         <Box
             sx={{
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                overflowY: 'auto',
-                padding: 2,
-                backgroundColor: 'background.paper',
-                borderRadius: 2,
-            }}
-        >
-            <Paper
-                elevation={3}
-                sx={{
-                    flex: 1,
-                    overflowY: 'auto',
-                    padding: 2,
-                    borderRadius: 2,
-                    backgroundColor: 'background.paper',
-                }}
-            >
-                <Typography variant="body1" color="textSecondary" component="div">
-                    {messages.map((message, index) => (
-                        <Typography
-                            key={index}
-                            variant="body1"
-                            sx={{
-                                marginBottom: 1,
-                                color: 'text.primary',
-                            }}
+                padding: theme.spacing(1),
+                overflowY: "auto",
+                flex: 1
+            }}>
+            {messages.map((message, index) => (
+                <Box
+                    key={index}
+                    sx={{
+                        display: "flex",
+                        mb: 1,
+                        justifyContent: message.sender === "user" ? "flex-end" : "flex-start",
+                    }}
+                >
+                    <Paper elevation={3}
+                           sx={{
+                               padding: 2,
+                               borderRadius: 2,
+                               backgroundColor: "transparent",
+                               maxWidth: "75%",
+                               width: "auto",
+                               whiteSpace: "normal",
+                               wordWrap: "break-word",
+                           }}
+                    >
+                        <Typography component="div" sx={{color: "white"}}
                         >
                             {message.text}
                         </Typography>
-                    ))}
-                </Typography>
-            </Paper>
+                    </Paper>
+                </Box>
+            ))}
         </Box>
     );
 }
