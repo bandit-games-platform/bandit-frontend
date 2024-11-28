@@ -8,7 +8,6 @@ export function Gameplay() {
     const [tab, setTab] = useState(0);
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
-    const [iframeError, setIframeError] = useState(false);
 
     if (isLoading) {
         return (
@@ -30,27 +29,16 @@ export function Gameplay() {
         );
     }
 
-    if (isError || !game || iframeError) {
+    if (isError || !game) {
         return (
             <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-                <Alert severity="error">
-                    {iframeError ?
-                        "We could not load this game for you at this time. Please check back later!"
-                    :
-                        "Oh no! It appears the game server cannot be reached at the moment #blamethegamedevs"
-                    }
-                </Alert>
+                <Alert severity="error">We could not load this game for you at this time. Please check back later!</Alert>
             </Box>
         );
     }
 
     const handleChange = (_: SyntheticEvent, newTab: number) => {
         setTab(newTab);
-    }
-
-    const handleIframeError = (event) => {
-        console.log(event)
-        setIframeError(true);
     }
 
     return (
@@ -77,8 +65,6 @@ export function Gameplay() {
                             border: "none",
                             backgroundColor: "transparent"
                         }}
-                        onError={handleIframeError}
-                        onLoad={(event) => console.log(event)}
                 />
             </Box>}
 
