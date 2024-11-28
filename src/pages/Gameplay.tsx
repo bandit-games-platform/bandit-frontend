@@ -1,9 +1,10 @@
 import {Alert, Box, Skeleton, Tab, Tabs} from "@mui/material";
-import {SyntheticEvent, useState} from "react";
+import {SyntheticEvent, useContext, useState} from "react";
 import Container from "@mui/material/Container";
-import {useParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
+import SecurityContext from "../context/SecurityContext.ts";
 
 const modalProps = {
     confirmTitle: "Leave Game?",
@@ -15,6 +16,9 @@ export function Gameplay() {
     const [tab, setTab] = useState(0);
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
+    const {loggedInUserId} = useContext(SecurityContext);
+    const [searchParams] = useSearchParams();
+
 
     const library = "/library?selected="+gameId;
 
@@ -34,7 +38,7 @@ export function Gameplay() {
         );
     }
 
-    if (isError || !game) {
+    if (isError || !game || !loggedInUserId) {
         return (
             <Box display="flex" justifyContent="center" alignItems="start" height="100vh" p={1}>
                 <Alert severity="error">We could not load this game for you at this time. Please check back later!</Alert>
@@ -45,6 +49,13 @@ export function Gameplay() {
 
     const handleChange = (_: SyntheticEvent, newTab: number) => {
         setTab(newTab);
+    }
+
+    const getIframeUrl = () => {
+        const host = (game.currentHost.endsWith("/") ? game.currentHost.slice(0, -1) : game.currentHost);
+        const lid = searchParams.get("joinLobby");
+
+        return host + "?playerId=" + loggedInUserId + (lid ? "&lobbyId="+lid : "");
     }
 
     return (
@@ -60,7 +71,7 @@ export function Gameplay() {
                 flex: 1, // Take up the remaining space
                 overflow: "hidden", // Prevent scrollbars
             }}>
-                <iframe src={game.currentHost}
+                <iframe src={getIframeUrl()}
                         style={{
                             width: "100%",
                             height: "100%",
