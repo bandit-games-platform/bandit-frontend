@@ -8,7 +8,7 @@ import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 export function useChatbot() {
     const initialQuestionDto: InitialQuestionDto = {
         userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
-        gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c001", // TODO
+        gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c002", // TODO
     };
 
     const [messages, setMessages] = useState<Message[]>([]);
@@ -41,7 +41,7 @@ export function useChatbot() {
     const handleSendMessage = async (message: string) => {
         const followUpQuestionDto: FollowUpQuestionDto = {
             userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
-            gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c001", // TODO
+            gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c002", // TODO
             question: {
                 text: message,
             },

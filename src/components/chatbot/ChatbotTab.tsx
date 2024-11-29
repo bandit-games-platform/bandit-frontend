@@ -38,7 +38,7 @@ export function ChatbotTab() {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     height: 'calc(90vh - 64px)',
-                    width: {xs: '90%', sm: '70%', md: '55%'},
+                    width: {xs: '90%', sm: '70%', md: '80%'},
                     backgroundColor: '#202020',
                     padding: 3,
                     borderRadius: 3,

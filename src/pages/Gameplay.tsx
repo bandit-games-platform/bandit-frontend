@@ -5,6 +5,7 @@ import {useParams, useSearchParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
 import SecurityContext from "../context/SecurityContext.ts";
+import {ChatbotTab} from "../components/chatbot/ChatbotTab.tsx";
 
 const modalProps = {
     confirmTitle: "Leave Game?",
@@ -20,18 +21,18 @@ export function Gameplay() {
     const [searchParams] = useSearchParams();
 
 
-    const library = "/library?selected="+gameId;
+    const library = "/library?selected=" + gameId;
 
     if (isLoading) {
         return (
             <Box display="flex" flexDirection="column" height="100vh">
                 <Box display="flex" flexDirection="row" gap={1} m={1}>
-                    <Skeleton variant="rectangular" width={110} height={48} />
-                    <Skeleton variant="rectangular" width={110} height={48} />
-                    <Skeleton variant="rectangular" width={110} height={48} />
+                    <Skeleton variant="rectangular" width={110} height={48}/>
+                    <Skeleton variant="rectangular" width={110} height={48}/>
+                    <Skeleton variant="rectangular" width={110} height={48}/>
                 </Box>
                 <Container sx={{height: 0.8, marginY: 'auto'}}>
-                    <Skeleton variant="rounded" height="100%" />
+                    <Skeleton variant="rounded" height="100%"/>
                 </Container>
                 <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
             </Box>
@@ -41,7 +42,8 @@ export function Gameplay() {
     if (isError || !game || !loggedInUserId) {
         return (
             <Box display="flex" justifyContent="center" alignItems="start" height="100vh" p={1}>
-                <Alert severity="error">We could not load this game for you at this time. Please check back later!</Alert>
+                <Alert severity="error">We could not load this game for you at this time. Please check back
+                    later!</Alert>
                 <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
             </Box>
         );
@@ -55,7 +57,7 @@ export function Gameplay() {
         const host = (game.currentHost.endsWith("/") ? game.currentHost.slice(0, -1) : game.currentHost);
         const lid = searchParams.get("joinLobby");
 
-        return host + "?playerId=" + loggedInUserId + (lid ? "&lobbyId="+lid : "");
+        return host + "?playerId=" + loggedInUserId + (lid ? "&lobbyId=" + lid : "");
     }
 
     return (
@@ -82,7 +84,7 @@ export function Gameplay() {
             </Box>}
 
             {tab === 1 && <Container>
-                Rules chatbot here
+                <ChatbotTab/>
             </Container>}
 
             {tab === 2 && <Container>

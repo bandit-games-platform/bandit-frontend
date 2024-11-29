@@ -1,5 +1,5 @@
 import Box from "@mui/material/Box";
-import {Paper} from "@mui/material";
+import {Paper, useMediaQuery} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import {MessageAvatar} from "./MessageAvatar.tsx";
 import theme from "../../theme/theme.ts";
@@ -20,6 +20,8 @@ function formatChatbotResponse(response: string) {
 }
 
 export function BotMessage({text, isThinking}: BotMessageProps) {
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
     return (
         <Box sx={{display: "flex", mb: 2.5, justifyContent: "flex-start"}}>
             <Paper
@@ -37,8 +39,13 @@ export function BotMessage({text, isThinking}: BotMessageProps) {
                     alignItems: "center",
                 }}
             >
-                <MessageAvatar src="/robot-icon-color.png" alt="Chatbot Avatar"
-                               borderColor={theme.palette.secondary.main}/>
+                {!isMobile && (
+                    <MessageAvatar
+                        src="/robot-icon-color.png"
+                        alt="Chatbot Avatar"
+                        borderColor={theme.palette.secondary.main}
+                    />
+                )}
                 <div>
                     {/* Show three dots if bot is thinking */}
                     {isThinking ? (
