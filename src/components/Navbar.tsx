@@ -19,7 +19,7 @@ import {Avatar, Tooltip} from "@mui/material";
 const pages = [
     {name: 'Store', path: '/store'},
     {name: 'Library', path: '/library'},
-    {name: 'Stats', path: '/stats'},
+    {name: 'Stats', path: '/statistics'},
 ];
 
 const logoutSetting = 'Logout';
