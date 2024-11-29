@@ -2,11 +2,15 @@ import {Tooltip} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import PeopleIcon from '@mui/icons-material/People';
 
-export function FriendsIcon() {
+interface FriendsIconProps {
+    onClick?: () => void;
+}
+
+export function FriendsIcon({onClick}: FriendsIconProps) {
     return (
         <Tooltip title="Your Friends">
             <IconButton
-                // onClick={onClick}
+                onClick={onClick}
                 sx={{
                     position: 'fixed',
                     bottom: 16,

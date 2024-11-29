@@ -1,8 +1,16 @@
 import {ChatbotIcon} from "./ChatbotIcon.tsx";
 import {Box} from "@mui/material";
 import {FriendsIcon} from "./FriendsIcon.tsx";
+import {useState} from "react";
+import FriendsSidebar from "./playerFriendsRelationship/FriendsSidebar.tsx";
 
 export function StickyFooter() {
+    const [isFriendsSidebarOpen, setIsFriendsSidebarOpen] = useState(false);
+
+    const toggleFriendsSidebar = () => {
+        setIsFriendsSidebarOpen(!isFriendsSidebarOpen);
+    };
+
     return (
         <Box
             sx={{
@@ -19,7 +27,13 @@ export function StickyFooter() {
             <ChatbotIcon/>
 
             {/* Friends Icon */}
-            <FriendsIcon/>
+            <FriendsIcon onClick={toggleFriendsSidebar}/>
+
+            {/* Friends Sidebar */}
+            <FriendsSidebar
+                isOpen={isFriendsSidebarOpen}
+                toggleSidebar={toggleFriendsSidebar}
+            />
         </Box>
     )
 }
