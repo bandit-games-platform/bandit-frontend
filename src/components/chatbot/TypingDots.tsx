@@ -24,16 +24,16 @@ export function TypingDots() {
                         opacity: 0,
                     },
                     "30%": {
-                        opacity: 1, // First dot appears at 30%
+                        opacity: 1,
                     },
                     "60%": {
-                        opacity: 1, // Second dot appears at 60%
+                        opacity: 1,
                     },
                     "90%": {
-                        opacity: 1, // Third dot appears at 90%
+                        opacity: 1,
                     },
                     "100%": {
-                        opacity: 0, // All dots disappear at 100%
+                        opacity: 0,
                     },
                 },
             }}

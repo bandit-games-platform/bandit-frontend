@@ -2,7 +2,8 @@ import {Box} from '@mui/material';
 import {ChatInputBar} from "./ChatInputBar.tsx";
 import {ChatArea} from "./ChatArea.tsx";
 import {useChatbot} from "../../hooks/chatbot/useChatbot.ts";
-import Typography from "@mui/material/Typography";
+import {WaitingMessageCard} from "./WaitingMessageCard.tsx";
+
 
 export function ChatbotTab() {
     const {
@@ -15,11 +16,7 @@ export function ChatbotTab() {
 
     if (isError || !initialAnswer) {
         return (
-            <Box sx={{textAlign: "center", padding: 2}}>
-                <Typography variant="h6" color="error">
-                    Error fetching the answer from the Chatbot!
-                </Typography>
-            </Box>
+            <WaitingMessageCard errorMessage={"Connecting to the Chatbot is taking a while ..."}/>
         );
     }
 

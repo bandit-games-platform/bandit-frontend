@@ -1,5 +1,5 @@
 export type Message = {
-    sender: "user" | "bot" | string // TODO
+    sender: "user" | "bot"
     text?: string
     isThinking?: boolean
 }
