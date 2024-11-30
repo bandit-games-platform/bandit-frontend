@@ -13,6 +13,8 @@ import {GamesOverview} from "./pages/GamesOverview.tsx";
 import {RouteGuard} from "./components/RouteGuard.tsx";
 import {Gameplay} from "./pages/Gameplay.tsx";
 import {ExcludeForPaths} from "./components/ExcludeForPaths.tsx";
+import {StripeCheckout} from "./pages/StripeCheckout.tsx";
+import {GamePurchaseComplete} from "./pages/GamePurchaseComplete.tsx";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ function App() {
                             <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
                             <Route path={"/library"} element={<RouteGuard><PlayerLibrary/></RouteGuard>}></Route>
                             <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
+                            <Route path={"/game/:gameId/purchase/checkout"} element={<RouteGuard><StripeCheckout/></RouteGuard>}></Route>
+                            <Route path={"/game/:gameId/purchased"} element={<RouteGuard><GamePurchaseComplete/></RouteGuard>}></Route>
                         </Routes>
                         <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>
