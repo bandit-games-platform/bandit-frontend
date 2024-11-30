@@ -57,6 +57,7 @@ export function IndividualGame() {
                         <Stack direction={"row"} spacing={2}>
                             <Button
                                 sx={{color: (theme) => theme.palette.secondary.main}}
+                                onClick={() => window.history.back()}
                             >
                                 <ArrowBack/>
                             </Button>
