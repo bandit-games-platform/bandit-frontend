@@ -8,7 +8,7 @@ export function TypingDots() {
                 fontSize: "24px",
                 "& .dot": {
                     animation: "typing 2s infinite",
-                    opacity: 0, // Ensure the dots are initially hidden
+                    opacity: 0,
                 },
                 "& .dot:nth-of-type(1)": {
                     animationDelay: "0s",

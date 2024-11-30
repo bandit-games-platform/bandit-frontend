@@ -9,7 +9,7 @@ interface CustomScrollbarProps extends BoxProps {
 export function CustomScrollbar({children, ...props}: CustomScrollbarProps) {
     return (
         <Box
-            {...props} // Spread BoxProps, allowing the use of any Box prop
+            {...props}
             sx={{
                 overflowY: "auto",
                 "&::-webkit-scrollbar": {
@@ -27,7 +27,7 @@ export function CustomScrollbar({children, ...props}: CustomScrollbarProps) {
                 },
                 scrollbarWidth: "thin",
                 scrollbarColor: `#f2d5f3 #615f5f`,
-                ...props.sx, // Merge with any sx props passed to CustomScrollbar
+                ...props.sx,
             }}
         >
             {children}

@@ -55,7 +55,7 @@ export function ChatbotTab({userId, gameId}: ChatbotTabProps) {
                     borderRadius: 3,
                     border: '1px solid',
                     borderColor: "black",
-                    boxShadow: 3, // Subtle shadow for depth
+                    boxShadow: 3,
                 }}
             >
                 <ChatArea messages={messages}/>
