@@ -8,7 +8,7 @@ export function usePlayerLibrary() {
     const {isLoading, isError, data: library} = useQuery({
         queryKey: ['player-library' + loggedInUserId],
         queryFn: () => getPlayerLibrary(),
-        refetchInterval: 60 * 1000,
+        refetchInterval: 60 * 1000
     })
 
     return {

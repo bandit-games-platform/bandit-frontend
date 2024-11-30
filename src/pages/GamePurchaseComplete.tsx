@@ -1,10 +1,15 @@
 import {Navigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useOrderStatus} from "../hooks/storefront/useOrderStatus.ts";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {useQueryClient} from "@tanstack/react-query";
+import SecurityContext from "../context/SecurityContext.ts";
 
 export function GamePurchaseComplete() {
+    const queryClient = useQueryClient();
+    const {loggedInUserId} = useContext(SecurityContext);
+
     const [status, setStatus] = useState('');
     const {gameId} = useParams();
     const queryString = window.location.search;
@@ -16,8 +21,11 @@ export function GamePurchaseComplete() {
     useEffect(() => {
         if (loadedStatus) {
             setStatus(loadedStatus["status"]);
+            if (loadedStatus["status"] === 'complete') {
+                queryClient.invalidateQueries({queryKey: ['player-library' + loggedInUserId]});
+            }
         }
-    }, [loadedStatus])
+    }, [loadedStatus, loggedInUserId, queryClient])
 
     if (isLoading) return <LoadingComponent/>;
     if (isError || !loadedStatus) return <ErrorComponent/>;
