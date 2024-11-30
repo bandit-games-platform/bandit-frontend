@@ -3,7 +3,7 @@ import {
     EmbeddedCheckoutProvider,
     EmbeddedCheckout
 } from '@stripe/react-stripe-js';
-import {useParams} from "react-router-dom";
+import {Navigate, useParams} from "react-router-dom";
 import {useCreateNewOrder} from "../hooks/storefront/useCreateNewOrder.ts";
 import {useEffect} from "react";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
@@ -22,13 +22,12 @@ export function StripeCheckout() {
         }
     }, [createOrder, gameId])
 
-    console.log(orderDetails)
-
     if (orderPending) return <LoadingComponent/>;
-    if (orderError || orderDetails == null) return <ErrorComponent/>;
+    if (orderError) return <ErrorComponent/>;
+    if (orderDetails == null) return <Navigate to={`/game/${gameId}`} />
 
     return (
-        <div id="checkout">
+        <div id="checkout" style={{marginTop: "2%"}}>
             <EmbeddedCheckoutProvider
                 stripe={stripePromise}
                 options={orderDetails}

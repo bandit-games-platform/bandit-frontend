@@ -6,17 +6,27 @@ import Grid from '@mui/material/Grid2';
 import {ArrowBack} from "@mui/icons-material";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
 
 export function IndividualGame() {
     const {gameId = ''} = useParams();
-    const {game, isLoading, isError} = useGameDetails(gameId);
+    const {game, isLoading: detailsLoading, isError: detailsError} = useGameDetails(gameId);
+    const {library, isLoading: libraryLoading, isError: libraryError} = usePlayerLibrary();
 
-    if (isLoading) {
+    if (detailsLoading || libraryLoading) {
         return <LoadingComponent/>
     }
 
-    if (isError || !game) {
+    if (detailsError || libraryError || !game || !library) {
         return <ErrorComponent/>
+    }
+
+    let gameInLibrary = false;
+    for (const libraryItem of library) {
+        if (libraryItem.gameId == gameId) {
+            gameInLibrary = true;
+            break;
+        }
     }
 
     return (
@@ -37,17 +47,20 @@ export function IndividualGame() {
                     </Grid>
 
                     <Grid sx={{marginRight: "5%"}}>
-                        {game.price > 0 && (
+                        {!gameInLibrary && game.price > 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>€{game.price}</h2>
                                 <Button>Buy now</Button>
                             </Stack>
                         )}
-                        {game.price <= 0 && (
+                        {!gameInLibrary && game.price <= 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>Free</h2>
                                 <Button>Add to Library</Button>
                             </Stack>
+                        )}
+                        {gameInLibrary && (
+                            <Button disabled={true}>Game In Library</Button>
                         )}
                     </Grid>
                 </Grid>

@@ -10,12 +10,9 @@ import {useGameAchievementDetails} from "../hooks/gameRegistry/useGameAchievemen
 import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
 import UpperComponentsCover from "../components/statistics/UpperComponentsCover.tsx";
 import SelectGameAnimation from "../components/statistics/SelectGameAnimation.tsx";
-
-//TODO: retrieve users registered games
-interface Game {
-    name: string;
-    id: string;
-}
+import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
+import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
+import {Game} from "../model/gameRegistry/Game.ts";
 
 export default function PlayerLibrary() {
     const [isOpen, setIsOpen] = useState(true);
@@ -30,7 +27,10 @@ export default function PlayerLibrary() {
         isLoading: achievementsLoading
     } = useGameAchievementDetails(selectedGame?.id || '');
 
-    const isLoading = statsLoading || achievementsLoading;
+    const {library, isLoading: libraryLoading} = usePlayerLibrary();
+    const {getGames, gameDetails, isPending: getGamesPending} = useGameDetailsFromList(library!)
+
+    const isLoading = statsLoading || achievementsLoading || libraryLoading || getGamesPending;
 
     const defaultPlayerGameStats = {
         playerId: '',
@@ -43,16 +43,17 @@ export default function PlayerLibrary() {
 
     //TODO: Fetch user bought/registered games (Write a query to get all games from a player's library along with their favorite games)
     useEffect(() => {
-        const fetchGames = async () => {
-            const data: Game[] = [
-                {name: "Battleship", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c001'},
-                {name: "Chess", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c002'},
-                {name: "Go", id: 'd77e1d1f-6b46-4c89-9290-3b9cf8a7c003'},
-            ];
-            setGames(data);
-        };
-        fetchGames();
-    }, []);
+        if (library) {
+            getGames();
+        }
+    }, [library, getGames]);
+
+    useEffect(() => {
+        if (gameDetails) {
+            const sortedGames = [...gameDetails].sort((a, b) => a.title.localeCompare(b.title));
+            setGames(sortedGames);
+        }
+    }, [gameDetails])
 
     const handleGameSelect = (game: Game) => {
         setSelectedGame(game);
@@ -109,7 +110,7 @@ export default function PlayerLibrary() {
                                 margin: isMobile ? '2px' : '7px 0 7px 1em',
                                 fontSize: isMobile ? '20px' : '30px'
                             }}>
-                                {selectedGame.name}
+                                {selectedGame.title}
                             </p>
                             <Button sx={{
                                 padding: "3px",
