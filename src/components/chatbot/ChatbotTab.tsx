@@ -14,9 +14,9 @@ export function ChatbotTab() {
         initialAnswer,
     } = useChatbot();
 
-    if (isError || !initialAnswer) {
+    if (isError) {
         return (
-            <WaitingMessageCard errorMessage={"Connecting to the Chatbot is taking a while ..."}/>
+            <WaitingMessageCard errorMessage={"Connecting to the Chatbot is taking a while, please wait ..."}/>
         );
     }
 

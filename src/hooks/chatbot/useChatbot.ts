@@ -11,31 +11,49 @@ export function useChatbot() {
         gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c002", // TODO
     };
 
-    const [messages, setMessages] = useState<Message[]>([]);
+    // Try to retrieve saved messages from sessionStorage
+    const [messages, setMessages] = useState<Message[]>(() => {
+        const savedMessages = sessionStorage.getItem("chatMessages");
+
+        if (savedMessages) {
+            try {
+                return JSON.parse(savedMessages);
+            } catch (error) {
+                console.error("Error parsing messages from sessionStorage:", error);
+                return [];
+            }
+        }
+        return [];
+    });
+
     const {
         postInitialQuestion,
         isPending: isInitialPending,
         isError: isInitialError,
         answer: initialAnswer
     } = usePostInitialQuestion();
+
     const {postFollowUpQuestion, isPending: isFollowUpPending} = usePostFollowUpQuestion();
 
     useEffect(() => {
-        const fetchInitialQuestion = async () => {
-            try {
-                const answer = await postInitialQuestion(initialQuestionDto);
-                if (answer?.text) {
-                    setMessages([{sender: "bot", text: answer.text}]);
-                } else {
-                    setMessages([{sender: "bot", text: "Sorry, something went wrong. Please try again later."}]);
-                }
-            } catch (error) {
-                console.error("Failed to fetch the initial question:", error);
-                setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
-            }
-        };
+        const hasFetchedInitialQuestion = sessionStorage.getItem('hasFetchedInitialQuestion');
 
-        fetchInitialQuestion();
+        if (!hasFetchedInitialQuestion) {
+            const fetchInitialQuestion = async () => {
+                try {
+                    const answer = await postInitialQuestion(initialQuestionDto);
+                    if (answer?.text) {
+                        setMessages([{sender: "bot", text: answer.text}]);
+                        sessionStorage.setItem('hasFetchedInitialQuestion', 'true');
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch the initial question:", error);
+                    setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
+                }
+            };
+
+            fetchInitialQuestion();
+        }
     }, [postInitialQuestion]);
 
     const handleSendMessage = async (message: string) => {
@@ -47,31 +65,49 @@ export function useChatbot() {
             },
         };
 
-        setMessages(prevMessages => [
-            ...prevMessages,
-            {sender: "user", text: message},
-            {sender: "bot", isThinking: true}, // Thinking state for bot
-        ]);
+        setMessages(prevMessages => {
+            const updatedMessages: Message[] = [
+                ...prevMessages,
+                {sender: "user", text: message},
+                {sender: "bot", isThinking: true}, // Thinking state for bot
+            ];
+
+            // Save the updated messages to sessionStorage
+            sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+            console.log("Saved messages to sessionStorage:", updatedMessages);
+            return updatedMessages;
+        });
 
         try {
             const answer = await postFollowUpQuestion(followUpQuestionDto);
             if (answer?.text) {
                 // Replace thinking state with the actual message
                 setMessages(prevMessages => {
-                    const updatedMessages = [...prevMessages];
+                    const updatedMessages: Message[] = [...prevMessages];
                     const thinkingIndex = updatedMessages.findIndex(m => m.isThinking);
                     if (thinkingIndex !== -1) {
                         updatedMessages[thinkingIndex] = {sender: "bot", text: answer.text, isThinking: false};
                     }
+
+                    // Save updated messages to sessionStorage
+                    sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                    console.log("Saved messages to sessionStorage after response:", updatedMessages);
                     return updatedMessages;
                 });
             }
         } catch (error) {
             console.error("Error fetching chatbot response:", error);
-            setMessages(prevMessages => [
-                ...prevMessages,
-                {sender: "bot", text: "Sorry, something went wrong. Please try again."},
-            ]);
+            setMessages(prevMessages => {
+                const updatedMessages: Message[] = [
+                    ...prevMessages,
+                    {sender: "bot", text: "Sorry, something went wrong. Please try again."},
+                ];
+
+                // Save error message to sessionStorage
+                sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                console.log("Saved error message to sessionStorage:", updatedMessages);
+                return updatedMessages;
+            });
         }
     };
 
