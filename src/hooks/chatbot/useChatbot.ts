@@ -5,25 +5,12 @@ import {usePostFollowUpQuestion} from "./usePostFollowUpQuestion.ts";
 import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
 import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 
-export function useChatbot() {
-    const initialQuestionDto: InitialQuestionDto = {
-        userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
-        gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c002", // TODO
-    };
+export function useChatbot(userId: string, gameId: string) {
+    const initialQuestionDto: InitialQuestionDto = {userId, gameId};
 
-    // Try to retrieve saved messages from sessionStorage
     const [messages, setMessages] = useState<Message[]>(() => {
         const savedMessages = sessionStorage.getItem("chatMessages");
-
-        if (savedMessages) {
-            try {
-                return JSON.parse(savedMessages);
-            } catch (error) {
-                console.error("Error parsing messages from sessionStorage:", error);
-                return [];
-            }
-        }
-        return [];
+        return savedMessages ? JSON.parse(savedMessages) : [];
     });
 
     const {
@@ -55,19 +42,12 @@ export function useChatbot() {
                     setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
                 }
             };
-
             fetchInitialQuestion();
         }
     }, [postInitialQuestion]);
 
     const handleSendMessage = async (message: string) => {
-        const followUpQuestionDto: FollowUpQuestionDto = {
-            userId: "e4a40c63-2edf-4592-8d36-46b902db69d7", // TODO
-            gameId: "d77e1d1f-6b46-4c89-9290-3b9cf8a7c002", // TODO
-            question: {
-                text: message,
-            },
-        };
+        const followUpQuestionDto: FollowUpQuestionDto = {userId, gameId, question: {text: message}};
 
         setMessages(prevMessages => {
             const updatedMessages: Message[] = [

@@ -4,15 +4,19 @@ import {ChatArea} from "./ChatArea.tsx";
 import {useChatbot} from "../../hooks/chatbot/useChatbot.ts";
 import {WaitingMessageCard} from "./WaitingMessageCard.tsx";
 
+interface ChatbotTabProps {
+    userId: string,
+    gameId: string
+}
 
-export function ChatbotTab() {
+export function ChatbotTab({userId, gameId}: ChatbotTabProps) {
     const {
         messages,
         handleSendMessage,
         isLoading,
         isError,
         hasFetchedInitialQuestion
-    } = useChatbot();
+    } = useChatbot(userId, gameId);
 
     if (isError) {
         return (
@@ -45,7 +49,7 @@ export function ChatbotTab() {
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     height: 'calc(90vh - 64px)',
-                    width: {xs: '90%', sm: '70%', md: '80%'},
+                    width: {xs: '90%', sm: '70%', md: '85%'},
                     backgroundColor: '#202020',
                     padding: 3,
                     borderRadius: 3,
