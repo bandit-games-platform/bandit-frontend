@@ -24,6 +24,8 @@ export function useChatbot(userId: string, gameId: string) {
 
     const [hasFetchedInitialQuestion, setHasFetchedInitialQuestion] = useState<boolean>(false);
 
+    // initial question logic
+
     useEffect(() => {
         const cachedAnswer = sessionStorage.getItem('initialAnswer');
         if (cachedAnswer) {
@@ -46,6 +48,8 @@ export function useChatbot(userId: string, gameId: string) {
         }
     }, [postInitialQuestion]);
 
+    // logic for follow-up questions
+
     const handleSendMessage = async (message: string) => {
         const followUpQuestionDto: FollowUpQuestionDto = {userId, gameId, question: {text: message}};
 
@@ -53,7 +57,7 @@ export function useChatbot(userId: string, gameId: string) {
             const updatedMessages: Message[] = [
                 ...prevMessages,
                 {sender: "user", text: message},
-                {sender: "bot", isThinking: true}, // Thinking state for bot
+                {sender: "bot", isThinking: true}, // thinking state for bot
             ];
 
             // Save the updated messages to sessionStorage
@@ -73,7 +77,6 @@ export function useChatbot(userId: string, gameId: string) {
                         updatedMessages[thinkingIndex] = {sender: "bot", text: answer.text, isThinking: false};
                     }
 
-                    // Save updated messages to sessionStorage
                     sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
                     console.log("Saved messages to sessionStorage after response:", updatedMessages);
                     return updatedMessages;
@@ -82,12 +85,17 @@ export function useChatbot(userId: string, gameId: string) {
         } catch (error) {
             console.error("Error fetching chatbot response:", error);
             setMessages(prevMessages => {
-                const updatedMessages: Message[] = [
-                    ...prevMessages,
-                    {sender: "bot", text: "Sorry, something went wrong. Please try again."},
-                ];
+                const updatedMessages: Message[] = [...prevMessages];
+                const thinkingIndex = updatedMessages.findIndex(m => m.isThinking);
 
-                // Save error message to sessionStorage
+                if (thinkingIndex !== -1) {
+                    updatedMessages[thinkingIndex] = {
+                        sender: "bot",
+                        text: "Sorry, something went wrong. Please try again in a moment.",
+                        isThinking: false
+                    };
+                }
+
                 sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
                 console.log("Saved error message to sessionStorage:", updatedMessages);
                 return updatedMessages;
