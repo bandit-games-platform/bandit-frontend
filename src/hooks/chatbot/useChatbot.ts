@@ -6,7 +6,6 @@ import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
 import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 
 export function useChatbot(userId: string, gameId: string) {
-    const initialQuestionDto: InitialQuestionDto = {userId, gameId};
 
     const [messages, setMessages] = useState<Message[]>(() => {
         const savedMessages = sessionStorage.getItem("chatMessages");
@@ -24,10 +23,11 @@ export function useChatbot(userId: string, gameId: string) {
 
     const [hasFetchedInitialQuestion, setHasFetchedInitialQuestion] = useState<boolean>(false);
 
-    // initial question logic
-
+    // handle initial question fetching and caching
     useEffect(() => {
+        const initialQuestionDto: InitialQuestionDto = {userId, gameId};
         const cachedAnswer = sessionStorage.getItem('initialAnswer');
+
         if (cachedAnswer) {
             setHasFetchedInitialQuestion(true);
         } else {
@@ -46,10 +46,9 @@ export function useChatbot(userId: string, gameId: string) {
             };
             fetchInitialQuestion();
         }
-    }, [postInitialQuestion]);
+    }, [postInitialQuestion, userId, gameId]);
 
     // logic for follow-up questions
-
     const handleSendMessage = async (message: string) => {
         const followUpQuestionDto: FollowUpQuestionDto = {userId, gameId, question: {text: message}};
 
@@ -60,7 +59,6 @@ export function useChatbot(userId: string, gameId: string) {
                 {sender: "bot", isThinking: true}, // thinking state for bot
             ];
 
-            // Save the updated messages to sessionStorage
             sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
             console.log("Saved messages to sessionStorage:", updatedMessages);
             return updatedMessages;
@@ -69,7 +67,6 @@ export function useChatbot(userId: string, gameId: string) {
         try {
             const answer = await postFollowUpQuestion(followUpQuestionDto);
             if (answer?.text) {
-                // Replace thinking state with the actual message
                 setMessages(prevMessages => {
                     const updatedMessages: Message[] = [...prevMessages];
                     const thinkingIndex = updatedMessages.findIndex(m => m.isThinking);
