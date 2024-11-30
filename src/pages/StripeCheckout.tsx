@@ -23,8 +23,8 @@ export function StripeCheckout() {
     }, [createOrder, gameId])
 
     if (orderPending) return <LoadingComponent/>;
-    if (orderError) return <ErrorComponent/>;
-    if (orderDetails == null) return <Navigate to={`/game/${gameId}`} />
+    if (orderError) return <Navigate to={`/game/${gameId}`} />;
+    if (orderDetails == null) return <ErrorComponent/>;
 
     return (
         <div id="checkout" style={{marginTop: "2%"}}>

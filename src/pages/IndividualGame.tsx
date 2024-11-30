@@ -1,5 +1,5 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
@@ -7,9 +7,13 @@ import {ArrowBack} from "@mui/icons-material";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/ErrorComponent.tsx";
 import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
+import {PurchaseConfirmDialog} from "../components/storefront/PurchaseConfirmDialog.tsx";
+import {useState} from "react";
 
 export function IndividualGame() {
+    const navigate = useNavigate();
     const {gameId = ''} = useParams();
+    const [open, setOpen] = useState(false);
     const {game, isLoading: detailsLoading, isError: detailsError} = useGameDetails(gameId);
     const {library, isLoading: libraryLoading, isError: libraryError} = usePlayerLibrary();
 
@@ -29,6 +33,18 @@ export function IndividualGame() {
         }
     }
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleGoToCheckout = () => {
+        navigate(`/game/${gameId}/purchase/checkout`);
+    }
+
     return (
         <Box>
             <Box sx={{
@@ -39,7 +55,9 @@ export function IndividualGame() {
                 <Grid container justifyContent={"space-between"}>
                     <Grid>
                         <Stack direction={"row"} spacing={2}>
-                            <Button>
+                            <Button
+                                sx={{color: (theme) => theme.palette.secondary.main}}
+                            >
                                 <ArrowBack/>
                             </Button>
                             <h1>{game.title}</h1>
@@ -50,17 +68,32 @@ export function IndividualGame() {
                         {!gameInLibrary && game.price > 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>€{game.price}</h2>
-                                <Button>Buy now</Button>
+                                <Button
+                                    sx={{color: (theme) => theme.palette.secondary.main}}
+                                    onClick={handleClickOpen}
+                                >
+                                    Buy now
+                                </Button>
                             </Stack>
                         )}
                         {!gameInLibrary && game.price <= 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>Free</h2>
-                                <Button>Add to Library</Button>
+                                <Button
+                                    sx={{color: (theme) => theme.palette.secondary.main}}
+                                    onClick={handleClickOpen}
+                                >
+                                    Add to Library
+                                </Button>
                             </Stack>
                         )}
                         {gameInLibrary && (
-                            <Button disabled={true}>Game In Library</Button>
+                            <Button
+                                disabled={true}
+                                sx={{color: (theme) => theme.palette.secondary.main}}
+                            >
+                                Game In Library
+                            </Button>
                         )}
                     </Grid>
                 </Grid>
@@ -72,6 +105,8 @@ export function IndividualGame() {
                 <h3>About:</h3>
                 <p>{game.description}</p>
             </Box>
+
+            <PurchaseConfirmDialog game={game} open={open} handleClose={handleClose} handleConfirm={handleGoToCheckout}/>
         </Box>
     )
 }

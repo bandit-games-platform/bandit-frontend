@@ -7,7 +7,8 @@ export function usePlayerLibrary() {
     const {loggedInUserId} = useContext(SecurityContext);
     const {isLoading, isError, data: library} = useQuery({
         queryKey: ['player-library' + loggedInUserId],
-        queryFn: () => getPlayerLibrary()
+        queryFn: () => getPlayerLibrary(),
+        refetchInterval: 60 * 1000,
     })
 
     return {
