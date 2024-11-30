@@ -11,10 +11,17 @@ export function ChatbotTab() {
         handleSendMessage,
         isLoading,
         isError,
-        initialAnswer,
+        hasFetchedInitialQuestion
     } = useChatbot();
 
     if (isError) {
+        return (
+            <WaitingMessageCard
+                errorMessage={"Sorry, the Chatbot is unavailable at this moment. Please try again later."}/>
+        );
+    }
+
+    if (!hasFetchedInitialQuestion) {
         return (
             <WaitingMessageCard errorMessage={"Connecting to the Chatbot is taking a while, please wait ..."}/>
         );

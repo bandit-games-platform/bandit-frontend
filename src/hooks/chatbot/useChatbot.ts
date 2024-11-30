@@ -35,16 +35,20 @@ export function useChatbot() {
 
     const {postFollowUpQuestion, isPending: isFollowUpPending} = usePostFollowUpQuestion();
 
-    useEffect(() => {
-        const hasFetchedInitialQuestion = sessionStorage.getItem('hasFetchedInitialQuestion');
+    const [hasFetchedInitialQuestion, setHasFetchedInitialQuestion] = useState<boolean>(false);
 
-        if (!hasFetchedInitialQuestion) {
+    useEffect(() => {
+        const cachedAnswer = sessionStorage.getItem('initialAnswer');
+        if (cachedAnswer) {
+            setHasFetchedInitialQuestion(true);
+        } else {
             const fetchInitialQuestion = async () => {
                 try {
                     const answer = await postInitialQuestion(initialQuestionDto);
                     if (answer?.text) {
                         setMessages([{sender: "bot", text: answer.text}]);
-                        sessionStorage.setItem('hasFetchedInitialQuestion', 'true');
+                        sessionStorage.setItem('initialAnswer', JSON.stringify(answer));
+                        setHasFetchedInitialQuestion(true);
                     }
                 } catch (error) {
                     console.error("Failed to fetch the initial question:", error);
@@ -117,5 +121,6 @@ export function useChatbot() {
         isLoading: isInitialPending || isFollowUpPending,
         isError: isInitialError,
         initialAnswer,
+        hasFetchedInitialQuestion
     };
 }
