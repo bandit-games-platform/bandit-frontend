@@ -6,10 +6,15 @@ export default function InviteFriendToGameButton() {
             variant="contained"
             color="primary"
             sx={{
-                backgroundColor: '#0e2b98',
-                padding: '0.5em',
+                backgroundColor: '#051b72',
+                padding: '0.75em',
                 margin: '0.5em',
                 fontSize: '0.8em',
+                '&:hover': {
+                    backgroundColor: '#0c088a',
+                    transform: 'scale(1.1)',
+                    transition: 'all 0.3s ease',
+                }
             }}
         >
             Invite to Play

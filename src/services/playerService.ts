@@ -10,10 +10,10 @@ export async function getPlayerJoinDate() {
     return joinDate
 }
 
-export async function getFriendsListOrSearchForFriends(loggedInUserId: string | undefined, username?: string) {
+export async function getFriendsListOrSearchForFriends(username?: string) {
     const url = username
         ? `${PLAYER_BASE_URL}/player?username=${username}`
-        : `${PLAYER_BASE_URL}/player/${loggedInUserId}/friends`;
+        : `${PLAYER_BASE_URL}/player/friends`;
 
     const {data: friendsList} = await axios.get<PlayerBasicBio[]>(url)
     return friendsList;
