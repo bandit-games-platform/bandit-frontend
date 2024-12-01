@@ -2,11 +2,11 @@ import {Box} from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Typography from "@mui/material/Typography";
 
-interface ErrorCardProps {
+interface MessageCardProps {
     errorMessage: string
 }
 
-export function WaitingMessageCard({errorMessage}: ErrorCardProps) {
+export function MessageCard({errorMessage}: MessageCardProps) {
     return (
         <Box
             sx={{

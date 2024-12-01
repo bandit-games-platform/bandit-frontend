@@ -2,7 +2,7 @@ import {Box} from '@mui/material';
 import {ChatInputBar} from "./ChatInputBar.tsx";
 import {ChatArea} from "./ChatArea.tsx";
 import {useChatbot} from "../../hooks/chatbot/useChatbot.ts";
-import {WaitingMessageCard} from "./WaitingMessageCard.tsx";
+import {MessageCard} from "./MessageCard.tsx";
 
 interface ChatbotTabProps {
     userId: string,
@@ -20,14 +20,14 @@ export function ChatbotTab({userId, gameId}: ChatbotTabProps) {
 
     if (isError) {
         return (
-            <WaitingMessageCard
+            <MessageCard
                 errorMessage={"Sorry, the Chatbot is unavailable at this moment. Please try again later."}/>
         );
     }
 
     if (!hasFetchedInitialQuestion) {
         return (
-            <WaitingMessageCard errorMessage={"Connecting to the Chatbot is taking a while, please wait ..."}/>
+            <MessageCard errorMessage={"Connecting to the Chatbot is taking a while, please wait ..."}/>
         );
     }
 
