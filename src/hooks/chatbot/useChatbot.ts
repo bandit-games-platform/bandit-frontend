@@ -5,7 +5,7 @@ import {usePostFollowUpQuestion} from "./usePostFollowUpQuestion.ts";
 import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
 import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 
-export function useChatbot(userId: string, gameId: string) {
+export function useChatbot(gameId: string) {
 
     const [messages, setMessages] = useState<Message[]>(() => {
         const savedMessages = sessionStorage.getItem("chatMessages");
@@ -25,7 +25,7 @@ export function useChatbot(userId: string, gameId: string) {
 
     // handle initial question fetching and caching
     useEffect(() => {
-        const initialQuestionDto: InitialQuestionDto = {userId, gameId};
+        const initialQuestionDto: InitialQuestionDto = {gameId};
         const cachedAnswer = sessionStorage.getItem('initialAnswer');
 
         if (cachedAnswer) {
@@ -46,11 +46,11 @@ export function useChatbot(userId: string, gameId: string) {
             };
             fetchInitialQuestion();
         }
-    }, [postInitialQuestion, userId, gameId]);
+    }, [postInitialQuestion, gameId]);
 
     // logic for follow-up questions
     const handleSendMessage = async (message: string) => {
-        const followUpQuestionDto: FollowUpQuestionDto = {userId, gameId, question: {text: message}};
+        const followUpQuestionDto: FollowUpQuestionDto = {gameId, question: {text: message}};
 
         setMessages(prevMessages => {
             const updatedMessages: Message[] = [

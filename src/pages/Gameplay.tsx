@@ -84,7 +84,7 @@ export function Gameplay() {
             </Box>}
 
             {tab === 1 && <Container>
-                <ChatbotTab userId={loggedInUserId} gameId={gameId}/>
+                <ChatbotTab gameId={gameId}/>
             </Container>}
 
             {tab === 2 && <Container>

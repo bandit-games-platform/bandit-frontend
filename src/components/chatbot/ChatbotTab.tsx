@@ -5,18 +5,17 @@ import {useChatbot} from "../../hooks/chatbot/useChatbot.ts";
 import {MessageCard} from "./MessageCard.tsx";
 
 interface ChatbotTabProps {
-    userId: string,
     gameId: string
 }
 
-export function ChatbotTab({userId, gameId}: ChatbotTabProps) {
+export function ChatbotTab({gameId}: ChatbotTabProps) {
     const {
         messages,
         handleSendMessage,
         isLoading,
         isError,
         hasFetchedInitialQuestion
-    } = useChatbot(userId, gameId);
+    } = useChatbot(gameId);
 
     if (isError) {
         return (
