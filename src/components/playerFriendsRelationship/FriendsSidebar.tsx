@@ -20,16 +20,16 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                 [`& .MuiDrawer-paper`]: {
                     width: 290,
                     overflowX: "hidden",
-                    transition: "width 0.3s ease-in-out", // Smooth transition for opening/closing
+                    transition: "width 0.3s ease-in-out",
                     height: 'calc(99.5vh - 66px)',
                     top: '66px',
                     position: 'fixed',
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`, // Gradient background
+                    background: `linear-gradient(135deg, rgb(96 27 71), rgb(16, 3, 45))`,
                     color: theme.palette.text.primary,
-                    borderRadius: '10px 0 0 10px', // Rounded corners
-                    boxShadow: '4px 0px 15px rgba(0, 0, 0, 0.3)', // Soft shadow for separation
-                    paddingTop: '1.2em',
-                    paddingBottom: '1em',
+                    borderRadius: '10px 0 0 10px',
+                    boxShadow: '4px 0px 15px rgba(0, 0, 0, 0.3)',
+                    paddingTop: '0.5em',
+                    paddingBottom: '0.5em',
                 },
             }}
         >
@@ -52,7 +52,7 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                 <Typography variant="body1" sx={{color: theme.palette.text.primary, fontSize: '1rem'}}>
                     This is a blank sidebar. Add your content here.
                 </Typography>
-                {/* Add some example content or features */}
+                {/* extra content or features */}
                 <Box sx={{display: 'flex', alignItems: 'center', marginTop: 2}}>
                     <IconButton sx={{color: theme.palette.text.primary, marginRight: 1}}>
                         <Chat/>

@@ -9,7 +9,7 @@ export function usePlayerFriendsDetails(username?: string) {
     const {isLoading, isError, data: friendsList} = useQuery({
         queryKey: ['playerFriends', username ? [username, loggedInUserId] : loggedInUserId],
         queryFn: () => {
-            if (loggedInUserId && username) {
+            if (loggedInUserId || username) {
                 return getFriendsListOrSearchForFriends(loggedInUserId, username)
             }
             return Promise.resolve(null);

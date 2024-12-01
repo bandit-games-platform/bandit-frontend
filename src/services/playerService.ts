@@ -1,5 +1,5 @@
 import axios from "axios";
-import {PlayerBasic} from "../model/player/PlayerBasic.ts";
+import {PlayerBasicBio} from "../model/player/PlayerBasicBio.ts";
 
 const PLAYER_BASE_URL = import.meta.env.VITE_PLAYER_URL;
 
@@ -15,6 +15,6 @@ export async function getFriendsListOrSearchForFriends(loggedInUserId: string | 
         ? `${PLAYER_BASE_URL}/player?username=${username}`
         : `${PLAYER_BASE_URL}/player/${loggedInUserId}/friends`;
 
-    const {data: friendsList} = await axios.get<PlayerBasic[]>(url)
+    const {data: friendsList} = await axios.get<PlayerBasicBio[]>(url)
     return friendsList;
 }

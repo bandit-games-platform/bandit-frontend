@@ -13,15 +13,15 @@ export function NotificationAlarm({onClick}: NotificationAlarmProps) {
         <IconButton
             onClick={onClick}
             sx={{
-                color: theme.palette.text.primary,  // Base color of the icon
-                fontSize: 28,  // Icon size
-                borderRadius: '50%',  // Rounded shape
+                color: theme.palette.text.primary,
+                fontSize: 28,
+                borderRadius: '50%',
                 '&:hover': {
-                    backgroundColor: theme.palette.primary.main,  // Hover background color
-                    color: theme.palette.common.white,  // Icon color on hover
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.common.white,
                 },
-                padding: '8px',  // Padding for better touch targets
-                transition: 'all 0.3s ease',  // Smooth transition for hover effect
+                padding: '8px',
+                transition: 'all 0.3s ease',
             }}
         >
             <Notifications sx={{
