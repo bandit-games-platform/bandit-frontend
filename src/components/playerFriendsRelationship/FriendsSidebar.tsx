@@ -2,6 +2,8 @@ import {Box, Drawer, Typography, IconButton, useTheme, Divider} from "@mui/mater
 import {Chat} from "@mui/icons-material";
 import FriendsSearchBar from "./FriendsSearchBar.tsx";
 import {NotificationAlarm} from "./NotificationAlarm.tsx";
+import {useState} from "react";
+import NotificationSection from "./NotificationSection.tsx";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -10,6 +12,11 @@ interface SidebarProps {
 
 export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
     const theme = useTheme();
+    const [isNotificationView, setNotificationView] = useState(false);
+
+    const handleNotificationClick = () => {
+        setNotificationView(!isNotificationView);
+    };
 
     return (
         <Drawer
@@ -39,29 +46,34 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                     Friends
                 </Typography>
 
-                <NotificationAlarm onClick={toggleSidebar} notificationCount={4}/>
+                <NotificationAlarm onClick={handleNotificationClick} notificationCount={4}/>
             </Box>
 
             {/* Sidebar Divider */}
             <Divider sx={{marginY: 1, backgroundColor: theme.palette.divider}}/>
 
-            <FriendsSearchBar/>
-
-            {/* Sidebar Content */}
-            <Box px={2} py={1} sx={{overflowY: 'auto'}}>
-                <Typography variant="body1" sx={{color: theme.palette.text.primary, fontSize: '1rem'}}>
-                    This is a blank sidebar. Add your content here.
-                </Typography>
-                {/* extra content or features */}
-                <Box sx={{display: 'flex', alignItems: 'center', marginTop: 2}}>
-                    <IconButton sx={{color: theme.palette.text.primary, marginRight: 1}}>
-                        <Chat/>
-                    </IconButton>
-                    <Typography variant="body2" sx={{color: theme.palette.text.primary}}>
-                        Start a Chat
-                    </Typography>
-                </Box>
-            </Box>
+            {isNotificationView ? (
+                <NotificationSection/>
+            ) : (
+                // Default Sidebar Content
+                <>
+                    <FriendsSearchBar/>
+                    <Box px={2} py={1} sx={{overflowY: 'auto'}}>
+                        <Typography variant="body1"
+                                    sx={{color: theme.palette.text.primary, fontSize: '1rem', paddingTop: '1em'}}>
+                            Extra space...Just because.
+                        </Typography>
+                        <Box sx={{display: 'flex', alignItems: 'center', marginTop: 2}}>
+                            <IconButton sx={{color: theme.palette.text.primary, marginRight: 1}}>
+                                <Chat/>
+                            </IconButton>
+                            <Typography variant="body2" sx={{color: theme.palette.text.primary}}>
+                                Start a Chat
+                            </Typography>
+                        </Box>
+                    </Box>
+                </>
+            )}
         </Drawer>
     );
 }

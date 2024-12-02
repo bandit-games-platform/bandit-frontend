@@ -1,5 +1,6 @@
 import axios from "axios";
 import {PlayerBasicBio} from "../model/player/PlayerBasicBio.ts";
+import {PendingFriendInviteBio} from "../model/player/PendingFriendInviteBio.ts";
 
 const PLAYER_BASE_URL = import.meta.env.VITE_PLAYER_URL;
 
@@ -24,4 +25,11 @@ export async function createNewFriendInvite(friendId: string) {
 
     const {data: newFriendInvite} = await axios.post(url)
     return newFriendInvite;
+}
+
+export async function getAllPendingFriendRequests() {
+    const url = `${PLAYER_BASE_URL}/player/friends/pending-invites`;
+
+    const {data: pendingInvites} = await axios.get<PendingFriendInviteBio[]>(url)
+    return pendingInvites;
 }
