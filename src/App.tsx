@@ -29,7 +29,7 @@ function App() {
                         <Routes>
                             <Route path={"/statistics"} element={<RouteGuard><OverallStatistics/></RouteGuard>}></Route>
                             <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
-                            <Route path={"/games"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
+                            <Route path={"/store"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
                             <Route path={"/library"} element={<RouteGuard><PlayerLibrary/></RouteGuard>}></Route>
                             <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
                         </Routes>

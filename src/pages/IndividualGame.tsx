@@ -29,7 +29,10 @@ export function IndividualGame() {
                 <Grid container justifyContent={"space-between"}>
                     <Grid>
                         <Stack direction={"row"} spacing={2}>
-                            <Button>
+                            <Button
+                                sx={{color: (theme) => theme.palette.secondary.main}}
+                                onClick={() => window.history.back()}
+                            >
                                 <ArrowBack/>
                             </Button>
                             <h1>{game.title}</h1>
