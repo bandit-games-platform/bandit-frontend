@@ -8,7 +8,6 @@ import {useCreateNewOrder} from "../hooks/storefront/useCreateNewOrder.ts";
 import {useEffect} from "react";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/ErrorComponent.tsx";
-
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 export function StripeCheckout() {
