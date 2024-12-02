@@ -13,8 +13,11 @@ import SelectGameAnimation from "../components/statistics/SelectGameAnimation.ts
 import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
 import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 import {Game} from "../model/gameRegistry/Game.ts";
+import {useNavigate} from "react-router-dom";
+
 
 export default function PlayerLibrary() {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(true);
     const [games, setGames] = useState<Game[]>([]);
     const [selectedGame, setSelectedGame] = useState<Game | null>(null);
@@ -113,13 +116,15 @@ export default function PlayerLibrary() {
                                 {selectedGame.title}
                             </p>
                             <Button sx={{
-                                padding: "3px",
-                                margin: "7px 15px",
-                                fontSize: "16px",
-                                backgroundColor: "#007BFF",
-                                color: "#fff",
-                                borderRadius: "4px"
-                            }}>
+                                    padding: "3px",
+                                    margin: "7px 15px",
+                                    fontSize: "16px",
+                                    backgroundColor: "#007BFF",
+                                    color: "#fff",
+                                    borderRadius: "4px",
+                                }}
+                                onClick={() => navigate("/play/" + selectedGame.id)}
+                            >
                                 <PlayArrowIcon/>
                             </Button>
                         </Box>
