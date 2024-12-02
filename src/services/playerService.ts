@@ -18,3 +18,10 @@ export async function getFriendsListOrSearchForFriends(username?: string) {
     const {data: friendsList} = await axios.get<PlayerBasicBio[]>(url)
     return friendsList;
 }
+
+export async function createNewFriendInvite(friendId: string) {
+    const url = `${PLAYER_BASE_URL}/player/invite-new-friends/${friendId}`;
+
+    const {data: newFriendInvite} = await axios.post(url)
+    return newFriendInvite;
+}

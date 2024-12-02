@@ -7,9 +7,9 @@ export default function InviteFriendToGameButton() {
             color="primary"
             sx={{
                 backgroundColor: '#051b72',
-                padding: '0.75em',
+                padding: '0.65em',
                 margin: '0.5em',
-                fontSize: '0.8em',
+                fontSize: '0.6em',
                 '&:hover': {
                     backgroundColor: '#0c088a',
                     transform: 'scale(1.1)',
@@ -17,7 +17,7 @@ export default function InviteFriendToGameButton() {
                 }
             }}
         >
-            Invite to Play
+            Chat: Premium
         </Button>
     );
 }

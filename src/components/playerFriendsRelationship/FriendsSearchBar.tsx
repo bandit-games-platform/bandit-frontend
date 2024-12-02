@@ -15,7 +15,6 @@ export default function FriendsSearchBar() {
 
     // Fetch friends details based on the debounced query
     const {friendsList, isLoading, isError} = usePlayerFriendsDetails(debouncedQuery);
-    console.log(friendsList)
     return (
         <Box sx={{padding: '0 16px', marginTop: '0.5em'}}>
             <OutlinedInput
@@ -71,7 +70,7 @@ export default function FriendsSearchBar() {
                                     {friend.existingFriend ? (
                                         <InviteFriendToGameButton/>
                                     ) : (
-                                        <NewFriendInviteButton/>
+                                        <NewFriendInviteButton friendId={friend.id} friendUsername={friend.username}/>
                                     )}
                                 </>
                             )}

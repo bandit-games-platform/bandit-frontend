@@ -39,7 +39,7 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                     Friends
                 </Typography>
 
-                <NotificationAlarm onClick={toggleSidebar}/>
+                <NotificationAlarm onClick={toggleSidebar} notificationCount={4}/>
             </Box>
 
             {/* Sidebar Divider */}
