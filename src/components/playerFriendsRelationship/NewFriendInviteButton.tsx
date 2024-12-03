@@ -1,7 +1,7 @@
 import {Button} from "@mui/material";
 import {useCreateFriendInvite} from "../../hooks/player/useCreateNewFriendInvite.ts";
 import {useState} from "react";
-import CustomAlert from "./CustomAlert"; // Assuming you already have the CustomAlert component
+import CustomAlert from "./CustomAlert";
 
 interface NewFriendInviteButtonProps {
     friendId: string;

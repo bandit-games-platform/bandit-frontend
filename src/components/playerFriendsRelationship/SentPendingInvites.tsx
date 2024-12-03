@@ -24,7 +24,7 @@ export default function SentPendingInvites() {
     if (!pendingSentFriendInvite || pendingSentFriendInvite.length === 0) {
         return (
             <Typography variant="body1" sx={{textAlign: 'center', color: 'text.secondary', mt: 2}}>
-                You have no pending friend invites.
+                You have no Sent pending friend invites.
             </Typography>
         );
     }

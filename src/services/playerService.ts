@@ -1,6 +1,7 @@
 import axios from "axios";
 import {PlayerBasicBio} from "../model/player/PlayerBasicBio.ts";
 import {PendingFriendInviteBio} from "../model/player/PendingFriendInviteBio.ts";
+import {FriendInviteAction} from "../constants/friendInviteAction.ts";
 
 const PLAYER_BASE_URL = import.meta.env.VITE_PLAYER_URL;
 
@@ -21,7 +22,7 @@ export async function getFriendsListOrSearchForFriends(username?: string) {
 }
 
 export async function createNewFriendInvite(friendId: string) {
-    const url = `${PLAYER_BASE_URL}/player/invite-new-friends/${friendId}`;
+    const url = `${PLAYER_BASE_URL}/player/friends/invite-new-friends/${friendId}`;
 
     const {data: newFriendInvite} = await axios.post(url)
     return newFriendInvite;
@@ -39,4 +40,12 @@ export async function getAllPendingSentFriendRequests() {
 
     const {data: SentPendingInvites} = await axios.get<PendingFriendInviteBio[]>(url)
     return SentPendingInvites;
+}
+
+
+export async function processPendingNewFriendInvite(friendInviteId: string, action: FriendInviteAction) {
+    const url = `${PLAYER_BASE_URL}/player/friends/pending-invites/${friendInviteId}?action=${action}`;
+
+    const {data: updatedFriendInviteStatus} = await axios.post(url)
+    return updatedFriendInviteStatus;
 }

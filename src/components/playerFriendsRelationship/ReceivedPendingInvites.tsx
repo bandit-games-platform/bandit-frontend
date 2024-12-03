@@ -1,9 +1,45 @@
-import {Box, Avatar, Typography, Button, CircularProgress, Alert} from "@mui/material";
+import {Box, Avatar, Typography, Alert, CircularProgress} from "@mui/material";
 import {usePendingReceivedFriendsInvite} from "../../hooks/player/usePendingReceivedFriendsInvite.ts";
-
+import {useState} from "react";
+import CustomAlert from "./CustomAlert";
+import {FriendInviteAction} from "../../constants/friendInviteAction.ts";
+import {useProcessPendingFriendInvite} from "../../hooks/player/useProcessPendingFriendInvite.tsx";
+import AcceptButton from "./AcceptButton";
+import RejectButton from "./RejectButton";
 
 export default function ReceivedPendingInvites() {
     const {isLoading, isError, pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
+    const {mutate, isPending} = useProcessPendingFriendInvite();
+
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [alertType, setAlertType] = useState<'success' | 'error' | null>(null);
+    const [invites, setInvites] = useState(pendingReceivedFriendInvite || []);
+
+    const handleAction = (inviteId: string, action: FriendInviteAction) => {
+        mutate(
+            {friendInviteId: inviteId, action},
+            {
+                onSuccess: () => {
+                    const actionMessage =
+                        action === FriendInviteAction.ACCEPT
+                            ? `Invite accepted successfully.`
+                            : `Invite rejected successfully.`;
+
+                    setAlertMessage(actionMessage);
+                    setAlertType('success');
+
+                    // Remove the invite from the UI immediately
+                    setInvites((prevInvites) =>
+                        prevInvites.filter((invite) => invite.friendInviteId !== inviteId)
+                    );
+                },
+                onError: () => {
+                    setAlertMessage("Something went wrong, please try again.");
+                    setAlertType('error');
+                },
+            }
+        );
+    };
 
     if (isLoading) {
         return (
@@ -21,17 +57,19 @@ export default function ReceivedPendingInvites() {
         );
     }
 
-    if (!pendingReceivedFriendInvite || pendingReceivedFriendInvite.length === 0) {
+    if (!invites || invites.length === 0) {
         return (
             <Typography variant="body1" sx={{textAlign: 'center', color: 'text.secondary', mt: 2}}>
-                You have no pending friend invites.
+                You have no pending received friend invites.
             </Typography>
         );
     }
 
     return (
         <Box>
-            {pendingReceivedFriendInvite.map((invite) => (
+            {alertMessage && alertType && <CustomAlert message={alertMessage} type={alertType}/>}
+
+            {invites.map((invite) => (
                 <Box
                     key={invite.id}
                     display="flex"
@@ -60,22 +98,14 @@ export default function ReceivedPendingInvites() {
 
                     {/* Action Buttons */}
                     <Box>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="small"
-                            sx={{mx: 1.5, textTransform: 'none'}}
-                        >
-                            Accept
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            size="small"
-                            sx={{mx: 1.5, my: 0.5, textTransform: 'none'}}
-                        >
-                            Decline
-                        </Button>
+                        <AcceptButton
+                            onClick={() => handleAction(invite.friendInviteId, FriendInviteAction.ACCEPT)}
+                            isPending={isPending}
+                        />
+                        <RejectButton
+                            onClick={() => handleAction(invite.friendInviteId, FriendInviteAction.REJECT)}
+                            isPending={isPending}
+                        />
                     </Box>
                 </Box>
             ))}
