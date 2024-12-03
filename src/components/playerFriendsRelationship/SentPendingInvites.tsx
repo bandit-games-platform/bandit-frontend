@@ -1,9 +1,9 @@
 import {Box, Avatar, Typography, Button, CircularProgress, Alert} from "@mui/material";
-import {usePendingReceivedFriendsInvite} from "../../hooks/player/usePendingReceivedFriendsInvite.ts";
+import {usePendingSentFriendsInvite} from "../../hooks/player/usePendingSentFriendsInvite.ts";
 
 
-export default function ReceivedPendingInvites() {
-    const {isLoading, isError, pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
+export default function SentPendingInvites() {
+    const {isLoading, isError, pendingSentFriendInvite} = usePendingSentFriendsInvite();
 
     if (isLoading) {
         return (
@@ -21,7 +21,7 @@ export default function ReceivedPendingInvites() {
         );
     }
 
-    if (!pendingReceivedFriendInvite || pendingReceivedFriendInvite.length === 0) {
+    if (!pendingSentFriendInvite || pendingSentFriendInvite.length === 0) {
         return (
             <Typography variant="body1" sx={{textAlign: 'center', color: 'text.secondary', mt: 2}}>
                 You have no pending friend invites.
@@ -31,7 +31,7 @@ export default function ReceivedPendingInvites() {
 
     return (
         <Box>
-            {pendingReceivedFriendInvite.map((invite) => (
+            {pendingSentFriendInvite.map((invite) => (
                 <Box
                     key={invite.id}
                     display="flex"
@@ -53,7 +53,7 @@ export default function ReceivedPendingInvites() {
                                 {invite.username}
                             </Typography>
                             <Typography variant="body2" sx={{color: 'text.secondary'}}>
-                                Received {new Date(invite.invitedTime).toLocaleDateString()}
+                                Sent at {new Date(invite.invitedTime).toLocaleDateString()}
                             </Typography>
                         </Box>
                     </Box>
@@ -64,17 +64,13 @@ export default function ReceivedPendingInvites() {
                             variant="contained"
                             color="primary"
                             size="small"
-                            sx={{mx: 1.5, textTransform: 'none'}}
+                            disabled={true}
+                            sx={{
+                                mx: 1.5,
+                                textTransform: 'none',
+                            }}
                         >
-                            Accept
-                        </Button>
-                        <Button
-                            variant="outlined"
-                            color="secondary"
-                            size="small"
-                            sx={{mx: 1.5, my: 0.5, textTransform: 'none'}}
-                        >
-                            Decline
+                            Pending...
                         </Button>
                     </Box>
                 </Box>

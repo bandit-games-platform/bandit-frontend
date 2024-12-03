@@ -1,6 +1,7 @@
-import {Box, Button, Typography} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {useState} from "react";
 import ReceivedPendingInvites from "./ReceivedPendingInvites.tsx";
+import SentPendingInvites from "./SentPendingInvites.tsx";
 
 export default function NotificationView() {
     const [activeTab, setActiveTab] = useState<'received' | 'sent'>('received');
@@ -56,9 +57,7 @@ export default function NotificationView() {
                 {activeTab === 'received' ? (
                     <ReceivedPendingInvites/>
                 ) : (
-                    <Typography variant="body1" sx={{color: 'text.primary'}}>
-                        You have not sent any notifications yet.
-                    </Typography>
+                    <SentPendingInvites/>
                 )}
             </Box>
         </Box>

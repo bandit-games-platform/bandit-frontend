@@ -4,6 +4,7 @@ import FriendsSearchBar from "./FriendsSearchBar.tsx";
 import {NotificationAlarm} from "./NotificationAlarm.tsx";
 import {useState} from "react";
 import NotificationSection from "./NotificationSection.tsx";
+import {usePendingReceivedFriendsInvite} from "../../hooks/player/usePendingReceivedFriendsInvite.ts";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -13,6 +14,7 @@ interface SidebarProps {
 export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
     const theme = useTheme();
     const [isNotificationView, setNotificationView] = useState(false);
+    const {pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
 
     const handleNotificationClick = () => {
         setNotificationView(!isNotificationView);
@@ -46,7 +48,8 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                     Friends
                 </Typography>
 
-                <NotificationAlarm onClick={handleNotificationClick} notificationCount={4}/>
+                <NotificationAlarm onClick={handleNotificationClick}
+                                   notificationCount={pendingReceivedFriendInvite ? pendingReceivedFriendInvite.length : 0}/>
             </Box>
 
             {/* Sidebar Divider */}

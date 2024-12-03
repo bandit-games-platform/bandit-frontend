@@ -27,9 +27,16 @@ export async function createNewFriendInvite(friendId: string) {
     return newFriendInvite;
 }
 
-export async function getAllPendingFriendRequests() {
-    const url = `${PLAYER_BASE_URL}/player/friends/pending-invites`;
+export async function getAllPendingReceivedFriendRequests() {
+    const url = `${PLAYER_BASE_URL}/player/friends/pending-invites/received`;
 
-    const {data: pendingInvites} = await axios.get<PendingFriendInviteBio[]>(url)
-    return pendingInvites;
+    const {data: ReceivedPendingInvites} = await axios.get<PendingFriendInviteBio[]>(url)
+    return ReceivedPendingInvites;
+}
+
+export async function getAllPendingSentFriendRequests() {
+    const url = `${PLAYER_BASE_URL}/player/friends/pending-invites/sent`;
+
+    const {data: SentPendingInvites} = await axios.get<PendingFriendInviteBio[]>(url)
+    return SentPendingInvites;
 }
