@@ -28,7 +28,7 @@ export function PurchaseConfirmDialog({game, open, handleClose, handleConfirm} :
                 <DialogActions>
                     <Button
                         onClick={handleClose}
-                        sx={{color: (theme) => theme.palette.secondary.main}}
+                        sx={{color: "gray"}}
                     >
                         Nevermind
                     </Button>
