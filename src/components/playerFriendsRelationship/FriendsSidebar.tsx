@@ -33,7 +33,7 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                     height: 'calc(99.5vh - 66px)',
                     top: '66px',
                     position: 'fixed',
-                    background: `linear-gradient(135deg, rgb(96 27 71), rgb(16, 3, 45))`,
+                    background: `linear-gradient(135deg, rgb(96 27 71), rgb(16 3 45))`,
                     color: theme.palette.text.primary,
                     borderRadius: '10px 0 0 10px',
                     boxShadow: '4px 0px 15px rgba(0, 0, 0, 0.3)',
@@ -48,8 +48,11 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
                     Friends
                 </Typography>
 
-                <NotificationAlarm onClick={handleNotificationClick}
-                                   notificationCount={pendingReceivedFriendInvite ? pendingReceivedFriendInvite.length : 0}/>
+                <NotificationAlarm
+                    onClick={handleNotificationClick}
+                    isNotificationView={isNotificationView}
+                    notificationCount={pendingReceivedFriendInvite ? pendingReceivedFriendInvite.length : 0}
+                />
             </Box>
 
             {/* Sidebar Divider */}

@@ -1,20 +1,21 @@
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
-import {Notifications} from "@mui/icons-material";
+import {Notifications, Close} from "@mui/icons-material"; // Import Close icon
 import {useTheme} from "@mui/material";
 
 interface NotificationAlarmProps {
     onClick: () => void;
-    notificationCount: number; // Add a prop for the notification count
+    notificationCount: number;
+    isNotificationView: boolean;
 }
 
-export function NotificationAlarm({onClick, notificationCount}: NotificationAlarmProps) {
+export function NotificationAlarm({onClick, notificationCount, isNotificationView}: NotificationAlarmProps) {
     const theme = useTheme();
 
     return (
         <Badge
+            badgeContent={isNotificationView ? 0 : notificationCount}
             onClick={onClick}
-            badgeContent={notificationCount}
             color="error"
             overlap="circular"
             anchorOrigin={{
@@ -46,14 +47,25 @@ export function NotificationAlarm({onClick, notificationCount}: NotificationAlar
                     boxShadow: `0 2px 5px ${theme.palette.grey[500]}`,
                 }}
             >
-                <Notifications
-                    sx={{
-                        fontSize: 'inherit',
-                        border: '2px solid white',
-                        margin: '0 1',
-                        borderRadius: '7px',
-                    }}
-                />
+                {isNotificationView ? (
+                    <Close
+                        sx={{
+                            fontSize: 'inherit',
+                            border: '2px solid white',
+                            margin: '0 1',
+                            borderRadius: '7px',
+                        }}
+                    />
+                ) : (
+                    <Notifications
+                        sx={{
+                            fontSize: 'inherit',
+                            border: '2px solid white',
+                            margin: '0 1',
+                            borderRadius: '7px',
+                        }}
+                    />
+                )}
             </IconButton>
         </Badge>
     );
