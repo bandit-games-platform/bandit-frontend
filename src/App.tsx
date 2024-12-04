@@ -34,8 +34,8 @@ function App() {
                             <Route path={"/store"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
                             <Route path={"/library"} element={<RouteGuard><PlayerLibrary/></RouteGuard>}></Route>
                             <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
-                            <Route path={"/game/:gameId/purchase/checkout"} element={<RouteGuard><StripeCheckout/></RouteGuard>}></Route>
-                            <Route path={"/game/:gameId/purchased"} element={<RouteGuard><GamePurchaseComplete/></RouteGuard>}></Route>
+                            <Route path={"/store/:gameId/purchase/checkout"} element={<RouteGuard><StripeCheckout/></RouteGuard>}></Route>
+                            <Route path={"/store/:gameId/purchased"} element={<RouteGuard><GamePurchaseComplete/></RouteGuard>}></Route>
                         </Routes>
                         <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>

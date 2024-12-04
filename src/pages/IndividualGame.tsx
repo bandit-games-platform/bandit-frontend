@@ -42,7 +42,7 @@ export function IndividualGame() {
     };
 
     const handleGoToCheckout = () => {
-        navigate(`/game/${gameId}/purchase/checkout`);
+        navigate(`/store/${gameId}/purchase/checkout`);
     }
 
     return (
