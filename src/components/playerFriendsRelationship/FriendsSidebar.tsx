@@ -6,12 +6,12 @@ import {useState} from "react";
 import NotificationSection from "./NotificationSection.tsx";
 import {usePendingReceivedFriendsInvite} from "../../hooks/player/usePendingReceivedFriendsInvite.ts";
 
-interface SidebarProps {
+interface FriendsSidebarProps {
     isOpen: boolean;
     toggleSidebar: () => void;
 }
 
-export default function FriendsSidebar({isOpen, toggleSidebar}: SidebarProps) {
+export default function FriendsSidebar({isOpen, toggleSidebar}: FriendsSidebarProps) {
     const theme = useTheme();
     const [isNotificationView, setNotificationView] = useState(false);
     const {pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
