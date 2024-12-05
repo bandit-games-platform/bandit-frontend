@@ -1,6 +1,7 @@
 import {Box, Avatar, Typography, CircularProgress} from "@mui/material";
 import {usePlayerFriends} from "../../hooks/player/usePlayerFriendsDetails.ts";
 import InviteFriendToGameButton from "./InviteFriendToGameButton.tsx";
+import theme from "../../theme/theme.ts";
 
 export default function InviteTab() {
     const {isLoading, isError, playerFriendsList} = usePlayerFriends();
@@ -15,10 +16,14 @@ export default function InviteTab() {
     return (
         <Box
             sx={{
+                marginTop: "0.5em",
                 padding: "2em",
                 background: "linear-gradient(135deg, #020024 0%, #093772 100%)",
                 color: "white",
                 minHeight: "100vh",
+                [theme.breakpoints.down("sm")]: {
+                    padding: "1em",
+                },
             }}
         >
             <Typography
@@ -29,6 +34,9 @@ export default function InviteTab() {
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
+                    [theme.breakpoints.down("sm")]: {
+                        fontSize: "1.5em",
+                    },
                 }}
             >
                 My Friends
@@ -56,6 +64,9 @@ export default function InviteTab() {
                         textAlign: "center",
                         fontWeight: "bold",
                         marginTop: "2em",
+                        [theme.breakpoints.down("sm")]: {
+                            fontSize: "1em",
+                        },
                     }}
                 >
                     Error loading friends list. Please try again later.
@@ -70,6 +81,10 @@ export default function InviteTab() {
                         gap: "1.5em",
                         marginTop: "2em",
                         padding: "1em",
+                        [theme.breakpoints.down("sm")]: {
+                            gridTemplateColumns: "1fr", // Single column on small screens
+                            gap: "1em",
+                        },
                     }}
                 >
                     {playerFriendsList.map((friend) => (
@@ -89,16 +104,23 @@ export default function InviteTab() {
                                     transform: "scale(1.05)",
                                     boxShadow: "0px 10px 25px rgba(0, 0, 0, 0.7)",
                                 },
+                                [theme.breakpoints.down("sm")]: {
+                                    padding: "1em",
+                                },
                             }}
                         >
                             <Avatar
                                 alt={friend.username}
                                 src={friend.avatar}
                                 sx={{
-                                    width: 100,
-                                    height: 100,
+                                    width: 80,
+                                    height: 80,
                                     marginBottom: "0.8em",
                                     border: "3px solid #ffffff",
+                                    [theme.breakpoints.down("sm")]: {
+                                        width: 60,
+                                        height: 60,
+                                    },
                                 }}
                             />
                             <Typography
@@ -107,6 +129,9 @@ export default function InviteTab() {
                                     marginBottom: "0.8em",
                                     fontWeight: "bold",
                                     fontSize: "1.2em",
+                                    [theme.breakpoints.down("sm")]: {
+                                        fontSize: "1em",
+                                    },
                                 }}
                             >
                                 {friend.username}
@@ -124,6 +149,9 @@ export default function InviteTab() {
                             marginTop: "2em",
                             fontSize: "1.2em",
                             color: "lightgray",
+                            [theme.breakpoints.down("sm")]: {
+                                fontSize: "1em",
+                            },
                         }}
                     >
                         You have no friends added yet. 😢
