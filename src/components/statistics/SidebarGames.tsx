@@ -16,17 +16,13 @@ import {
     ExpandLess,
     ExpandMore,
 } from "@mui/icons-material";
-
-interface GameProps {
-    name: string;
-    id: string;
-}
+import {Game} from "../../model/gameRegistry/Game.ts";
 
 interface SidebarGamesProps {
     isOpen: boolean;
     toggleSidebar: () => void;
-    games: GameProps[];
-    onGameSelect: (game: GameProps) => void;
+    games: Game[];
+    onGameSelect: (game: Game) => void;
 }
 
 export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect}: SidebarGamesProps) {
@@ -39,7 +35,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
         setOpenSubmenu(!openSubmenu);
     };
 
-    const handleGameSelect = (game: GameProps) => {
+    const handleGameSelect = (game: Game) => {
         setSelectedGameId(game.id); // Set selected game
         onGameSelect(game);
     };
@@ -81,7 +77,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                     </Typography>
                 )}
                 {games.map((game) => (
-                    <Tooltip key={game.id} title={game.name} placement="right" disableHoverListener={isOpen}>
+                    <Tooltip key={game.id} title={game.title} placement="right" disableHoverListener={isOpen}>
                         <Box
                             onClick={() => handleGameSelect(game)} // Select game on click
                             sx={{
@@ -99,7 +95,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
 
                         >
                             <Inbox sx={{marginRight: isOpen ? 2 : 0}}/>
-                            {isOpen && <Typography>{game.name}</Typography>}
+                            {isOpen && <Typography>{game.title}</Typography>}
                         </Box>
                     </Tooltip>
                 ))}

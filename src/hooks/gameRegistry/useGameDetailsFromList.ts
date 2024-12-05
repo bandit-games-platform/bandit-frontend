@@ -1,8 +1,7 @@
-import {GameProgress} from "../../model/statistics/GameProgress.ts";
 import {useMutation} from "@tanstack/react-query";
 import {getGameDetailsFromList} from "../../services/gameRegistryService.ts";
 
-export function useGameDetailsFromList(gameIds: GameProgress[]) {
+export function useGameDetailsFromList(gameIds: {gameId: string}[]) {
     const {
         mutate,
         isPending,
