@@ -20,6 +20,12 @@ export async function getPlayerLibrary() {
     return library
 }
 
+export async function getFriendsList() {
+    const url = PLAYER_BASE_URL + "/player/friends"
+
+    const {data: playerFriendsList} = await axios.get<PlayerBasicBio[]>(url)
+    return playerFriendsList;
+}
 
 export async function getFriendsListOrSearchForFriends(username?: string) {
     const url = username

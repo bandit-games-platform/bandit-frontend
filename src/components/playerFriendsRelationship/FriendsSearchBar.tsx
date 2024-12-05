@@ -3,7 +3,7 @@ import {Box, OutlinedInput, InputAdornment, Typography, Avatar} from '@mui/mater
 import {Search} from '@mui/icons-material';
 import {useDebouncedSearch} from '../../hooks/gameRegistry/useDebouncedSearch';
 import {usePlayerFriendsDetails} from '../../hooks/player/usePlayerFriendsDetails';
-import InviteFriendToGameButton from "./InviteFriendToGameButton.tsx";
+import InviteFriendToChatPremiumButton from "./InviteFriendToChatPremiumButton.tsx";
 import NewFriendInviteButton from "./NewFriendInviteButton.tsx";
 
 export default function FriendsSearchBar() {
@@ -68,7 +68,7 @@ export default function FriendsSearchBar() {
                             {hoveredFriend === friend.id && (
                                 <>
                                     {friend.existingFriend ? (
-                                        <InviteFriendToGameButton/>
+                                        <InviteFriendToChatPremiumButton/>
                                     ) : (
                                         <NewFriendInviteButton friendId={friend.id} friendUsername={friend.username}/>
                                     )}

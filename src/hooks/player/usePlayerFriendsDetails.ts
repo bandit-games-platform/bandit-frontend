@@ -1,5 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
-import {getFriendsListOrSearchForFriends} from "../../services/playerService.ts";
+import {getFriendsList, getFriendsListOrSearchForFriends} from "../../services/playerService.ts";
 
 export function usePlayerFriendsDetails(username?: string) {
     const {isLoading, isError, data: friendsList} = useQuery({
@@ -9,5 +9,16 @@ export function usePlayerFriendsDetails(username?: string) {
 
     return {
         isLoading, isError, friendsList
+    }
+}
+
+export function usePlayerFriends() {
+    const {isLoading, isError, data: playerFriendsList} = useQuery({
+        queryKey: ['playerFriendsList'],
+        queryFn: () => getFriendsList()
+    })
+
+    return {
+        isLoading, isError, playerFriendsList
     }
 }
