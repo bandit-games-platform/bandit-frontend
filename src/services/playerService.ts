@@ -1,4 +1,5 @@
 import axios from "axios";
+import {PlayerLibraryItem} from "../model/player/PlayerLibraryItem.ts";
 import {PlayerBasicBio} from "../model/player/PlayerBasicBio.ts";
 import {PendingFriendInviteBio} from "../model/player/PendingFriendInviteBio.ts";
 import {FriendInviteAction} from "../constants/friendInviteAction.ts";
@@ -11,6 +12,14 @@ export async function getPlayerJoinDate() {
     const {data: joinDate} = await axios.get<string>(url)
     return joinDate
 }
+
+export async function getPlayerLibrary() {
+    const url = PLAYER_BASE_URL + "/players/library"
+
+    const {data: library} = await axios.get<PlayerLibraryItem[]>(url)
+    return library
+}
+
 
 export async function getFriendsListOrSearchForFriends(username?: string) {
     const url = username

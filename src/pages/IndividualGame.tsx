@@ -1,22 +1,48 @@
 import {ImageCarousel} from "../components/ImageCarousel.tsx";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import {ArrowBack} from "@mui/icons-material";
 import {LoadingComponent} from "../components/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
+import {PurchaseConfirmDialog} from "../components/storefront/PurchaseConfirmDialog.tsx";
+import {useState} from "react";
 
 export function IndividualGame() {
+    const navigate = useNavigate();
     const {gameId = ''} = useParams();
-    const {game, isLoading, isError} = useGameDetails(gameId);
+    const [open, setOpen] = useState(false);
+    const {game, isLoading: detailsLoading, isError: detailsError} = useGameDetails(gameId);
+    const {library, isLoading: libraryLoading, isError: libraryError} = usePlayerLibrary();
 
-    if (isLoading) {
+    if (detailsLoading || libraryLoading) {
         return <LoadingComponent/>
     }
 
-    if (isError || !game) {
+    if (detailsError || libraryError || !game || !library) {
         return <ErrorComponent/>
+    }
+
+    let gameInLibrary = false;
+    for (const libraryItem of library) {
+        if (libraryItem.gameId == gameId) {
+            gameInLibrary = true;
+            break;
+        }
+    }
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleGoToCheckout = () => {
+        navigate(`/store/${gameId}/purchase/checkout`);
     }
 
     return (
@@ -29,7 +55,10 @@ export function IndividualGame() {
                 <Grid container justifyContent={"space-between"}>
                     <Grid>
                         <Stack direction={"row"} spacing={2}>
-                            <Button>
+                            <Button
+                                sx={{color: (theme) => theme.palette.secondary.main}}
+                                onClick={() => window.history.back()}
+                            >
                                 <ArrowBack/>
                             </Button>
                             <h1>{game.title}</h1>
@@ -37,17 +66,35 @@ export function IndividualGame() {
                     </Grid>
 
                     <Grid sx={{marginRight: "5%"}}>
-                        {game.price > 0 && (
+                        {!gameInLibrary && game.price > 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>€{game.price}</h2>
-                                <Button>Buy now</Button>
+                                <Button
+                                    sx={{color: (theme) => theme.palette.secondary.main}}
+                                    onClick={handleClickOpen}
+                                >
+                                    Buy now
+                                </Button>
                             </Stack>
                         )}
-                        {game.price <= 0 && (
+                        {!gameInLibrary && game.price <= 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>Free</h2>
-                                <Button>Add to Library</Button>
+                                <Button
+                                    sx={{color: (theme) => theme.palette.secondary.main}}
+                                    onClick={handleClickOpen}
+                                >
+                                    Add to Library
+                                </Button>
                             </Stack>
+                        )}
+                        {gameInLibrary && (
+                            <Button
+                                disabled={true}
+                                sx={{color: (theme) => theme.palette.secondary.main}}
+                            >
+                                Game In Library
+                            </Button>
                         )}
                     </Grid>
                 </Grid>
@@ -59,6 +106,8 @@ export function IndividualGame() {
                 <h3>About:</h3>
                 <p>{game.description}</p>
             </Box>
+
+            <PurchaseConfirmDialog game={game} open={open} handleClose={handleClose} handleConfirm={handleGoToCheckout}/>
         </Box>
     )
 }
