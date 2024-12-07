@@ -7,7 +7,7 @@ interface InviteFriendToGameButtonProps {
 export default function InviteFriendToGameButton({friendId}: InviteFriendToGameButtonProps) {
     const handleInvite = () => {
         console.log(`Inviting friend with ID: ${friendId}`);
-        // Add your invitation logic here
+        // TODO: Add invitation to game logic here
     };
 
     return (
