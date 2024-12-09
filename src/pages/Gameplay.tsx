@@ -6,6 +6,7 @@ import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
 import SecurityContext from "../context/SecurityContext.ts";
 import {ChatbotTab} from "../components/chatbot/ChatbotTab.tsx";
+import InviteTab from "../components/playerFriendsRelationship/InviteTab.tsx";
 
 const modalProps = {
     confirmTitle: "Leave Game?",
@@ -65,7 +66,7 @@ export function Gameplay() {
             <Tabs value={tab} onChange={handleChange}>
                 <Tab label="Game"/>
                 <Tab label="Rules"/>
-                <Tab label="Invite" disabled/>
+                <Tab label="Invite"/>
             </Tabs>
             <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
 
@@ -88,7 +89,7 @@ export function Gameplay() {
             </Container>}
 
             {tab === 2 && <Container>
-                Invite players here
+                <InviteTab/>
             </Container>}
         </Box>
     );
