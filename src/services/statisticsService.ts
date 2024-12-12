@@ -22,3 +22,27 @@ export async function getPlayerGameStatistics(playerId: string, gameId: string) 
     const {data: playerGameStats} = await axios.get<PlayerGameStats>(`${STATISTICS_BASE_URL}/player-game-statistics/${playerId}/${gameId}`);
     return playerGameStats;
 }
+
+export async function getAllCompletedSessionsByGameIdForCsv(gameId: string): Promise<Blob> {
+    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/completed-sessions`
+
+    const response = await axios.get(url, {
+        headers: {
+            Accept: "text/csv",
+        },
+        responseType: "blob",
+    });
+    return response.data;
+}
+
+export async function getAllAchievementProgressByGameIdForCsv(gameId: string): Promise<Blob> {
+    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/achievement-progress`
+
+    const response = await axios.get(url, {
+        headers: {
+            Accept: "text/csv",
+        },
+        responseType: "blob",
+    });
+    return response.data;
+}

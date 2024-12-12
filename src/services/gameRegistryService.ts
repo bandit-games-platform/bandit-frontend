@@ -18,7 +18,7 @@ export async function getGamesOverviewByTitleLikeAndPriceBelow(title: string, ma
     return games
 }
 
-export async function getGameDetailsFromList(progresses: {gameId: string}[]) {
+export async function getGameDetailsFromList(progresses: { gameId: string }[]) {
     const url = GAME_REGISTRY_BASE_URL + "/games"
     const {data: games} = await axios.post<Game[]>(url, progresses)
     return games
@@ -31,3 +31,9 @@ export async function getGameAchievements(gameId: string) {
     return gameAchievements
 }
 
+export async function getAllGames() {
+    const url = GAME_REGISTRY_BASE_URL + "/games"
+
+    const {data: game} = await axios.get<Game[]>(url)
+    return game
+}
