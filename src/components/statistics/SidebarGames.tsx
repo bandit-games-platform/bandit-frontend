@@ -12,9 +12,8 @@ import {
 } from "@mui/material";
 import {
     Menu as MenuIcon,
-    Inbox,
     ExpandLess,
-    ExpandMore,
+    ExpandMore, Favorite, VideogameAsset,
 } from "@mui/icons-material";
 import {Game} from "../../model/gameRegistry/Game.ts";
 
@@ -22,10 +21,11 @@ interface SidebarGamesProps {
     isOpen: boolean;
     toggleSidebar: () => void;
     games: Game[];
+    favouriteGames: Game[];
     onGameSelect: (game: Game) => void;
 }
 
-export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect}: SidebarGamesProps) {
+export default function SidebarGames({isOpen, toggleSidebar, games, favouriteGames, onGameSelect}: SidebarGamesProps) {
     const [openSubmenu, setOpenSubmenu] = useState(false);
     const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
     const sidebarWidth = isOpen ? (isMobile ? 180 : 270) : (isMobile ? 60 : 70);
@@ -94,50 +94,67 @@ export default function SidebarGames({isOpen, toggleSidebar, games, onGameSelect
                             }}
 
                         >
-                            <Inbox sx={{marginRight: isOpen ? 2 : 0}}/>
+                            <VideogameAsset sx={{
+                                marginRight: isOpen ? 2 : 0,
+                                color: "rgba(255, 105, 180, 1)",
+                            }}/>
                             {isOpen && <Typography>{game.title}</Typography>}
                         </Box>
                     </Tooltip>
                 ))}
 
                 {isOpen && (
-                    <Typography variant="subtitle1" sx={{pl: 2, mt: 2}}>
-                        Favourites
-                    </Typography>
+                    <>
+                        <Tooltip title="Menu Level" placement="right" disableHoverListener={isOpen}>
+                            <Box
+                                onClick={handleSubmenuClick}
+                                sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    px: isOpen ? 2 : 0,
+                                    py: 1,
+                                    cursor: "pointer",
+                                    justifyContent: isOpen ? "flex-start" : "center",
+                                    "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
+                                }}
+                            >
+                                <Favorite sx={{
+                                    marginRight: isOpen ? 2 : 0,
+                                    color: "rgb(236,11,63)"
+                                }}/>
+                                {isOpen && <Typography>Favourites</Typography>}
+                                {isOpen && (openSubmenu ? <ExpandLess/> : <ExpandMore/>)}
+                            </Box>
+                        </Tooltip>
+                        <Collapse in={openSubmenu} timeout="auto" unmountOnExit>
+                            {favouriteGames.map((game) => (
+                                <Box
+                                    key={game.id}
+                                    onClick={() => handleGameSelect(game)}
+                                    sx={{
+                                        display: "flex",
+                                        alignItems: "center",
+                                        px: isOpen ? 4 : 0,
+                                        py: 1,
+                                        cursor: "pointer",
+                                        justifyContent: isOpen ? "flex-start" : "center",
+                                        backgroundColor: selectedGameId === game.id ? "rgb(22 55 121)" : "transparent",
+                                        "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
+                                        fontWeight: selectedGameId === game.id ? "bold" : "normal",
+                                        color: selectedGameId === game.id ? "white" : "inherit",
+                                    }}
+                                >
+                                    <Favorite sx={{
+                                        marginRight: isOpen ? 2 : 0,
+                                        color: "rgba(255, 165, 0, 1)",
+                                    }}/>
+                                    <Typography>{game.title}</Typography>
+                                </Box>
+                            ))}
+                        </Collapse>
+                    </>
                 )}
-                <Tooltip title="Menu Level" placement="right" disableHoverListener={isOpen}>
-                    <Box
-                        onClick={handleSubmenuClick}
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            px: isOpen ? 2 : 0,
-                            py: 1,
-                            cursor: "pointer",
-                            justifyContent: isOpen ? "flex-start" : "center",
-                            "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
-                        }}
-                    >
-                        <Inbox sx={{marginRight: isOpen ? 2 : 0}}/>
-                        {isOpen && <Typography>Menu Level</Typography>}
-                        {isOpen && (openSubmenu ? <ExpandLess/> : <ExpandMore/>)}
-                    </Box>
-                </Tooltip>
-                <Collapse in={openSubmenu} timeout="auto" unmountOnExit>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            px: isOpen ? 4 : 0,
-                            py: 1,
-                            cursor: "pointer",
-                            justifyContent: isOpen ? "flex-start" : "center",
-                            "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
-                        }}
-                    >
-                        <Typography>Submenu Item</Typography>
-                    </Box>
-                </Collapse>
+
             </List>
         </Drawer>
     );

@@ -6,9 +6,8 @@ import {getPlayerLibrary, updateGameFavoriteStatus} from "../../services/playerS
 export function usePlayerLibrary() {
     const {loggedInUserId} = useContext(SecurityContext);
     const {isLoading, isError, data: library} = useQuery({
-        queryKey: ['player-library' + loggedInUserId],
+        queryKey: ['player-library', loggedInUserId],
         queryFn: () => getPlayerLibrary(),
-        refetchInterval: 60 * 1000
     })
 
     return {

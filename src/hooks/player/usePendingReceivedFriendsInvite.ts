@@ -4,7 +4,8 @@ import {getAllPendingReceivedFriendRequests} from "../../services/playerService.
 export function usePendingReceivedFriendsInvite() {
     const {isLoading, isError, data: pendingReceivedFriendInvite} = useQuery({
         queryKey: ['pendingReceivedFriendInvite'],
-        queryFn: () => getAllPendingReceivedFriendRequests()
+        queryFn: () => getAllPendingReceivedFriendRequests(),
+        refetchInterval: 5 * 1000
     })
 
     return {
