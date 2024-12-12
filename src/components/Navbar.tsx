@@ -17,15 +17,16 @@ import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
 
 const pages = [
-    {name: 'Store', path: '/store'},
-    {name: 'Library', path: '/library'},
-    {name: 'Stats', path: '/statistics'},
+    {name: 'Store', path: '/store', roles: ['player']},
+    {name: 'Library', path: '/library', roles: ['player']},
+    {name: 'Stats', path: '/statistics', roles: ['player']},
+    {name: 'Dashboard', path: '/admin-dashboard', roles: ['admin']},
 ];
 
 const logoutSetting = 'Logout';
 
 export function Navbar() {
-    const {logout, loggedInUser} = useContext(SecurityContext);
+    const {logout, loggedInUser, hasRole} = useContext(SecurityContext);
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -55,7 +56,8 @@ export function Navbar() {
                             display: {xs: 'none', md: 'flex'},
                             color: theme.palette.secondary.main,
                             mr: 1.5,
-                        }}/>
+                        }}
+                    />
                     <Typography
                         variant="h6"
                         noWrap
@@ -74,7 +76,7 @@ export function Navbar() {
                         BanditGames
                     </Typography>
 
-                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'},}}>
+                    <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                         <IconButton
                             size="large"
                             aria-label="account of current user"
@@ -101,24 +103,28 @@ export function Navbar() {
                             onClose={handleCloseNavMenu}
                             sx={{display: {xs: 'block', md: 'none'}}}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                                    <Link to={page.path}>
-                                        <Typography sx={{
-                                            textAlign: 'center',
-                                            fontFamily: '"Sarpanch", sans-serif',
-                                            color: 'white',
-                                            '&:hover': {
-                                                textDecoration: 'underline',
-                                                textDecorationThickness: 3,
-                                                textDecorationColor: theme.palette.secondary.main,
-                                            }
-                                        }}>
-                                            {page.name}
-                                        </Typography>
-                                    </Link>
-                                </MenuItem>
-                            ))}
+                            {pages
+                                .filter((page) => page.roles.some(hasRole))
+                                .map((page) => (
+                                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                                        <Link to={page.path}>
+                                            <Typography
+                                                sx={{
+                                                    textAlign: 'center',
+                                                    fontFamily: '"Sarpanch", sans-serif',
+                                                    color: 'white',
+                                                    '&:hover': {
+                                                        textDecoration: 'underline',
+                                                        textDecorationThickness: 3,
+                                                        textDecorationColor: theme.palette.secondary.main,
+                                                    },
+                                                }}
+                                            >
+                                                {page.name}
+                                            </Typography>
+                                        </Link>
+                                    </MenuItem>
+                                ))}
                         </Menu>
                     </Box>
                     <VideogameAssetIcon
@@ -126,7 +132,8 @@ export function Navbar() {
                             display: {xs: 'flex', md: 'none'},
                             color: theme.palette.secondary.main,
                             mr: 1.5,
-                        }}/>
+                        }}
+                    />
                     <Typography
                         variant="h5"
                         noWrap
@@ -145,50 +152,43 @@ export function Navbar() {
                         BanditGames
                     </Typography>
 
-                    <Box sx={{
-                        flexGrow: 1,
-                        display: {xs: 'none', md: 'flex'},
-                        justifyContent: 'center',
-                        gap: 5,
-                    }}>
-                        {pages.map((page) => (
-                            <Link to={page.path} key={page.name}>
-                                <Button
-                                    key={page.name}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{
-                                        my: 1,
-                                        color: 'white',
-                                        display: 'block',
-                                        transition: 'all 0.4s ease',
-                                        fontFamily: '"Sarpanch", sans-serif',
-                                        fontSize: '1.1rem',
-                                        '&:hover': {
-                                            textDecoration: 'underline',
-                                            textDecorationThickness: 3,
-                                            textDecorationColor: theme.palette.secondary.main,
-                                        }
-                                    }}
-                                >
-                                    {page.name}
-                                </Button>
-                            </Link>
-                        ))}
+                    <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, justifyContent: 'center', gap: 5}}>
+                        {pages
+                            .filter((page) => page.roles.some(hasRole))
+                            .map((page) => (
+                                <Link to={page.path} key={page.name}>
+                                    <Button
+                                        key={page.name}
+                                        onClick={handleCloseNavMenu}
+                                        sx={{
+                                            my: 1,
+                                            color: 'white',
+                                            display: 'block',
+                                            transition: 'all 0.4s ease',
+                                            fontFamily: '"Sarpanch", sans-serif',
+                                            fontSize: '1.1rem',
+                                            '&:hover': {
+                                                textDecoration: 'underline',
+                                                textDecorationThickness: 3,
+                                                textDecorationColor: theme.palette.secondary.main,
+                                            },
+                                        }}
+                                    >
+                                        {page.name}
+                                    </Button>
+                                </Link>
+                            ))}
                     </Box>
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1}}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                {/* later: picture for logged-in user */}
                                 <Avatar src="/avatar.png"/>
                             </IconButton>
                         </Tooltip>
 
-                        <Typography
-                            sx={{
-                                textAlign: 'right',
-                                display: {xs: 'none', sm: 'block'},
-                            }}
-                        >Hello, {loggedInUser}!</Typography>
+                        <Typography sx={{textAlign: 'right', display: {xs: 'none', sm: 'block'}}}>
+                            Hello, {loggedInUser}!
+                        </Typography>
                         <Menu
                             sx={{mt: '45px'}}
                             id="menu-appbar"
@@ -206,10 +206,7 @@ export function Navbar() {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography
-                                    sx={{textAlign: 'center'}}
-                                    onClick={logout}
-                                >
+                                <Typography sx={{textAlign: 'center'}} onClick={logout}>
                                     {logoutSetting}
                                 </Typography>
                             </MenuItem>
