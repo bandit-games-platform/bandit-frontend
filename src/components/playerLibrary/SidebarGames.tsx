@@ -88,7 +88,10 @@ export default function SidebarGames({isOpen, toggleSidebar, games, favouriteGam
                                 cursor: "pointer",
                                 justifyContent: isOpen ? "flex-start" : "center",
                                 backgroundColor: selectedGameId === game.id ? "rgb(22 55 121)" : "transparent",
-                                "&:hover": {zoom: '1.1'},
+                                "&:hover": {
+                                    zoom: '1.1',
+                                    backgroundColor: "rgb(22 55 121)"
+                                },
                                 fontWeight: selectedGameId === game.id ? "bold" : "normal",
                                 color: selectedGameId === game.id ? "white" : "inherit",
                             }}
@@ -115,12 +118,12 @@ export default function SidebarGames({isOpen, toggleSidebar, games, favouriteGam
                                     py: 1,
                                     cursor: "pointer",
                                     justifyContent: isOpen ? "flex-start" : "center",
-                                    "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
+                                    "&:hover": {backgroundColor: "rgb(77,8,24)"},
                                 }}
                             >
                                 <Favorite sx={{
                                     marginRight: isOpen ? 2 : 0,
-                                    color: "rgb(236,11,63)"
+                                    color: "rgb(236,11,63)",
                                 }}/>
                                 {isOpen && <Typography>Favourites</Typography>}
                                 {isOpen && (openSubmenu ? <ExpandLess/> : <ExpandMore/>)}
@@ -139,7 +142,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, favouriteGam
                                         cursor: "pointer",
                                         justifyContent: isOpen ? "flex-start" : "center",
                                         backgroundColor: selectedGameId === game.id ? "rgb(22 55 121)" : "transparent",
-                                        "&:hover": {backgroundColor: "rgba(0,0,0,0.1)"},
+                                        "&:hover": {backgroundColor: "rgb(22 55 121)"},
                                         fontWeight: selectedGameId === game.id ? "bold" : "normal",
                                         color: selectedGameId === game.id ? "white" : "inherit",
                                     }}
