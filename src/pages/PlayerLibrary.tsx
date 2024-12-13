@@ -1,5 +1,5 @@
 import {Box, useMediaQuery, Theme} from "@mui/material";
-import SidebarGames from "../components/statistics/SidebarGames.tsx";
+import SidebarGames from "../components/playerLibrary/SidebarGames.tsx";
 import GameStatCover from "../components/statistics/GameStatCover.tsx";
 import {useState, useEffect} from "react";
 import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
@@ -122,7 +122,7 @@ export default function PlayerLibrary() {
                             isSidebarOpen={isOpen}
                         />
                         : (
-                            <LibraryGamesGrid/>
+                            <LibraryGamesGrid onGameSelect={handleGameSelect}/>
                         )}
                 </GameStatCover>
                 {isMobile && (

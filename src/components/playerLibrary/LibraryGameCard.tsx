@@ -6,17 +6,19 @@ import {ErrorComponent} from "../ErrorComponent.tsx";
 import {Favorite, FavoriteBorder} from '@mui/icons-material';
 import {useState} from "react";
 import {usePlayerLibraryUpdateFavouriteStatus} from "../../hooks/player/usePlayerLibrary.ts";
+import {Game} from "../../model/gameRegistry/Game.ts";
 
 interface LibraryGameCardProps {
     gameId: string;
     isFavorite: boolean;
+    onGameSelect: (game: Game) => void;
 }
 
 export default function LibraryGameCard({
                                             gameId,
                                             isFavorite,
+                                            onGameSelect
                                         }: LibraryGameCardProps) {
-
     const {isLoading, isError, game} = useGameDetails(gameId);
     const theme = useTheme();
     const [favorite, setFavorite] = useState(isFavorite);
@@ -27,7 +29,6 @@ export default function LibraryGameCard({
         mutate(!favorite, {
             onSuccess: () => {
                 setFavorite(!favorite);
-                console.log("favorite updated")
             },
             onError: () => {
                 console.error("Failed to update favorite status.");
@@ -64,39 +65,48 @@ export default function LibraryGameCard({
             }}
         >
             <Box
-                component="img"
-                src={game.icon}
-                alt={game.title}
+                onClick={() => onGameSelect(game)}
                 sx={{
-                    width: isSmallScreen ? '70px' : '100px',
-                    height: isSmallScreen ? '70px' : '100px',
-                    marginBottom: '0.5em',
-                    borderRadius: '8px',
-                }}
-            />
-            <Typography
-                variant="h6"
-                sx={{
-                    fontSize: isSmallScreen ? '1rem' : '1.3rem',
-                    fontWeight: theme.typography.h1.fontWeight,
-                    color: theme.palette.secondary.main,
-                    textAlign: 'center',
-                    marginBottom: '0.4em',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
                 }}
             >
-                {game.title}
-            </Typography>
-            <Typography
-                variant="body2"
-                sx={{
-                    color: theme.palette.secondary.light,
-                    textAlign: 'center',
-                    fontSize: isSmallScreen ? '0.8rem' : '0.9rem',
-                }}
-            >
-                {game.description}
-            </Typography>
-
+                <Box
+                    component="img"
+                    src={game.icon}
+                    alt={game.title}
+                    sx={{
+                        width: isSmallScreen ? '70px' : '100px',
+                        height: isSmallScreen ? '70px' : '100px',
+                        marginBottom: '0.5em',
+                        borderRadius: '8px',
+                    }}
+                />
+                <Typography
+                    variant="h6"
+                    sx={{
+                        fontSize: isSmallScreen ? '1rem' : '1.3rem',
+                        fontWeight: theme.typography.h1.fontWeight,
+                        color: theme.palette.secondary.main,
+                        textAlign: 'center',
+                        marginBottom: '0.4em',
+                    }}
+                >
+                    {game.title}
+                </Typography>
+                <Typography
+                    variant="body2"
+                    sx={{
+                        color: theme.palette.secondary.light,
+                        textAlign: 'center',
+                        fontSize: isSmallScreen ? '0.8rem' : '0.9rem',
+                    }}
+                >
+                    {game.description}
+                </Typography>
+            </Box>
             {/* Favorite toggle button */}
             <IconButton
                 onClick={handleFavoriteToggle}

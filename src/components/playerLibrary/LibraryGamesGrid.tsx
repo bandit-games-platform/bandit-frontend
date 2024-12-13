@@ -5,8 +5,13 @@ import LibraryGameCard from "./LibraryGameCard.tsx";
 import SelectGameAnimation from "./SelectGameAnimation.tsx";
 import {LoadingComponent} from "../LoadingComponent.tsx";
 import {ErrorComponent} from "../ErrorComponent.tsx";
+import {Game} from "../../model/gameRegistry/Game.ts";
 
-export default function LibraryGamesGrid() {
+interface LibraryGamesGridProps {
+    onGameSelect: (game: Game) => void;
+}
+
+export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) {
     const {isLoading: libraryLoading, isError: libraryError, library} = usePlayerLibrary();
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -60,6 +65,7 @@ export default function LibraryGamesGrid() {
                     key={item.gameId}
                     gameId={item.gameId}
                     isFavorite={item.favourite}
+                    onGameSelect={onGameSelect}
                 />
             ))}
         </Box>
