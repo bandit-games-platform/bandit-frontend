@@ -56,7 +56,11 @@ export default function LibraryGamesGrid() {
             }}
         >
             {library.map((item) => (
-                <LibraryGameCard key={item.gameId} gameId={item.gameId}/>
+                <LibraryGameCard
+                    key={item.gameId}
+                    gameId={item.gameId}
+                    isFavorite={item.favourite}
+                />
             ))}
         </Box>
     );

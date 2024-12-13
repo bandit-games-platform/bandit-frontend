@@ -6,8 +6,9 @@ import {getPlayerLibrary, updateGameFavoriteStatus} from "../../services/playerS
 export function usePlayerLibrary() {
     const {loggedInUserId} = useContext(SecurityContext);
     const {isLoading, isError, data: library} = useQuery({
-        queryKey: ['player-library', loggedInUserId],
+        queryKey: ['player-library' + loggedInUserId],
         queryFn: () => getPlayerLibrary(),
+        refetchInterval: 15 * 1000
     })
 
     return {
@@ -17,9 +18,9 @@ export function usePlayerLibrary() {
     }
 }
 
-export function usePlayerLibraryUpdateFavouriteStatus(gameId: string, newFavoriteStatus: boolean) {
+export function usePlayerLibraryUpdateFavouriteStatus(gameId: string) {
     const {mutate, isPending, isError} = useMutation({
-        mutationFn: () => updateGameFavoriteStatus(gameId, newFavoriteStatus),
+        mutationFn: (newFavoriteStatus: boolean) => updateGameFavoriteStatus(gameId, newFavoriteStatus),
     });
 
     return {
