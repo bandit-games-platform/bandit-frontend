@@ -129,7 +129,7 @@ export default function LibraryGameCard({
                     right: '8px',
                     color: favorite ? "rgb(236,11,63)" : theme.palette.secondary.light,
                     '&:hover': {
-                        color: theme.palette.secondary.main,
+                        color: "rgb(236,11,63)",
                     },
                 }}
             >
