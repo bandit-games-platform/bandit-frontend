@@ -112,6 +112,7 @@ export default function PlayerLibrary() {
                     ) : selectedGame ?
                         <SelectedGameDetails
                             selectedGame={selectedGame}
+                            setSelectedGame={setSelectedGame}
                             isMobile={isMobile}
                             showAchievements={showAchievements}
                             toggleSection={toggleSection}

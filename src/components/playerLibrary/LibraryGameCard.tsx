@@ -52,9 +52,6 @@ export default function LibraryGameCard({
                 padding: isSmallScreen ? '1em' : '1.4em',
                 gap: '1em',
                 background: 'linear-gradient(135deg, #092c67, #121212)',
-                // background: 'linear-gradient(135deg, #2e0659, #092c67)',
-                // linear-gradient(135deg, #121212, #092c67)
-                // linear-gradient(135deg, #130e0e, #092c67)
                 borderRadius: '12px',
                 border: '2px solid rgba(255, 255, 255, 0.1)',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.15)',
@@ -65,25 +62,6 @@ export default function LibraryGameCard({
                     boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.2)',
                 },
             }}
-
-            // sx={{
-            //     display: 'flex',
-            //     flexDirection: 'column',
-            //     alignItems: 'center',
-            //     padding: isSmallScreen ? '1em' : '1.5em',  // Slightly more padding for larger screens
-            //     gap: '1.2em',  // More balanced gap between elements
-            //     background: 'linear-gradient(135deg, #0a2e64, #1e1e1e)', // Slightly smoother gradient
-            //     borderRadius: '16px', // Softer and larger corners
-            //     border: '2px solid rgba(255, 255, 255, 0.15)', // Slightly more subtle border
-            //     boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.2)', // Softer shadow for better depth
-            //     transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out', // Smooth, unified transition
-            //     position: 'relative',
-            //     '&:hover': {
-            //         transform: 'scale(1.05)',
-            //         boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.25)', // More pronounced hover effect for emphasis
-            //     },
-            // }}
-
         >
             <Box
                 component="img"

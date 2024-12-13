@@ -36,7 +36,7 @@ export default function SidebarGames({isOpen, toggleSidebar, games, favouriteGam
     };
 
     const handleGameSelect = (game: Game) => {
-        setSelectedGameId(game.id); // Set selected game
+        setSelectedGameId(game.id);
         onGameSelect(game);
     };
 

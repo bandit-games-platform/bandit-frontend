@@ -11,6 +11,7 @@ import UpperComponentsCover from "./UpperComponentsCover.tsx"; // Adjust the imp
 
 interface SelectedGameDetailsProps {
     selectedGame: Game;
+    setSelectedGame: (selectedGame: Game | null) => void;
     isMobile: boolean;
     showAchievements: boolean;
     toggleSection: (section: 'achievements' | 'completedSessions') => void;
@@ -27,6 +28,7 @@ interface SelectedGameDetailsProps {
 
 export default function SelectedGameDetails({
                                                 selectedGame,
+                                                setSelectedGame,
                                                 isMobile,
                                                 showAchievements,
                                                 toggleSection,
@@ -39,6 +41,23 @@ export default function SelectedGameDetails({
 
     return (
         <>
+            <Box display="flex" justifyContent="center" mt={2}>
+                <button
+                    onClick={() => setSelectedGame(null as Game | null)}
+                    style={{
+                        backgroundColor: "#1976d2",
+                        color: "#fff",
+                        padding: "10px 20px",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "1rem"
+                    }}
+                >
+                    Back to Library
+                </button>
+            </Box>
+
             <Box display="flex" alignItems="center" justifyContent={isMobile ? "space-between" : "start"}
                  padding={isMobile ? "3px 12px 10px" : "0.5em"}
                  maxWidth={isMobile ? '300px' : 'auto'}>
