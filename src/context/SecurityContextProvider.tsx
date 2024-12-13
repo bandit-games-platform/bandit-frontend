@@ -15,9 +15,16 @@ const keycloakConfig = {
 }
 const keycloak: Keycloak = new Keycloak(keycloakConfig)
 
+type ResourceAccess = {
+    [resource: string]: {
+        roles: string[];
+    };
+};
+
 export default function SecurityContextProvider({children}: IWithChildren) {
     const [loggedInUser, setLoggedInUser] = useState<string | undefined>(undefined)
     const [loggedInUserId, setLoggedInUserId] = useState<string | undefined>(undefined)
+    const [userRoles, setUserRoles] = useState<string[]>([]);
 
     useEffect(() => {
         keycloak.init({
@@ -29,14 +36,17 @@ export default function SecurityContextProvider({children}: IWithChildren) {
         addAccessTokenToAuthHeader(keycloak.token)
         setLoggedInUser(keycloak.idTokenParsed?.given_name)
         setLoggedInUserId(keycloak.idTokenParsed?.sub)
+        setUserRoles(getUserRoles)
     }
 
     keycloak.onAuthLogout = () => {
         removeAccessTokenFromAuthHeader()
+        setUserRoles([]);
     }
 
     keycloak.onAuthError = () => {
         removeAccessTokenFromAuthHeader()
+        setUserRoles([]);
     }
 
     keycloak.onTokenExpired = () => {
@@ -44,7 +54,29 @@ export default function SecurityContextProvider({children}: IWithChildren) {
             addAccessTokenToAuthHeader(keycloak.token)
             setLoggedInUser(keycloak.idTokenParsed?.given_name)
             setLoggedInUserId(keycloak.idTokenParsed?.sub)
+            setUserRoles(getUserRoles());
         })
+    }
+
+    function getUserRoles(): string[] {
+        const roles: string[] = [];
+        const tokenParsed = keycloak.tokenParsed;
+
+        if (tokenParsed) {
+            if (tokenParsed.realm_access?.roles) {
+                roles.push(...tokenParsed.realm_access.roles);
+            }
+            if (tokenParsed.resource_access) {
+                const resourceAccess = tokenParsed.resource_access as ResourceAccess;
+                Object.values(resourceAccess).forEach((resource) => {
+                    if (resource.roles) {
+                        roles.push(...resource.roles);
+                    }
+                });
+            }
+        }
+
+        return roles;
     }
 
     function login() {
@@ -61,6 +93,10 @@ export default function SecurityContextProvider({children}: IWithChildren) {
         else return false
     }
 
+    function hasRole(role: string): boolean {
+        return userRoles.includes(role);
+    }
+
     return (
         <SecurityContext.Provider
             value={{
@@ -69,6 +105,8 @@ export default function SecurityContextProvider({children}: IWithChildren) {
                 loggedInUserId,
                 login,
                 logout,
+                userRoles,
+                hasRole,
             }}
         >
             {children}
