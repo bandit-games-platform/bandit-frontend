@@ -11,8 +11,8 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
-import theme from '../theme/theme.ts';
-import SecurityContext from "../context/SecurityContext.ts";
+import theme from '../../theme/theme.ts';
+import SecurityContext from "../../context/SecurityContext.ts";
 import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
 

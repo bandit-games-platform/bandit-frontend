@@ -8,7 +8,7 @@ import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
 import {Game} from "../model/gameRegistry/Game.ts";
 import LibraryGamesGrid from "../components/playerLibrary/LibraryGamesGrid.tsx";
 import SelectedGameDetails from "../components/statistics/SelectedGameDetails.tsx";
-import {LoadingComponent} from "../components/LoadingComponent.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
 import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 
 export default function PlayerLibrary() {

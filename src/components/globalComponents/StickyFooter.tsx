@@ -2,7 +2,7 @@ import {ChatbotIcon} from "./ChatbotIcon.tsx";
 import {Box} from "@mui/material";
 import {FriendsIcon} from "./FriendsIcon.tsx";
 import {useState} from "react";
-import FriendsSidebar from "./playerFriendsRelationship/FriendsSidebar.tsx";
+import FriendsSidebar from "../playerFriendsRelationship/FriendsSidebar.tsx";
 
 export function StickyFooter() {
     const [isFriendsSidebarOpen, setIsFriendsSidebarOpen] = useState(false);

@@ -3,8 +3,8 @@ import {useTheme} from '@mui/material/styles';
 import {usePlayerLibrary} from "../../hooks/player/usePlayerLibrary.ts";
 import LibraryGameCard from "./LibraryGameCard.tsx";
 import SelectGameAnimation from "./SelectGameAnimation.tsx";
-import {LoadingComponent} from "../LoadingComponent.tsx";
-import {ErrorComponent} from "../ErrorComponent.tsx";
+import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 import {Game} from "../../model/gameRegistry/Game.ts";
 
 interface LibraryGamesGridProps {

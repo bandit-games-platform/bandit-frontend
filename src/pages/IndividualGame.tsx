@@ -4,8 +4,8 @@ import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, Stack} from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import {ArrowBack} from "@mui/icons-material";
-import {LoadingComponent} from "../components/LoadingComponent.tsx";
-import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
 import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
 import {PurchaseConfirmDialog} from "../components/storefront/PurchaseConfirmDialog.tsx";
 import {useState} from "react";
@@ -107,7 +107,8 @@ export function IndividualGame() {
                 <p>{game.description}</p>
             </Box>
 
-            <PurchaseConfirmDialog game={game} open={open} handleClose={handleClose} handleConfirm={handleGoToCheckout}/>
+            <PurchaseConfirmDialog game={game} open={open} handleClose={handleClose}
+                                   handleConfirm={handleGoToCheckout}/>
         </Box>
     )
 }

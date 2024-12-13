@@ -1,8 +1,8 @@
 import {Box, Typography, IconButton, useMediaQuery} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useGameDetails} from "../../hooks/gameRegistry/useGameDetails.ts";
-import {LoadingComponent} from "../LoadingComponent.tsx";
-import {ErrorComponent} from "../ErrorComponent.tsx";
+import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 import {Favorite, FavoriteBorder} from '@mui/icons-material';
 import {useState} from "react";
 import {usePlayerLibraryUpdateFavouriteStatus} from "../../hooks/player/usePlayerLibrary.ts";
