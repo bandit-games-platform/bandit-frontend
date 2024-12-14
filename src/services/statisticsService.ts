@@ -24,7 +24,7 @@ export async function getPlayerGameStatistics(playerId: string, gameId: string) 
 }
 
 export async function getAllCompletedSessionsByGameIdForCsv(gameId: string): Promise<Blob> {
-    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/completed-sessions`
+    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/sessions`
 
     const response = await axios.get(url, {
         headers: {
@@ -36,7 +36,7 @@ export async function getAllCompletedSessionsByGameIdForCsv(gameId: string): Pro
 }
 
 export async function getAllAchievementProgressByGameIdForCsv(gameId: string): Promise<Blob> {
-    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/achievement-progress`
+    const url = STATISTICS_BASE_URL + `/export/statistics/games/${gameId}/achievements`
 
     const response = await axios.get(url, {
         headers: {
