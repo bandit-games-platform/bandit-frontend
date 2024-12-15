@@ -1,7 +1,7 @@
 import {Box, Card, CardContent, Stack, Typography} from "@mui/material";
 import {TotalPlayTimeBar} from "../components/statistics/TotalPlayTimeBar.tsx";
-import {LoadingComponent} from "../components/LoadingComponent.tsx";
-import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
 import {useAllGamesProgress} from "../hooks/statistics/useAllGamesProgress.ts";
 import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 import {useEffect} from "react";
@@ -11,7 +11,12 @@ import {WinLossCard} from "../components/statistics/WinLossCard.tsx";
 
 export function OverallStatistics() {
     const {isLoading: progressLoading, isError: progressError, progress} = useAllGamesProgress();
-    const {getGames, gameDetails, isPending: getGamesPending, isError: getGamesError} = useGameDetailsFromList(progress!)
+    const {
+        getGames,
+        gameDetails,
+        isPending: getGamesPending,
+        isError: getGamesError
+    } = useGameDetailsFromList(progress!)
 
     useEffect(() => {
         if (progress) {
@@ -50,12 +55,12 @@ export function OverallStatistics() {
                     }}
                 >
                     {gameDetails && (
-                        <Box sx={{width: {xs: "49%", md: "100%"}, marginBottom: "2%" }}>
+                        <Box sx={{width: {xs: "49%", md: "100%"}, marginBottom: "2%"}}>
                             <NumberOfCompletedGamesCard allProgresses={progress} allGames={gameDetails!}/>
                         </Box>
                     )}
                     {gameDetails && (
-                        <Box sx={{width: {xs: "49%", md: "100%"}, marginBottom: "2%" }}>
+                        <Box sx={{width: {xs: "49%", md: "100%"}, marginBottom: "2%"}}>
                             <WinLossCard allProgresses={progress}/>
                         </Box>
                     )}
@@ -63,7 +68,7 @@ export function OverallStatistics() {
 
 
                 {gameDetails && (
-                    <Box sx={{width: {xs: "100%", md: "64%"}, marginBottom: "2%" }}>
+                    <Box sx={{width: {xs: "100%", md: "64%"}, marginBottom: "2%"}}>
                         <CompletedAchievementsPerGameCard allProgresses={progress} allGames={gameDetails!}/>
                     </Box>
                 )}

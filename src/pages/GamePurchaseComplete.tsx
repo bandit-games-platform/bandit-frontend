@@ -1,8 +1,8 @@
 import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
 import {useContext, useEffect, useState} from "react";
 import {useOrderStatus} from "../hooks/storefront/useOrderStatus.ts";
-import {LoadingComponent} from "../components/LoadingComponent.tsx";
-import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
 import {useQueryClient} from "@tanstack/react-query";
 import SecurityContext from "../context/SecurityContext.ts";
 import {Box} from "@mui/material";
@@ -36,12 +36,14 @@ export function GamePurchaseComplete() {
 
     if (status === 'open') {
         return (
-            <Navigate to="/checkout" />
+            <Navigate to="/checkout"/>
         )
     }
 
     if (status === 'complete') {
-        setTimeout(() => {navigate("/library")}, 5000)
+        setTimeout(() => {
+            navigate("/library")
+        }, 5000)
 
         return (
             <Box
@@ -53,9 +55,9 @@ export function GamePurchaseComplete() {
                     borderColor: "green",
                     borderRadius: 3,
                     padding: "10px"
-            }}
+                }}
             >
-                <CheckCircleOutline fontSize={"large"} sx={{color: "green"}} />
+                <CheckCircleOutline fontSize={"large"} sx={{color: "green"}}/>
                 <Typography variant={"h5"}>
                     Game Purchase Complete!
                     <br/>

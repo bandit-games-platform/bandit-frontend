@@ -1,25 +1,20 @@
-import {Box, Button, useMediaQuery, Theme, CircularProgress} from "@mui/material";
-import SidebarGames from "../components/statistics/SidebarGames.tsx";
+import {Box, useMediaQuery, Theme} from "@mui/material";
+import SidebarGames from "../components/playerLibrary/SidebarGames.tsx";
 import GameStatCover from "../components/statistics/GameStatCover.tsx";
 import {useState, useEffect} from "react";
-import CompletedSessions from "../components/statistics/CompletedSessions.tsx";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import AchievementsDetailParent from "../components/statistics/AchievementsDetailParent.tsx";
 import {usePlayerGameStats} from "../hooks/statistics/usePlayerGameStats.ts";
 import {useGameAchievementDetails} from "../hooks/gameRegistry/useGameAchievementDetails.ts";
-import OverallCompletedSessionsCard from "../components/statistics/OverallCompletedSessionsCard.tsx";
-import UpperComponentsCover from "../components/statistics/UpperComponentsCover.tsx";
-import SelectGameAnimation from "../components/statistics/SelectGameAnimation.tsx";
 import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
-import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 import {Game} from "../model/gameRegistry/Game.ts";
-import {useNavigate} from "react-router-dom";
-
+import LibraryGamesGrid from "../components/playerLibrary/LibraryGamesGrid.tsx";
+import SelectedGameDetails from "../components/statistics/SelectedGameDetails.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 
 export default function PlayerLibrary() {
-    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(true);
     const [games, setGames] = useState<Game[]>([]);
+    const [favouriteGames, setFavouriteGames] = useState<Game[]>([]);
     const [selectedGame, setSelectedGame] = useState<Game | null>(null);
     const [showAchievements, setShowAchievements] = useState(false);
     const [showCompletedSessions, setShowCompletedSessions] = useState(false);
@@ -44,19 +39,29 @@ export default function PlayerLibrary() {
 
     const playerGameStatsToUse = playerGameStats || defaultPlayerGameStats;
 
-    //TODO: Fetch user bought/registered games (Write a query to get all games from a player's library along with their favorite games)
     useEffect(() => {
-        if (library) {
-            getGames();
-        }
-    }, [library, getGames]);
+        getGames()
+    }, [getGames]);
 
     useEffect(() => {
-        if (gameDetails) {
-            const sortedGames = [...gameDetails].sort((a, b) => a.title.localeCompare(b.title));
-            setGames(sortedGames);
+        if (gameDetails && library) {
+            // filter out the favourite games and sort them
+            const favouriteGames = library.filter(item => item.favourite).map(item => {
+                return gameDetails.find(game => game.id === item.gameId);
+            }).filter(game => game !== undefined) as Game[];
+
+            const sortedFavouriteGames = favouriteGames.sort((a, b) => a.title.localeCompare(b.title));
+            setFavouriteGames(sortedFavouriteGames);
+
+            // filter out the non-favourite games (exclude the ones already set as favourite)
+            const nonFavouriteGames = gameDetails.filter(game => {
+                return !library.some(item => item.favourite && item.gameId === game.id);
+            }).sort((a, b) => a.title.localeCompare(b.title));
+
+            setGames(nonFavouriteGames);
         }
-    }, [gameDetails])
+    }, [gameDetails, library]);
+
 
     const handleGameSelect = (game: Game) => {
         setSelectedGame(game);
@@ -75,109 +80,61 @@ export default function PlayerLibrary() {
     };
 
     return (
-        <Box display="flex"
-             flexDirection={isMobile ? "column" : "row"}
-             flexWrap="wrap"
-             sx={{
-                 maxWidth: {
-                     xs: '100vw',
-                     sm: '95vw',
-                     md: '80vw',
-                     lg: '100vw',
-                     xl: '100vw',
-                 },
-                 margin: isMobile ? '0 auto 0.5em' : '0 auto 2em',
-                 padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'),
-                 zoom: isMobile ? '0.9' : '0.825'
-             }}
-        >
-            {!isMobile && (
-                <SidebarGames
-                    isOpen={isOpen}
-                    toggleSidebar={toggleSidebar}
-                    games={games}
-                    onGameSelect={handleGameSelect}
-                />
-            )}
-            <GameStatCover title="Game Statistics">
-                {isLoading ? (
-                    <Box display="flex" justifyContent="center" alignItems="center" height="100%">
-                        <CircularProgress color="inherit"/>
-                    </Box>
-                ) : selectedGame ? (
-                    <>
-                        <Box display="flex" alignItems="center" justifyContent={isMobile ? "space-between" : "start"}
-                             padding={isMobile ? "3px 12px 10px" : "0.5em"}
-                             maxWidth={isMobile ? '300px' : 'auto'}>
-                            <p style={{
-                                margin: isMobile ? '2px' : '7px 0 7px 1em',
-                                fontSize: isMobile ? '20px' : '30px'
-                            }}>
-                                {selectedGame.title}
-                            </p>
-                            <Button sx={{
-                                    padding: "3px",
-                                    margin: "7px 15px",
-                                    fontSize: "16px",
-                                    backgroundColor: "#007BFF",
-                                    color: "#fff",
-                                    borderRadius: "4px",
-                                }}
-                                onClick={() => navigate("/play/" + selectedGame.id)}
-                            >
-                                <PlayArrowIcon/>
-                            </Button>
-                        </Box>
-
-                        {/* Show all Achievements Button */}
-                        <Box display="flex" justifyContent="flex-end" sx={{padding: '0.3em'}}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() => toggleSection('achievements')}
-                            >
-                                {showAchievements ? "Back to Stats" : "Show All Achievements"}
-                            </Button>
-                        </Box>
-
-                        {/* Conditionally render Achievements */}
-                        {showAchievements ? (
-                            <AchievementsDetailParent playerGameStats={playerGameStatsToUse}
-                                                      achievements={gameAchievements ?? []}/>
-                        ) : (
-                            <>
-                                <UpperComponentsCover playerGameStats={playerGameStatsToUse} isSidebarOpen={isOpen}
-                                                      achievement={gameAchievements ?? []}/>
-
-                                {/* Button for Completed Sessions */}
-                                <Box display="flex" justifyContent="flex-start" sx={{padding: '0.3em'}}>
-                                    <Button variant="contained" color="primary"
-                                            onClick={() => toggleSection('completedSessions')}>
-                                        {showCompletedSessions ? "Back to Overall" : "Show Completed Sessions"}
-                                    </Button>
-                                </Box>
-
-                                {/* Conditionally render Completed Sessions or overview of all sessions */}
-                                {showCompletedSessions ? (
-                                    <CompletedSessions playerGameStats={playerGameStatsToUse}/>
-                                ) : (
-                                    <OverallCompletedSessionsCard playerGameStats={playerGameStatsToUse}/>
-                                )}
-                            </>
-                        )}
-                    </>
-                ) : (
-                    <SelectGameAnimation/>
+        <>
+            <Box display="flex"
+                 flexDirection={isMobile ? "column" : "row"}
+                 flexWrap="wrap"
+                 sx={{
+                     maxWidth: {
+                         xs: '100vw',
+                         sm: '95vw',
+                         md: '80vw',
+                         lg: '100vw',
+                         xl: '100vw',
+                     },
+                     margin: isMobile ? '0 auto 0.5em' : '0 auto 2em',
+                     padding: isMobile ? (isOpen ? '1em' : '1em') : (isOpen ? '1em 0 0 ' : '1em'),
+                     zoom: isMobile ? '0.9' : '0.825'
+                 }}
+            >
+                {!isMobile && (
+                    <SidebarGames
+                        isOpen={isOpen}
+                        toggleSidebar={toggleSidebar}
+                        games={games}
+                        favouriteGames={favouriteGames ?? []}
+                        onGameSelect={handleGameSelect}
+                    />
                 )}
-            </GameStatCover>
-            {isMobile && (
-                <SidebarGames
-                    isOpen={isOpen}
-                    toggleSidebar={toggleSidebar}
-                    games={games}
-                    onGameSelect={handleGameSelect}
-                />
-            )}
-        </Box>
+                <GameStatCover title="Your Library">
+                    {isLoading ? (
+                        <LoadingComponent/>
+                    ) : selectedGame ?
+                        <SelectedGameDetails
+                            selectedGame={selectedGame}
+                            setSelectedGame={setSelectedGame}
+                            isMobile={isMobile}
+                            showAchievements={showAchievements}
+                            toggleSection={toggleSection}
+                            showCompletedSessions={showCompletedSessions}
+                            playerGameStats={playerGameStatsToUse}
+                            gameAchievements={gameAchievements}
+                            isSidebarOpen={isOpen}
+                        />
+                        : (
+                            <LibraryGamesGrid onGameSelect={handleGameSelect}/>
+                        )}
+                </GameStatCover>
+                {isMobile && (
+                    <SidebarGames
+                        isOpen={isOpen}
+                        toggleSidebar={toggleSidebar}
+                        games={games}
+                        favouriteGames={favouriteGames ?? []}
+                        onGameSelect={handleGameSelect}
+                    />
+                )}
+            </Box>
+        </>
     );
 }

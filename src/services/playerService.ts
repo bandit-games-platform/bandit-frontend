@@ -64,3 +64,13 @@ export async function processPendingNewFriendInvite(friendInviteId: string, acti
     const {data: updatedFriendInviteStatus} = await axios.post(url)
     return updatedFriendInviteStatus;
 }
+
+export async function updateGameFavoriteStatus(gameId: string, favourite: boolean) {
+    const url = `${PLAYER_BASE_URL}/players/library/${gameId}/favourites`;
+
+    const {data: updatedFavouriteStatus} = await axios.patch(url, {
+        favourite
+    });
+
+    return updatedFavouriteStatus;
+}

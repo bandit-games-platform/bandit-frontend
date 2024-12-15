@@ -6,8 +6,9 @@ import {
 import {Navigate, useParams} from "react-router-dom";
 import {useCreateNewOrder} from "../hooks/storefront/useCreateNewOrder.ts";
 import {useEffect} from "react";
-import {LoadingComponent} from "../components/LoadingComponent.tsx";
-import {ErrorComponent} from "../components/ErrorComponent.tsx";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 export function StripeCheckout() {
@@ -22,7 +23,7 @@ export function StripeCheckout() {
     }, [createOrder, gameId])
 
     if (orderPending) return <LoadingComponent/>;
-    if (orderError) return <Navigate to={`/game/${gameId}`} />;
+    if (orderError) return <Navigate to={`/game/${gameId}`}/>;
     if (orderDetails == null) return <ErrorComponent/>;
 
     return (
@@ -31,7 +32,7 @@ export function StripeCheckout() {
                 stripe={stripePromise}
                 options={orderDetails}
             >
-                <EmbeddedCheckout />
+                <EmbeddedCheckout/>
             </EmbeddedCheckoutProvider>
         </div>
     )

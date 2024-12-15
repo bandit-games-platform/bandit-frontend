@@ -1,7 +1,7 @@
 import {usePlayerJoinDate} from "../../hooks/player/usePlayerJoinDate.ts";
 import {usePlayerTotalPlaytime} from "../../hooks/statistics/usePlayerTotalPlaytime.ts";
-import {LoadingComponent} from "../LoadingComponent.tsx";
-import {ErrorComponent} from "../ErrorComponent.tsx";
+import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 import dayjs from "dayjs";
 import {Box} from "@mui/material";
 import Typography from "@mui/material/Typography";
@@ -26,7 +26,7 @@ export function TotalPlayTimeBar() {
             <Typography
                 variant={"h2"}
                 sx={{
-                    fontSize: { xs: '19px', md: '24px' },
+                    fontSize: {xs: '19px', md: '24px'},
                     marginTop: '5px',
                     marginBottom: '5px',
                 }}
@@ -36,7 +36,7 @@ export function TotalPlayTimeBar() {
             <Typography
                 variant={"h1"}
                 sx={{
-                    fontSize: { xs: '33px', md: '40px' },
+                    fontSize: {xs: '33px', md: '40px'},
                     marginTop: '5px',
                     marginBottom: '5px',
                 }}
@@ -46,7 +46,7 @@ export function TotalPlayTimeBar() {
             <Typography
                 variant={"h3"}
                 sx={{
-                    fontSize: { xs: '15px', md: '20px' },
+                    fontSize: {xs: '15px', md: '20px'},
                     marginTop: '5px',
                     marginBottom: '5px',
                 }}
