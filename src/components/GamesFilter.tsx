@@ -1,4 +1,5 @@
-import {Box, Card, Typography, Slider} from "@mui/material";
+import {Box, Card, Typography, Slider, useMediaQuery} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 
 interface GamesFilterProps {
     maxPrice: number;
@@ -8,6 +9,8 @@ interface GamesFilterProps {
 }
 
 function GamesFilter({maxPrice, minPrice, filteredPrice, setFilteredPrice}: GamesFilterProps) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const handlePriceChange = (_: Event, value: number | number[]) => {
         setFilteredPrice(value as number);
     };
@@ -15,50 +18,37 @@ function GamesFilter({maxPrice, minPrice, filteredPrice, setFilteredPrice}: Game
     return (
         <Card
             sx={{
-                position: 'sticky',
-                top: 20,
-                padding: '1.5rem',
+                padding: isMobile ? '0.4rem' : '0.5rem',
                 background: 'linear-gradient(135deg, #1976d2, #4fc3f7)',
-                borderRadius: '1rem',
-                boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.2)',
+                borderRadius: '0.75rem',
+                boxShadow: '0px 6px 16px rgba(0, 0, 0, 0.15)',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '1.5rem',
+                gap: isMobile ? '0.2rem' : '0.25rem',
                 zIndex: 1,
             }}
         >
             {/* Price Filter Section */}
-            <Box sx={{width: '100%'}}>
-                <Typography color="white" variant="h6" sx={{marginBottom: '1rem', fontWeight: 'bold'}}>
-                    Filter by Price
+            <Box>
+                <Typography color="white" variant="h6"
+                            sx={{
+                                marginBottom: '0.1rem',
+                                fontWeight: 'bold',
+                                fontSize: '1rem'
+                            }}>
+                    Filter Games by Price
                 </Typography>
                 <Slider
                     value={filteredPrice}
                     min={minPrice}
                     max={maxPrice}
-                    step={10}
+                    step={2}
                     onChange={handlePriceChange}
-                    valueLabelDisplay="on" // Display value directly on the thumb
-                    sx={{
-                        '& .MuiSlider-thumb': {
-                            width: '20px',
-                            height: '20px',
-                            backgroundColor: '#fff',
-                            border: '2px solid #1976d2',
-                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-                        },
-                        '& .MuiSlider-track': {
-                            backgroundColor: '#fff',
-                            height: '8px',
-                        },
-                        '& .MuiSlider-rail': {
-                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                            height: '8px',
-                        },
-                    }}
+                    valueLabelDisplay="auto"
+                    valueLabelFormat={(value) => `$${value}`}
                 />
-                <Typography variant="body2" sx={{color: 'white', marginTop: '0.5rem'}}>
-                    Selected: <strong>${filteredPrice}</strong> (Min: ${minPrice}, Max: ${maxPrice})
+                <Typography variant="body2" sx={{color: 'white', marginTop: '0.05rem', fontSize: '0.85rem'}}>
+                    Selected: <strong> Max: ${maxPrice}</strong>)
                 </Typography>
             </Box>
         </Card>

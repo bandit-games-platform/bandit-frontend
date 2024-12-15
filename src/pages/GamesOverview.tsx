@@ -49,11 +49,10 @@ export function GamesOverview() {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: 3,
+            padding: isMobile ? 2 : 3,
             gap: 2,
-            height: '100vh',
             textAlign: 'center',
-            marginTop: isMobile ? 50 : 0.1,
+            marginTop: 0.1,
         }}>
             <Typography
                 variant="h4"
@@ -62,7 +61,7 @@ export function GamesOverview() {
                     fontWeight: 600,
                     color: 'secondary.main',
                     marginBottom: 2,
-                    fontSize: isMobile ? '1.5rem' : '2rem', // Adjust font size on mobile
+                    fontSize: isMobile ? '1.5rem' : '2rem',
                 }}
             >
                 Explore Games
@@ -92,7 +91,7 @@ export function GamesOverview() {
                         borderColor: "secondary.light",
                     },
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "primary.main", // Customize your focus border color here
+                        borderColor: "secondary.main",
                     },
                     "& .MuiInputLabel-root": {
                         color: "text.secondary",
@@ -100,26 +99,38 @@ export function GamesOverview() {
                 }}
             />
 
-            {/* Filter - Positioned at the top-right */}
-            {/*<Box sx={{*/}
-            {/*    position: 'sticky',*/}
-            {/*    maxWidth: '350px',*/}
-            {/*}}>*/}
-            {/*    <GamesFilter*/}
-            {/*        maxPrice={maxPrice}*/}
-            {/*        minPrice={minPrice}*/}
-            {/*        filteredPrice={filteredPrice}*/}
-            {/*        setFilteredPrice={setFilteredPrice}*/}
-            {/*    />*/}
-            {/*</Box>*/}
+            {/*Filter*/}
+            <Box>
+                <GamesFilter
+                    maxPrice={maxPrice}
+                    minPrice={minPrice}
+                    filteredPrice={filteredPrice}
+                    setFilteredPrice={setFilteredPrice}
+                />
+            </Box>
 
-            {/* Filter and Games List Section */}
+            {/* Games List Section */}
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
                 width: '100%',
-                maxWidth: '1200px',
+                maxWidth: '1250px',
+                maxHeight: '550px',
+                overflowY: 'auto',
+                '&::-webkit-scrollbar': {
+                    width: 8,  // Width of the scrollbar
+                },
+                '&::-webkit-scrollbar-track': {
+                    backgroundColor: 'white',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: 'secondary.dark',
+                    borderRadius: '4px',
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                    backgroundColor: 'secondary.light',
+                }
             }}>
                 <Box sx={{
                     display: 'flex',
@@ -128,7 +139,6 @@ export function GamesOverview() {
                     position: 'relative',
                     flexDirection: isMobile ? 'column' : 'row',
                 }}>
-                    {/* Games List */}
                     <Box sx={{
                         flex: 1,
                         display: 'flex',
