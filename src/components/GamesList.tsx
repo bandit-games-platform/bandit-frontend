@@ -1,61 +1,42 @@
-import {Box, TextField} from "@mui/material";
+import {Box, Typography, useMediaQuery} from "@mui/material";
 import GameStoreCard from "./GameStoreCard";
-import {useEffect, useRef} from "react";
-import {Game} from "../model/gameRegistry/Game.ts";
+import {Game} from "../model/gameRegistry/Game";
+import {useTheme} from "@mui/material/styles";
 
 interface GamesListProps {
     games: Game[];
-    searchTerm: string;
-    setSearchTerm: (term: string) => void;
 }
 
-function GamesList({ games, searchTerm, setSearchTerm }: GamesListProps) {
+function GamesList({games}: GamesListProps) {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    const inputRef = useRef<HTMLInputElement>(null);
-
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-    }, []);
-
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newSearchTerm = e.target.value;
-        setSearchTerm(newSearchTerm);
+    const getGridTemplate = (count: number) => {
+        if (isMobile || count <= 1) return '1fr';
+        return 'repeat(2, 1fr)';
     };
 
     return (
         <Box
             sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px',
-                alignItems: 'flex-start',
-                backgroundColor: '#32333f',
-                padding: '1rem',
-                borderRadius: '1rem',
+                display: "grid",
+                gridTemplateColumns: getGridTemplate(games.length),
+                gap: 2,
+                width: "100%",
+                padding: 1,
             }}
         >
-            {/* Search input */}
-            <TextField
-                ref={inputRef}
-                id="search-game"
-                label="Search game by title"
-                variant="outlined"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                sx={{
-                    flex: 1,
-                    width: '100%',
-                    borderRadius: '1rem',
-                }}
-            />
-
-            {/* Display filtered games passed from the parent */}
             {games.length === 0 ? (
-                <Box sx={{ textAlign: 'center', color: 'gray' }}>
+                <Typography
+                    sx={{
+                        color: "text.secondary",
+                        fontSize: "1.2rem",
+                        textAlign: "center",
+                        width: "100%",
+                    }}
+                >
                     No games found.
-                </Box>
+                </Typography>
             ) : (
                 games.map((game) => (
                     <GameStoreCard

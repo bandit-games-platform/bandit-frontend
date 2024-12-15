@@ -1,5 +1,4 @@
-import {Box, Card, Typography} from "@mui/material";
-import PriceFilter from "./PriceFilter.tsx";
+import {Box, Card, Typography, Slider} from "@mui/material";
 
 interface GamesFilterProps {
     maxPrice: number;
@@ -8,64 +7,59 @@ interface GamesFilterProps {
     setFilteredPrice: (value: number) => void;
 }
 
-function GamesFilter({ maxPrice,minPrice, filteredPrice, setFilteredPrice }: GamesFilterProps) {
-    return (
-        <Card sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            padding: "2rem",
-            backgroundColor: "#878c95",
-            borderRadius: "0.5rem",
-            boxShadow: "none",
-            width: "20vw",
-            height: "auto",
-            gap: "1rem"
-        }}>
-            {/*TODO uncomment for when backend tags will be implemented*/}
+function GamesFilter({maxPrice, minPrice, filteredPrice, setFilteredPrice}: GamesFilterProps) {
+    const handlePriceChange = (_: Event, value: number | number[]) => {
+        setFilteredPrice(value as number);
+    };
 
-            {/* Tags */}
-            {/*<Box sx={{ width: "100%" }}>*/}
-            {/*    <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>*/}
-            {/*        TAGS*/}
-            {/*    </Typography>*/}
-            {/*    <Autocomplete*/}
-            {/*        multiple*/}
-            {/*        limitTags={2}*/}
-            {/*        id="multiple-limit-tags"*/}
-            {/*        options={tags}*/}
-            {/*        defaultValue={[*/}
-            {/*            tags[1], tags[2], tags[3], tags[13], tags[12], tags[11],*/}
-            {/*        ]}*/}
-            {/*        renderInput={(params) => (*/}
-            {/*            <TextField*/}
-            {/*                {...params}*/}
-            {/*                label="Select Tags"*/}
-            {/*                placeholder="Favorites"*/}
-            {/*                sx={{*/}
-            {/*                    borderRadius: "4px",*/}
-            {/*                }}*/}
-            {/*            />*/}
-            {/*        )}*/}
-            {/*        sx={{*/}
-            {/*            width: "100%",*/}
-            {/*            "& .MuiAutocomplete-tag:hover": {*/}
-            {/*                backgroundColor: "#e0e0e0",*/}
-            {/*            },*/}
-            {/*        }}*/}
-            {/*    />*/}
-            {/*</Box>*/}
-            {/* Price  */}
-            <Box sx={{ width: "100%" }}>
-                <Typography color="black" variant="h6" sx={{ marginBottom: "0.5rem" }}>
-                    PRICE
+    return (
+        <Card
+            sx={{
+                position: 'sticky',
+                top: 20,
+                padding: '1.5rem',
+                background: 'linear-gradient(135deg, #1976d2, #4fc3f7)',
+                borderRadius: '1rem',
+                boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.2)',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem',
+                zIndex: 1,
+            }}
+        >
+            {/* Price Filter Section */}
+            <Box sx={{width: '100%'}}>
+                <Typography color="white" variant="h6" sx={{marginBottom: '1rem', fontWeight: 'bold'}}>
+                    Filter by Price
                 </Typography>
-                <PriceFilter
-                    minPrice={minPrice}
-                    maxPrice={maxPrice}
-                    filteredPrice={filteredPrice}
-                    setFilteredPrice={setFilteredPrice}
+                <Slider
+                    value={filteredPrice}
+                    min={minPrice}
+                    max={maxPrice}
+                    step={10}
+                    onChange={handlePriceChange}
+                    valueLabelDisplay="on" // Display value directly on the thumb
+                    sx={{
+                        '& .MuiSlider-thumb': {
+                            width: '20px',
+                            height: '20px',
+                            backgroundColor: '#fff',
+                            border: '2px solid #1976d2',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
+                        },
+                        '& .MuiSlider-track': {
+                            backgroundColor: '#fff',
+                            height: '8px',
+                        },
+                        '& .MuiSlider-rail': {
+                            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                            height: '8px',
+                        },
+                    }}
                 />
+                <Typography variant="body2" sx={{color: 'white', marginTop: '0.5rem'}}>
+                    Selected: <strong>${filteredPrice}</strong> (Min: ${minPrice}, Max: ${maxPrice})
+                </Typography>
             </Box>
         </Card>
     );
