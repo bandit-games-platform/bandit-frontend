@@ -18,7 +18,7 @@ export function usePlayerLibrary() {
     }
 }
 
-export function usePlayerLibraryUpdateFavouriteStatus(gameId: string) {
+export function useGameFavouriteStatus(gameId: string) {
     const {mutate, isPending, isError} = useMutation({
         mutationFn: (newFavoriteStatus: boolean) => updateGameFavoriteStatus(gameId, newFavoriteStatus),
     });

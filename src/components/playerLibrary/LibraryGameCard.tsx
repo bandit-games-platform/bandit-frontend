@@ -5,7 +5,7 @@ import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
 import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 import {Favorite, FavoriteBorder} from '@mui/icons-material';
 import {useState} from "react";
-import {usePlayerLibraryUpdateFavouriteStatus} from "../../hooks/player/usePlayerLibrary.ts";
+import {useGameFavouriteStatus} from "../../hooks/player/usePlayerLibrary.ts";
 import {Game} from "../../model/gameRegistry/Game.ts";
 
 interface LibraryGameCardProps {
@@ -14,16 +14,12 @@ interface LibraryGameCardProps {
     onGameSelect: (game: Game) => void;
 }
 
-export default function LibraryGameCard({
-                                            gameId,
-                                            isFavorite,
-                                            onGameSelect
-                                        }: LibraryGameCardProps) {
+export default function LibraryGameCard({gameId, isFavorite, onGameSelect}: LibraryGameCardProps) {
     const {isLoading, isError, game} = useGameDetails(gameId);
     const theme = useTheme();
     const [favorite, setFavorite] = useState(isFavorite);
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-    const {mutate, isPending} = usePlayerLibraryUpdateFavouriteStatus(gameId);
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const {mutate, isPending} = useGameFavouriteStatus(gameId);
 
     const handleFavoriteToggle = () => {
         mutate(!favorite, {
@@ -50,7 +46,7 @@ export default function LibraryGameCard({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                padding: isSmallScreen ? '1em' : '1.4em',
+                padding: isMobile ? '1em' : '1.4em',
                 gap: '1em',
                 background: 'linear-gradient(135deg, #092c67, #121212)',
                 borderRadius: '12px',
@@ -78,8 +74,8 @@ export default function LibraryGameCard({
                     src={game.icon}
                     alt={game.title}
                     sx={{
-                        width: isSmallScreen ? '70px' : '100px',
-                        height: isSmallScreen ? '70px' : '100px',
+                        width: isMobile ? '70px' : '100px',
+                        height: isMobile ? '70px' : '100px',
                         marginBottom: '0.5em',
                         borderRadius: '8px',
                     }}
@@ -87,7 +83,7 @@ export default function LibraryGameCard({
                 <Typography
                     variant="h6"
                     sx={{
-                        fontSize: isSmallScreen ? '1rem' : '1.3rem',
+                        fontSize: isMobile ? '1rem' : '1.3rem',
                         fontWeight: theme.typography.h1.fontWeight,
                         color: theme.palette.secondary.main,
                         textAlign: 'center',
@@ -101,7 +97,7 @@ export default function LibraryGameCard({
                     sx={{
                         color: theme.palette.secondary.light,
                         textAlign: 'center',
-                        fontSize: isSmallScreen ? '0.8rem' : '0.9rem',
+                        fontSize: isMobile ? '0.8rem' : '0.9rem',
                     }}
                 >
                     {game.description}

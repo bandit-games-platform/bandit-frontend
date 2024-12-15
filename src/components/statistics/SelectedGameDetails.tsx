@@ -3,11 +3,11 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import {Game} from "../../model/gameRegistry/Game";
 import {useNavigate} from "react-router-dom";
 import AchievementsDetailParent from "./AchievementsDetailParent.tsx";
-import CompletedSessions from "../statistics/CompletedSessions.tsx"; // Adjust the import path if needed
+import CompletedSessions from "../statistics/CompletedSessions.tsx";
 import OverallCompletedSessionsCard from "../statistics/OverallCompletedSessionsCard.tsx";
 import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
 import {Achievement} from "../../model/gameRegistry/Achievement.ts";
-import UpperComponentsCover from "./UpperComponentsCover.tsx"; // Adjust the import path if needed
+import UpperComponentsCover from "./UpperComponentsCover.tsx";
 
 interface SelectedGameDetailsProps {
     selectedGame: Game;

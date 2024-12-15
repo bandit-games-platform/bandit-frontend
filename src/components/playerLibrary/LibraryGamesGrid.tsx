@@ -23,15 +23,11 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
     };
 
     if (libraryLoading) {
-        return (
-            <LoadingComponent/>
-        );
+        return <LoadingComponent/>
     }
 
     if (libraryError || !library) {
-        return (
-            <ErrorComponent/>
-        );
+        return <ErrorComponent/>
     }
 
     if (library.length === 0) {
