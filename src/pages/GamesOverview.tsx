@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
-import {CircularProgress, Box, Typography, TextField, useMediaQuery} from "@mui/material";
+import {Box, Typography, TextField, useMediaQuery} from "@mui/material";
 import GamesList from "../components/GamesList.tsx";
 import {useDebouncedSearch} from "../hooks/gameRegistry/useDebouncedSearch.ts";
 import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/gameRegistry/useGamesOverview.ts";
 import GamesFilter from "../components/GamesFilter.tsx";
 import {useTheme} from "@mui/material/styles";
+import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
+import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
 
 export function GamesOverview() {
     const [minPrice, setMinPrice] = useState<number>(0);
@@ -27,19 +29,24 @@ export function GamesOverview() {
             setMaxPrice(Math.max(...prices));
         }
 
-        setSearchParams({
-            ...Object.fromEntries(searchParams),
-            searchTerm: debouncedSearchTerm || "",
-            price: filteredPrice.toString(),
-        });
-    }, [debouncedSearchTerm, filteredPrice, setSearchParams, searchParams, overview]);
+        if (debouncedSearchTerm) {
+            setSearchParams({...Object.fromEntries(searchParams), searchTerm: debouncedSearchTerm});
+
+        } else {
+            setSearchParams({...Object.fromEntries(searchParams), searchTerm: ""});
+        }
+        if (filteredPrice !== urlPrice) {
+            setSearchParams({...Object.fromEntries(searchParams), price: filteredPrice.toString()});
+        }
+
+    }, [debouncedSearchTerm, filteredPrice, setSearchParams, searchParams, urlPrice, overview]);
 
     if (isLoading) {
-        return <CircularProgress color="inherit"/>;
+        return <LoadingComponent/>
     }
 
     if (isError || !overview) {
-        return <div>Whoops: Something went wrong!</div>;
+        return <ErrorComponent/>
     }
 
 
@@ -92,6 +99,7 @@ export function GamesOverview() {
                     },
                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                         borderColor: "secondary.main",
+                        color: "white"
                     },
                     "& .MuiInputLabel-root": {
                         color: "text.secondary",
@@ -119,7 +127,7 @@ export function GamesOverview() {
                 maxHeight: '550px',
                 overflowY: 'auto',
                 '&::-webkit-scrollbar': {
-                    width: 8,  // Width of the scrollbar
+                    width: 8,
                 },
                 '&::-webkit-scrollbar-track': {
                     backgroundColor: 'white',
