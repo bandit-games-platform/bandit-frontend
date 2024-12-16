@@ -81,10 +81,10 @@ export function Gameplay() {
             </Tabs>
             <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
 
-            {tab === 0 && <Box sx={{
+            <Box sx={{
                 flex: 1, // Take up the remaining space
                 overflow: "hidden", // Prevent scrollbars
-            }}>
+            }} hidden={tab !== 0}>
                 <iframe src={getIframeUrl()}
                         style={{
                             width: "100%",
@@ -93,15 +93,15 @@ export function Gameplay() {
                             backgroundColor: "transparent"
                         }}
                 />
-            </Box>}
+            </Box>
 
-            {tab === 1 && <Container>
+            <Container hidden={tab !== 1}>
                 <ChatbotTab gameId={gameId}/>
-            </Container>}
+            </Container>
 
-            {tab === 2 && <Container>
+            <Container hidden={tab !== 2 }>
                 <InviteTab lobbyId={lobbyId}/>
-            </Container>}
+            </Container>
         </Box>
     );
 }
