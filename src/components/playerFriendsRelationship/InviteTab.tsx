@@ -3,7 +3,11 @@ import {usePlayerFriends} from "../../hooks/player/usePlayerFriendsDetails.ts";
 import InviteFriendToGameButton from "./InviteFriendToGameButton.tsx";
 import theme from "../../theme/theme.ts";
 
-export default function InviteTab() {
+interface InviteTabProps {
+    lobbyId: string | undefined
+}
+
+export default function InviteTab({lobbyId}: InviteTabProps) {
     const {isLoading, isError, playerFriendsList} = usePlayerFriends();
 
     const getGridTemplate = (count: number) => {
@@ -56,7 +60,7 @@ export default function InviteTab() {
                 </Box>
             )}
 
-            {isError && (
+            {(isError || !lobbyId) && (
                 <Typography
                     variant="h6"
                     sx={{
@@ -69,7 +73,8 @@ export default function InviteTab() {
                         },
                     }}
                 >
-                    Error loading friends list. Please try again later.
+                    {isError && "Error loading friends list. Please try again later."}
+                    {!lobbyId && "Cannot identify current lobby, something went wrong!"}
                 </Typography>
             )}
 
@@ -136,7 +141,7 @@ export default function InviteTab() {
                             >
                                 {friend.username}
                             </Typography>
-                            <InviteFriendToGameButton friendId={friend.id}/>
+                            <InviteFriendToGameButton friendId={friend.id} lobbyId={lobbyId!}/>
                         </Box>
                     ))}
                 </Box>

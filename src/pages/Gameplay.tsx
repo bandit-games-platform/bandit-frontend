@@ -7,6 +7,7 @@ import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
 import SecurityContext from "../context/SecurityContext.ts";
 import {ChatbotTab} from "../components/chatbot/ChatbotTab.tsx";
 import InviteTab from "../components/playerFriendsRelationship/InviteTab.tsx";
+import {useCanInviteToLobby} from "../hooks/gameplay/useCanInviteToLobby.ts";
 
 const modalProps = {
     confirmTitle: "Leave Game?",
@@ -19,7 +20,9 @@ export function Gameplay() {
     const {gameId = ''} = useParams();
     const {game, isLoading, isError} = useGameDetails(gameId);
     const {loggedInUserId} = useContext(SecurityContext);
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [lobbyId, setLobbyId] = useState<string | undefined>(undefined);
+    const {canInvite} = useCanInviteToLobby(lobbyId);
 
 
     const library = "/library?selected=" + gameId;
@@ -50,15 +53,23 @@ export function Gameplay() {
         );
     }
 
+    if (!canInvite && tab === 2) setTab(0);
+
     const handleChange = (_: SyntheticEvent, newTab: number) => {
         setTab(newTab);
     }
 
+    if (searchParams.has("joinLobby")) {
+        setLobbyId(searchParams.get("joinLobby")!);
+
+        searchParams.delete("joinLobby");
+        setSearchParams(searchParams);
+    }
+
     const getIframeUrl = () => {
         const host = (game.currentHost.endsWith("/") ? game.currentHost.slice(0, -1) : game.currentHost);
-        const lid = searchParams.get("joinLobby");
 
-        return host + "?playerId=" + loggedInUserId + (lid ? "&lobbyId=" + lid : "");
+        return host + "?playerId=" + loggedInUserId + (lobbyId ? "&lobbyId=" + lobbyId : "");
     }
 
     return (
@@ -66,7 +77,7 @@ export function Gameplay() {
             <Tabs value={tab} onChange={handleChange}>
                 <Tab label="Game"/>
                 <Tab label="Rules"/>
-                <Tab label="Invite"/>
+                <Tab label="Invite" disabled={!canInvite}/>
             </Tabs>
             <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
 
@@ -89,7 +100,7 @@ export function Gameplay() {
             </Container>}
 
             {tab === 2 && <Container>
-                <InviteTab/>
+                <InviteTab lobbyId={lobbyId}/>
             </Container>}
         </Box>
     );

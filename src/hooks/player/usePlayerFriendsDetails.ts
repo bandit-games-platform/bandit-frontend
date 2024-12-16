@@ -15,7 +15,8 @@ export function usePlayerFriendsDetails(username?: string) {
 export function usePlayerFriends() {
     const {isLoading, isError, data: playerFriendsList} = useQuery({
         queryKey: ['playerFriendsList'],
-        queryFn: () => getFriendsList()
+        queryFn: () => getFriendsList(),
+        refetchInterval: 10000
     })
 
     return {
