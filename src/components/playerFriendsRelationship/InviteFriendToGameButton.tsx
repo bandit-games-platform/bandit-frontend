@@ -1,13 +1,23 @@
-import {Button} from "@mui/material";
+import {Button, CircularProgress} from "@mui/material";
+import {useCreateGameInvite} from "../../hooks/gameplay/useCreateGameInvite.ts";
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 interface InviteFriendToGameButtonProps {
     friendId: string;
+    lobbyId: string;
 }
 
-export default function InviteFriendToGameButton({friendId}: InviteFriendToGameButtonProps) {
+export default function InviteFriendToGameButton({friendId, lobbyId}: InviteFriendToGameButtonProps) {
+    const {isPending, isSuccess, createInvite} = useCreateGameInvite();
+
     const handleInvite = () => {
-        console.log(`Inviting friend with ID: ${friendId}`);
-        // TODO: Add invitation to game logic here
+        if (isPending) return;
+
+        console.log(`Inviting friend with ID: ${friendId} to lobby with ID: ${lobbyId}`);
+        createInvite({
+            lobbyId: lobbyId,
+            invitedId: friendId
+        });
     };
 
     return (
@@ -26,8 +36,11 @@ export default function InviteFriendToGameButton({friendId}: InviteFriendToGameB
                 },
             }}
             onClick={handleInvite}
+            disabled={isPending}
         >
-            Invite to Game
+            {!isPending && !isSuccess && "Invite to Game"}
+            {isPending && <CircularProgress color="inherit" size="1.4em" />}
+            {isSuccess && <>Invited <CheckCircleOutlineIcon color="success" fontSize="small" /></>}
         </Button>
     );
 }

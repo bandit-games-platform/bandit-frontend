@@ -15,6 +15,7 @@ import theme from '../../theme/theme.ts';
 import SecurityContext from "../../context/SecurityContext.ts";
 import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
+import {GameInvitesComponent} from "./GameInvitesComponent.tsx";
 
 const pages = [
     {name: 'Store', path: '/store', roles: ['player']},
@@ -179,6 +180,9 @@ export function Navbar() {
                                 </Link>
                             ))}
                     </Box>
+
+                    <GameInvitesComponent/>
+
                     <Box sx={{flexGrow: 0, display: 'flex', alignItems: 'center', gap: 1}}>
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
