@@ -57,8 +57,8 @@ export function GamesOverview() {
             justifyContent: 'center',
             alignItems: 'center',
             padding: isMobile ? 2 : 3,
-            gap: 2,
-            textAlign: 'center',
+            gap: isMobile ? 0.2 : 2,
+            textAlign: 'left',
             marginTop: 0.1,
         }}>
             <Typography
@@ -67,55 +67,81 @@ export function GamesOverview() {
                 sx={{
                     fontWeight: 600,
                     color: 'secondary.main',
-                    marginBottom: 2,
+                    marginBottom: isMobile ? 0.2 : 2,
                     fontSize: isMobile ? '1.5rem' : '2rem',
                 }}
             >
                 Explore Games
             </Typography>
 
-
-            {/* Search Box */}
-            <TextField
-                id="search-game"
-                label="Search games..."
-                variant="outlined"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                fullWidth
+            <Box
                 sx={{
-                    maxWidth: '600px',
-                    marginBottom: 2,
-                    borderRadius: 2,
-                    "& .MuiOutlinedInput-root": {
-                        borderRadius: "0.5rem",
-                        backgroundColor: "background.paper",
-                    },
-                    "& .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "secondary.main",
-                    },
-                    "&:hover .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "secondary.light",
-                    },
-                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                        borderColor: "secondary.main",
-                        color: "white"
-                    },
-                    "& .MuiInputLabel-root": {
-                        color: "text.secondary",
-                    },
+                    display: "flex",
+                    flexDirection: {xs: "column", sm: "row"},
+                    gap: isMobile ? 3 : 1,
+                    alignItems: "center",
+                    marginBottom: isMobile ? 0.1 : 2,
+                    width: isMobile ? "90%" : "60%",
                 }}
-            />
+            >
+                {/* Left Spacer - 10% */}
+                <Box
+                    sx={{
+                        flex: {xs: "1 1 100%", sm: "0 1 10%"},
+                    }}
+                ></Box>
 
-            {/*Filter*/}
-            <Box>
-                <GamesFilter
-                    maxPrice={maxPrice}
-                    minPrice={minPrice}
-                    filteredPrice={filteredPrice}
-                    setFilteredPrice={setFilteredPrice}
-                />
+                {/* Search Box - 60% */}
+                <Box
+                    sx={{
+                        flex: {xs: "1 1 100%", sm: "0 1 60%"},
+                    }}
+                >
+                    <TextField
+                        id="search-game"
+                        label="Search games..."
+                        variant="outlined"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        fullWidth
+                        sx={{
+                            borderRadius: 2,
+                            "& .MuiOutlinedInput-root": {
+                                borderRadius: "0.5rem",
+                                backgroundColor: "background.paper",
+                            },
+                            "& .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "secondary.main",
+                            },
+                            "&:hover .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "secondary.light",
+                            },
+                            "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                                borderColor: "secondary.main",
+                            },
+                            "& .MuiInputLabel-root": {
+                                color: "text.secondary",
+                            },
+                        }}
+                    />
+                </Box>
+
+                {/* Right Slider - 30% */}
+                <Box
+                    sx={{
+                        flex: {xs: "1 1 100%", sm: "0 1 30%"},
+                        maxWidth: '60em'
+                    }}
+                >
+                    <GamesFilter
+                        maxPrice={maxPrice}
+                        minPrice={minPrice}
+                        filteredPrice={filteredPrice}
+                        setFilteredPrice={setFilteredPrice}
+                    />
+                </Box>
             </Box>
+
 
             {/* Games List Section */}
             <Box sx={{
