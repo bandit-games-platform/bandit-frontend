@@ -118,6 +118,7 @@ export function GamesOverview() {
                             },
                             "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
                                 borderColor: "secondary.main",
+                                color: "white"
                             },
                             "& .MuiInputLabel-root": {
                                 color: "text.secondary",
