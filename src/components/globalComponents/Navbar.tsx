@@ -15,7 +15,7 @@ import theme from '../../theme/theme.ts';
 import SecurityContext from "../../context/SecurityContext.ts";
 import {Link} from "react-router-dom";
 import {Avatar, Tooltip} from "@mui/material";
-import {GameInvitesComponent} from "./GameInvitesComponent.tsx";
+import {GameInvitesComponent} from "../GameInvitesComponent.tsx";
 
 const pages = [
     {name: 'Store', path: '/store', roles: ['player']},
