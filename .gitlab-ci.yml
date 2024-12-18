@@ -1,8 +1,12 @@
+default:
+  interruptible: true
+  image: node:20-alpine
+
 stages:
   - build
   - test
-  - deploy
-  - destroy
+#  - deploy
+#  - destroy
 
 # ----------------------- BUILD ---------------------------------- #
 build:
@@ -21,7 +25,7 @@ eslint:
   stage: test
   script:
     - echo "Running ESLint"
-    - npm ci # Ensure dependencies are installed
+    - npm ci
     - npm run lint
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
