@@ -1,0 +1,51 @@
+stages:
+  - build
+  - test
+  - deploy
+  - destroy
+
+# ----------------------- BUILD ---------------------------------- #
+build:
+  stage: build
+  script:
+    - echo "Building bandit-frontend project"
+    - npm ci
+    - npm run build
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == 'ci-cd/dev'
+
+# ----------------------- TEST ---------------------------------- #
+eslint:
+  stage: test
+  script:
+    - echo "Running ESLint"
+    - npm ci # Ensure dependencies are installed
+    - npm run lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == 'ci-cd/dev'
+  allow_failure: false
+
+# ----------------------- DEPLOY ---------------------------------- #
+#deploy:
+#  stage: deploy
+#  script:
+#    - echo "Deploying project to development environment..."
+#    # Add your deployment script/commands here
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+#  environment:
+#    name: development
+#    url:
+
+# ----------------------- DESTROY ---------------------------------- #
+#destroy:
+#  stage: destroy
+#  script:
+#    - echo "Cleaning up resources in development..."
+#  rules:
+#    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+#    - if: $CI_COMMIT_BRANCH == 'ci-cd'
