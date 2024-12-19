@@ -13,10 +13,6 @@ build:
     - echo "Building bandit-frontend project"
     - npm ci
     - npm run build
-  artifacts:
-    paths:
-      - build/
-    expire_in: 2 days
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_TAG
@@ -36,21 +32,17 @@ eslint:
   allow_failure: false
 
 
-semgrep-sast:
+sast:
   stage: test
-  image: semgrep/semgrep:latest
   script:
-    - echo "Running Semgrep SAST scan"
-    - semgrep --config p/owasp-top-ten --error --metrics=off
+    - echo "Running SAST with dependency-check or another tool"
+    - npx snyk code --severity-threshold=medium
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH == 'ci-cd/dev'
   allow_failure: false
-  artifacts:
-    paths:
-      - semgrep-results.json
-    expire_in: 2 days
+
 
 
 # ----------------------- DEPLOY ---------------------------------- #
