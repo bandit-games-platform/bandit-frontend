@@ -32,6 +32,7 @@ build_dev:
   stage: build
   script:
     - set -e
+    - apk add --no-cache docker
     - echo "Verifying Docker CLI availability"
     - docker --version
     - echo "Building and tagging bandit-frontend dev project"
