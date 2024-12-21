@@ -30,8 +30,10 @@ build_dev:
   <<: *docker-setup
   stage: build
   script:
-    - echo "Building bandit-frontend dev project"
-    - docker build -t bandit-frontend:dev .
+    - echo "Building and tagging bandit-frontend dev project"
+    - docker build -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA .
+    - echo "Pushing Docker image to Azure Container Registry"
+    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
@@ -78,16 +80,37 @@ sast:
 
 
 # ----------------------- DEPLOY ---------------------------------- #
-#deploy:
+
+#deploy_dev:
+#  image: mcr.microsoft.com/azure-cli
 #  stage: deploy
+#  when: on_success
+#  needs:
+#    - build_dev
+#  before_script:
+#    - echo "Logging into Azure"
+#    - az login --service-principal -u $DEV_AZURE_APP_ID -p $DEV_AZURE_PASSWORD --tenant $DEV_AZURE_TENANT
+#    - az extension add --name containerapp --upgrade
 #  script:
-#    - echo "Deploying project to development environment..."
-#    # Add deployment script/commands here
-#  rules:
-#    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+#    - echo "Deploying Docker image to Azure Container Apps"
+#    - az containerapp up --name $CONTAINER_NAME \
+#      --resource-group $RESOURCE_GROUP \
+#      --image "$REG_USERNAME.azurecr.io/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" \
+#      --target-port $PORT \
+#      --ingress external \
+#      --cpu 1 --memory 2Gi \
+#      --min-replicas 0 --max-replicas 1
+#    - echo "Deployment complete"
 #  environment:
-#    name: development
-#    url:
+#    name: frontend-dev
+#    deployment_tier: testing
+#    action: start
+#    auto_stop_in: 1 hours
+#    on_stop: destroy_dev
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+
 
 # ----------------------- DESTROY ---------------------------------- #
 #destroy:
