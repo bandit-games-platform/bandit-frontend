@@ -16,18 +16,38 @@ stages:
 
 # ----------------------- BUILD ---------------------------------- #
 
+#build_dev:
+#  stage: build
+#  script:
+#    - set -e
+#    - apk add --no-cache docker
+#    - echo "Logging into Azure"
+#    - docker login $REGISTRY_USERNAME.azurecr.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
+#    - echo "Building and tagging bandit-frontend dev project"
+#    - docker build -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA .
+#    - echo "publishing image to azure"
+#    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+#  services:
+#    - docker:27.3.1-dind
+#  variables:
+#    DOCKER_HOST: "tcp://docker:2375"
+#    DOCKER_TLS_CERTDIR: ""
+#  rules:
+#    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
 
-build_dev:
+
+build_prod:
   stage: build
   script:
     - set -e
     - apk add --no-cache docker
     - echo "Logging into Azure"
-    - docker login $REGISTRY_USERNAME.azurecr.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
-    - echo "Building and tagging bandit-frontend dev project"
-    - docker build -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA .
-    - echo "publishing image to azure"
-    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+    - docker login $PROD_REGISTRY_USERNAME.azurecr.io -u $PROD_REGISTRY_USERNAME -p $PROD_REGISTRY_PASSWORD
+    - echo "Building and tagging bandit-frontend prod project"
+    - docker build -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA .
+    - echo "publishing prod image to azure"
+    - docker push $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA
   services:
     - docker:27.3.1-dind
   variables:
@@ -36,7 +56,6 @@ build_dev:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
-
 
 
 #.build-setup: &build-setup
@@ -108,6 +127,39 @@ sast:
 
 
 # ----------------------- DEPLOY ---------------------------------- #
+
+deploy_webapp_dev:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  before_script:
+    - echo "Logging into Azure"
+    - az login --service-principal -u $DEV_AZURE_APP_ID -p $DEV_AZURE_PASSWORD --tenant $DEV_AZURE_TENANT
+    - az account set --subscription $SUBS_ID_DEV
+  script:
+    - declare -A value_map=(
+      ["ENV_NAME"]="env-dev-webapp"
+      ["RESOURCE_GROUP"]="rg_bandit_games_dev"
+      ["WEBAPP_NAME"]="bandit-games-dev"
+      ["RUNTIME"]="NODE:18-lts"
+      ["OS_TYPE"]="Linux"
+      ["REGION"]="Canada Central"
+      ["SKU"]="B1"
+      )
+    - serialized_map=""
+    - for key in "${!value_map[@]}"; do serialized_map+="$key=${value_map[$key]} "; done
+    - chmod +x cicd/deploy-webapp.sh
+    - cicd/deploy-webapp.sh "$serialized_map"
+  environment:
+    name: webapp-dev
+    deployment_tier: testing
+    action: start
+    auto_stop_in: 1 hours
+    on_stop: destroy_webapp_dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+
+
 
 #deploy_dev:
 #  image: mcr.microsoft.com/azure-cli
