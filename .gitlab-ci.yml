@@ -22,14 +22,12 @@ build_dev:
   script:
     - set -e
     - apk add --no-cache docker
-    - echo "Verifying Docker CLI availability"
-    - docker --version
-    # login
     - echo "Logging into Azure"
     - docker login $REGISTRY_USERNAME.azurecr.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
-
     - echo "Building and tagging bandit-frontend dev project"
     - docker build -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA .
+    - echo "publishing image to azure"
+    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
   services:
     - docker:27.3.1-dind
   variables:
