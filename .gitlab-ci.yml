@@ -103,7 +103,7 @@ deploy_webapp_prod:
       ["REGISTRY_URL"]="$PROD_REGISTRY_USERNAME.azurecr.io"
       ["REGISTRY_USERNAME"]="$PROD_REGISTRY_USERNAME"
       ["REGISTRY_PASSWORD"]="$PROD_REGISTRY_PASSWORD"
-      ["LOCATION"]="West Europe"
+      ["LOCATION"]="westeurope"
       ["SKU"]="B1"
       )
     - serialized_map=""

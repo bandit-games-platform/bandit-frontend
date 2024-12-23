@@ -54,7 +54,7 @@ if [ -z "$PLAN_EXISTS" ]; then
         --name "$PLAN" \
         --resource-group "$RESOURCE_GROUP" \
         --sku "$SKU" \
-        --is-linux true \
+        --is-linux \
         --location "$LOCATION"
 
     echo "Azure App Service Plan '$PLAN' has been created."
