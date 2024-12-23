@@ -38,7 +38,7 @@ done
 #Frontend WebAPP
 
 # Validate required variables
-if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" || "$RUNTIME" == "null" ]]; then
+if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" ]]; then
     echo "Error: One or more required variables are not set."
     echo "Ensure NAME, RESOURCE_GROUP, PLAN, OS_TYPE, RUNTIME, CONTAINER_IMAGE, REGISTRY_URL, REGISTRY_USER, and REGISTRY_PASSWORD are provided."
     exit 1
