@@ -55,7 +55,6 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --name "$NAME" \
         --plan "$PLAN" \
         --resource-group "$RESOURCE_GROUP" \
-        --runtime "$RUNTIME" \
         --container-image-name "$CONTAINER_IMAGE" \
         --container-registry-url "$REGISTRY_URL" \
         --container-registry-user "$REGISTRY_USERNAME" \

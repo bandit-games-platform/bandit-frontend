@@ -104,7 +104,6 @@ deploy_webapp_prod:
       ["RESOURCE_GROUP"]="rg_bandit_games_prod"
       ["PLAN"]="asp-frontend-prod"
       ["SUBSCRIPTION"]="$SUBS_ID_PROD"
-      ["RUNTIME"]="NODE:20-lts"
       ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod"
       ["REGISTRY_URL"]="$PROD_REGISTRY_USERNAME.azurecr.io"
       ["REGISTRY_USERNAME"]="$PROD_REGISTRY_USERNAME"
