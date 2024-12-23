@@ -46,7 +46,7 @@ build_prod:
     - echo "Logging into Azure"
     - docker login $PROD_REGISTRY_USERNAME.azurecr.io -u $PROD_REGISTRY_USERNAME -p $PROD_REGISTRY_PASSWORD
     - echo "Building and tagging bandit-frontend prod project"
-    - docker build -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA .
+    - docker build -build-arg VITE_KC_URL=https://keycloak.victoriousocean-73fa80ad.northeurope.azurecontainerapps.io -build-arg VITE_KC_REALM=bandit-realm -build-arg VITE_KC_CLIENT_ID=bandit-frontend -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA .
     - echo "publishing prod image to azure"
     - docker push $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA
   services:
