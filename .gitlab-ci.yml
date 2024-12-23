@@ -13,7 +13,7 @@ workflow:
 stages:
   - build
   - test
-#  - deploy
+  - deploy
 
 # ----------------------- BUILD ---------------------------------- #
 
