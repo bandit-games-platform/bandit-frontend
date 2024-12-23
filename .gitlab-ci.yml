@@ -44,12 +44,14 @@ build_prod:
       --build-arg VITE_PLAYER_URL=$PROD_PLAYER_URL \
       --build-arg VITE_STATISTICS_URL=$PROD_STATISTICS_URL \
       --build-arg VITE_STOREFRONT_URL=$PROD_STOREFRONT_URL \
-      -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA .
-    - echo "publishing prod image to azure"
+      -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA \
+      .
+    - echo "Publishing prod image to Azure"
     - docker push $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "ci-cd/dev"'
+
 
 
 # ----------------------- TEST ---------------------------------- #
