@@ -34,7 +34,7 @@ build_prod:
   stage: build
   script:
     - echo "Building and tagging bandit-frontend prod project"
-    - docker build \
+    - docker buildx build \
       --build-arg VITE_KC_URL=$KC_URL \
       --build-arg VITE_KC_REALM=$KC_REALM \
       --build-arg VITE_KC_CLIENT_ID=$KC_CLIENT_ID \
@@ -44,7 +44,8 @@ build_prod:
       --build-arg VITE_PLAYER_URL=$PROD_PLAYER_URL \
       --build-arg VITE_STATISTICS_URL=$PROD_STATISTICS_URL \
       --build-arg VITE_STOREFRONT_URL=$PROD_STOREFRONT_URL \
-      -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA .\
+      -t $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA \
+      --output type=docker \
       .
     - echo "Publishing prod image to Azure"
     - docker push $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA
