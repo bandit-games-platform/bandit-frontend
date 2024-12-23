@@ -107,7 +107,7 @@ deploy_webapp_prod:
       ["RUNTIME"]="NODE:20-lts"
       ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod"
       ["REGISTRY_URL"]="$PROD_REGISTRY_USERNAME.azurecr.io"
-      ["REGISTRY_USER"]="$PROD_REGISTRY_USERNAME"
+      ["REGISTRY_USERNAME"]="$PROD_REGISTRY_USERNAME"
       ["REGISTRY_PASSWORD"]="$PROD_REGISTRY_PASSWORD"
       )
     - serialized_map=""
