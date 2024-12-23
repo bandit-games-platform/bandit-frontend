@@ -38,9 +38,9 @@ done
 #Frontend WebAPP
 
 # Validate required variables
-if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" || "$OS_TYPE" == "null" || "$RUNTIME" == "null" ]]; then
+if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" || "$RUNTIME" == "null" ]]; then
     echo "Error: One or more required variables are not set."
-    echo "Ensure NAME, RESOURCE_GROUP, PLAN, LOCATION, OS_TYPE, RUNTIME, CONTAINER_IMAGE, REGISTRY_URL, REGISTRY_USER, and REGISTRY_PASSWORD are provided."
+    echo "Ensure NAME, RESOURCE_GROUP, PLAN, OS_TYPE, RUNTIME, CONTAINER_IMAGE, REGISTRY_URL, REGISTRY_USER, and REGISTRY_PASSWORD are provided."
     exit 1
 fi
 
@@ -55,7 +55,6 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --name "$NAME" \
         --plan "$PLAN" \
         --resource-group "$RESOURCE_GROUP" \
-        --subscription "$SUBSCRIPTION" \
         --runtime "$RUNTIME" \
         --container-image-name "$CONTAINER_IMAGE" \
         --container-registry-url "$REGISTRY_URL" \
@@ -66,4 +65,16 @@ if [ -z "$WEBAPP_EXISTS" ]; then
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
 else
     echo "Azure Web App '$NAME' already exists in resource group '$RESOURCE_GROUP'. Skipping deployment."
+    echo "Updating Azure Web App '$NAME' with new container image '$CONTAINER_IMAGE'..."
+
+        az webapp config container set \
+            --name "$NAME" \
+            --resource-group "$RESOURCE_GROUP" \
+            --subscription "$SUBSCRIPTION" \
+            --container-image-name "$CONTAINER_IMAGE" \
+            --container-registry-url "$REGISTRY_URL" \
+            --container-registry-user "$REGISTRY_USERNAME" \
+            --container-registry-password "$REGISTRY_PASSWORD"
+
+        echo "Azure Web App '$NAME' has been updated with the new container image '$CONTAINER_IMAGE'."
 fi
