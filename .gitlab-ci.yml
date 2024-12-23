@@ -99,7 +99,7 @@ deploy_webapp_prod:
       ["RESOURCE_GROUP"]="rg_bandit_games_prod"
       ["PLAN"]="ASP-frontend"
       ["SUBSCRIPTION"]="$SUBS_ID_PROD"
-      ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:latest"
+      ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA"
       ["LOCATION"]="westeurope"
       ["SKU"]="B1"
       )
