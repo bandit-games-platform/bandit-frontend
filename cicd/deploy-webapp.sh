@@ -13,9 +13,6 @@ RESOURCE_GROUP="null"
 PLAN="null"
 SUBSCRIPTION="null"
 CONTAINER_IMAGE="null"
-REGISTRY_URL="null"
-REGISTRY_USERNAME="null"
-REGISTRY_PASSWORD="null"
 LOCATION="null"
 SKU="null"
 
@@ -76,9 +73,6 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --plan "$PLAN" \
         --resource-group "$RESOURCE_GROUP" \
         --container-image-name "$CONTAINER_IMAGE" \
-        --container-registry-url "$REGISTRY_URL" \
-        --container-registry-user "$REGISTRY_USERNAME" \
-        --container-registry-password "$REGISTRY_PASSWORD" \
         --https-only true
 
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
@@ -90,10 +84,7 @@ else
             --name "$NAME" \
             --resource-group "$RESOURCE_GROUP" \
             --subscription "$SUBSCRIPTION" \
-            --container-image-name "$CONTAINER_IMAGE" \
-            --container-registry-url "$REGISTRY_URL" \
-            --container-registry-user "$REGISTRY_USERNAME" \
-            --container-registry-password "$REGISTRY_PASSWORD"
+            --container-image-name "$CONTAINER_IMAGE"
 
         echo "Azure Web App '$NAME' has been updated with the new container image '$CONTAINER_IMAGE'."
 fi

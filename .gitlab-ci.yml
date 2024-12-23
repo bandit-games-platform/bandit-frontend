@@ -100,9 +100,6 @@ deploy_webapp_prod:
       ["PLAN"]="ASP-frontend"
       ["SUBSCRIPTION"]="$SUBS_ID_PROD"
       ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod"
-      ["REGISTRY_URL"]="$PROD_REGISTRY_USERNAME.azurecr.io"
-      ["REGISTRY_USERNAME"]="$PROD_REGISTRY_USERNAME"
-      ["REGISTRY_PASSWORD"]="$PROD_REGISTRY_PASSWORD"
       ["LOCATION"]="westeurope"
       ["SKU"]="B1"
       )
