@@ -90,7 +90,7 @@ sast:
 deploy_webapp_prod:
   image: mcr.microsoft.com/azure-cli
   stage: deploy
-  when: on-success
+  when: on_success
   needs:
     - build_ prod
   before_script:
