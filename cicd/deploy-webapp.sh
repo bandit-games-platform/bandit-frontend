@@ -11,14 +11,13 @@
 NAME="null"
 RESOURCE_GROUP="null"
 PLAN="null"
-SKU="null"
 SUBSCRIPTION="null"
-OS_TYPE="null"
-RUNTIME="null"
 CONTAINER_IMAGE="null"
 REGISTRY_URL="null"
 REGISTRY_USERNAME="null"
 REGISTRY_PASSWORD="null"
+LOCATION="null"
+SKU="null"
 
 # Map input arguments to variables
 declare -A provided_values
@@ -35,15 +34,36 @@ for key in "${!provided_values[@]}"; do
     fi
 done
 
-#Frontend WebAPP
 
 # Validate required variables
-if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" ]]; then
+if [[ "$NAME" == "null" || "$RESOURCE_GROUP" == "null" || "$PLAN" == "null" || "$CONTAINER_IMAGE" == "null" || "$REGISTRY_URL" == "null" || "$REGISTRY_USER" == "null" || "$REGISTRY_PASSWORD" == "null" || "$SKU" == "null" || "$LOCATION" == "null" ]]; then
     echo "Error: One or more required variables are not set."
     echo "Ensure NAME, RESOURCE_GROUP, PLAN, OS_TYPE, RUNTIME, CONTAINER_IMAGE, REGISTRY_URL, REGISTRY_USER, and REGISTRY_PASSWORD are provided."
     exit 1
 fi
 
+
+# Check if the App Service Plan exists
+echo "Checking if the Azure App Service Plan '$PLAN' exists in resource group '$RESOURCE_GROUP'..."
+PLAN_EXISTS=$(az appservice plan list --resource-group "$RESOURCE_GROUP" --query "[?name=='$PLAN'].name" -o tsv)
+
+if [ -z "$PLAN_EXISTS" ]; then
+    echo "Azure App Service Plan '$PLAN' does not exist. Creating the plan..."
+
+    az appservice plan create \
+        --name "$PLAN" \
+        --resource-group "$RESOURCE_GROUP" \
+        --sku "$SKU" \
+        --is-linux true \
+        --location "$LOCATION"
+
+    echo "Azure App Service Plan '$PLAN' has been created."
+else
+    echo "Azure App Service Plan '$PLAN' already exists in resource group '$RESOURCE_GROUP'."
+fi
+
+
+#Frontend WebAPP
 # Check if the Web App already exists
 echo "Checking if the Azure Web App '$NAME' exists in resource group '$RESOURCE_GROUP'..."
 WEBAPP_EXISTS=$(az webapp list --resource-group "$RESOURCE_GROUP" --query "[?name=='$NAME'].name" -o tsv)

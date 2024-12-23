@@ -97,12 +97,14 @@ deploy_webapp_prod:
     - declare -A value_map=(
       ["NAME"]="bandit-games"
       ["RESOURCE_GROUP"]="rg_bandit_games_prod"
-      ["PLAN"]="ASP-rgbanditgamesprod-b1bd"
+      ["PLAN"]="ASP-frontend"
       ["SUBSCRIPTION"]="$SUBS_ID_PROD"
       ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod"
       ["REGISTRY_URL"]="$PROD_REGISTRY_USERNAME.azurecr.io"
       ["REGISTRY_USERNAME"]="$PROD_REGISTRY_USERNAME"
       ["REGISTRY_PASSWORD"]="$PROD_REGISTRY_PASSWORD"
+      ["LOCATION"]="West Europe"
+      ["SKU"]="B1"
       )
     - serialized_map=""
     - for key in "${!value_map[@]}"; do serialized_map+="$key=${value_map[$key]} "; done
