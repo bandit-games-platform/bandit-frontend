@@ -35,7 +35,8 @@ export function useChatbot(gameId: string) {
                 try {
                     const answer = await postInitialQuestion(initialQuestionDto);
                     if (answer?.text) {
-                        setMessages([{sender: "bot", text: answer.text}]);
+                        const initialMessage: Message = {sender: "bot", text: answer.text};
+                        setMessages([initialMessage]);
                         sessionStorage.setItem('initialAnswer', JSON.stringify(answer));
                         setHasFetchedInitialQuestion(true);
                     }
@@ -47,6 +48,11 @@ export function useChatbot(gameId: string) {
             fetchInitialQuestion();
         }
     }, [postInitialQuestion, gameId]);
+
+    useEffect(() => {
+        // sync messages with sessionStorage whenever they change
+        sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+    }, [messages]);
 
     // logic for follow-up questions
     const handleSendMessage = async (message: string) => {
