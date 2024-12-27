@@ -50,7 +50,7 @@ build_dev:
       --build-arg VITE_KC_URL=$KC_URL
       --build-arg VITE_KC_REALM=$KC_REALM
       --build-arg VITE_KC_CLIENT_ID=$KC_CLIENT_ID
-      --build-arg VITE_STRIPE_PUBLIC_KEY=$VITE_STRIPE_PUBLIC_KEY
+      --build-arg VITE_STRIPE_PUBLIC_KEY=$STRIPE_PUBLIC_KEY
       --build-arg VITE_CHATBOT_URL=$DEV_CHATBOT_URL
       --build-arg VITE_GAME_REGISTRY_URL=$DEV_GAME_REGISTRY_URL
       --build-arg VITE_GAMEPLAY_URL=$DEV_GAMEPLAY_URL
@@ -74,7 +74,7 @@ build_dev:
 #      --build-arg VITE_KC_URL=$KC_URL
 #      --build-arg VITE_KC_REALM=$KC_REALM
 #      --build-arg VITE_KC_CLIENT_ID=$KC_CLIENT_ID
-#      --build-arg VITE_STRIPE_PUBLIC_KEY=$VITE_STRIPE_PUBLIC_KEY
+#      --build-arg VITE_STRIPE_PUBLIC_KEY=$STRIPE_PUBLIC_KEY
 #      --build-arg VITE_CHATBOT_URL=$PROD_CHATBOT_URL
 #      --build-arg VITE_GAME_REGISTRY_URL=$PROD_GAME_REGISTRY_URL
 #      --build-arg VITE_GAMEPLAY_URL=$PROD_GAMEPLAY_URL
@@ -147,7 +147,7 @@ deploy_webapp_dev:
     - cicd/deploy-webapp.sh "$serialized_map"
   environment:
     name: webapp-dev
-    deployment_tier: testing
+    deployment_tier: production
     action: start
     auto_stop_in: 1 hours
   rules:
