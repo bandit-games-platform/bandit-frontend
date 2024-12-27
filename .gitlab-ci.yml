@@ -22,7 +22,7 @@ stages:
     - set -e
     - apk add --no-cache docker
     - echo "Logging into Azure"
-    - docker login $DEV_REGISTRY_USERNAME.azurecr.io -u $DEV_REGISTRY_USERNAME -p $DEV_REGISTRY_PASSWORD
+    - docker login $REGISTRY_USERNAME.azurecr.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
   services:
     - docker:27.3.1-dind
   variables:
@@ -57,10 +57,10 @@ build_dev:
       --build-arg VITE_PLAYER_URL=$DEV_PLAYER_URL
       --build-arg VITE_STATISTICS_URL=$DEV_STATISTICS_URL
       --build-arg VITE_STOREFRONT_URL=$DEV_STOREFRONT_URL
-      -t $DEV_REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+      -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
       .
     - echo "Publishing frontend dev image to Azure"
-    - docker push $DEV_REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == "ci-cd/dev"'
@@ -137,7 +137,7 @@ deploy_webapp_dev:
       ["RESOURCE_GROUP"]="rg_bandit_games_dev"
       ["PLAN"]="ASP-frontend"
       ["SUBSCRIPTION"]="$SUBS_ID_DEV"
-      ["CONTAINER_IMAGE"]="$DEV_REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA"
+      ["CONTAINER_IMAGE"]="$REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA"
       ["LOCATION"]="northeurope"
       ["SKU"]="B1"
       )
