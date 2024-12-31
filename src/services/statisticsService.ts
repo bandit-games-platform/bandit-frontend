@@ -1,6 +1,7 @@
 import axios from "axios";
 import {GameProgress} from "../model/statistics/GameProgress.ts";
 import {PlayerGameStats} from "../model/statistics/PlayerGameStats.ts";
+import {PlayerId} from "../model/player/PlayerBasicBio.ts";
 
 const STATISTICS_BASE_URL = import.meta.env.VITE_STATISTICS_URL;
 
@@ -21,6 +22,11 @@ export async function getAllGamesProgress() {
 export async function getPlayerGameStatistics(playerId: string, gameId: string) {
     const {data: playerGameStats} = await axios.get<PlayerGameStats>(`${STATISTICS_BASE_URL}/player-game-statistics/${playerId}/${gameId}`);
     return playerGameStats;
+}
+
+export async function getAllPlayerIdsWhichCompletedSessionsForGame(gameId: string) {
+    const {data: playerIdList} = await axios.get<PlayerId[]>(`${STATISTICS_BASE_URL}/player-game-statistics/games/${gameId}/completed-sessions/players`);
+    return playerIdList;
 }
 
 export async function getAllCompletedSessionsByGameIdForCsv(gameId: string): Promise<Blob> {
