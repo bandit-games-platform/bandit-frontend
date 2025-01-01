@@ -8,7 +8,7 @@ import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
 export function useChatbot(gameId: string) {
 
     const [messages, setMessages] = useState<Message[]>(() => {
-        const savedMessages = sessionStorage.getItem("chatMessages");
+        const savedMessages = localStorage.getItem("chatMessages");
         return savedMessages ? JSON.parse(savedMessages) : [];
     });
 
@@ -22,27 +22,39 @@ export function useChatbot(gameId: string) {
     const {postFollowUpQuestion, isPending: isFollowUpPending} = usePostFollowUpQuestion();
 
     const [hasFetchedInitialQuestion, setHasFetchedInitialQuestion] = useState<boolean>(false);
+    const [isFetchingInitialQuestion, setIsFetchingInitialQuestion] = useState<boolean>(false);
+
 
     // handle initial question fetching and caching
     useEffect(() => {
         const initialQuestionDto: InitialQuestionDto = {gameId};
-        const cachedAnswer = sessionStorage.getItem('initialAnswer');
+        const cachedAnswer = localStorage.getItem('initialAnswer');
+        const isFetching = localStorage.getItem('isFetchingInitialQuestion') === 'true';
 
         if (cachedAnswer) {
             setHasFetchedInitialQuestion(true);
-        } else {
+
+        } else if (!isFetching) {
             const fetchInitialQuestion = async () => {
+                localStorage.setItem('isFetchingInitialQuestion', 'true'); // Set fetching state
+                console.log(isFetchingInitialQuestion);
+                setIsFetchingInitialQuestion(true);
+
                 try {
                     const answer = await postInitialQuestion(initialQuestionDto);
                     if (answer?.text) {
                         const initialMessage: Message = {sender: "bot", text: answer.text};
                         setMessages([initialMessage]);
-                        sessionStorage.setItem('initialAnswer', JSON.stringify(answer));
+                        localStorage.setItem('initialAnswer', JSON.stringify(answer));
                         setHasFetchedInitialQuestion(true);
                     }
+
                 } catch (error) {
-                    console.error("Failed to fetch the initial question:", error);
                     setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
+                    console.log(error)
+                } finally {
+                    localStorage.setItem('isFetchingInitialQuestion', 'false'); // Reset fetching state
+                    setIsFetchingInitialQuestion(false);
                 }
             };
             fetchInitialQuestion();
@@ -50,8 +62,8 @@ export function useChatbot(gameId: string) {
     }, [postInitialQuestion, gameId]);
 
     useEffect(() => {
-        // sync messages with sessionStorage whenever they change
-        sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+        // sync messages with localStorage whenever they change
+        localStorage.setItem("chatMessages", JSON.stringify(messages));
     }, [messages]);
 
     // logic for follow-up questions
@@ -65,8 +77,8 @@ export function useChatbot(gameId: string) {
                 {sender: "bot", isThinking: true}, // thinking state for bot
             ];
 
-            sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-            console.log("Saved messages to sessionStorage:", updatedMessages);
+            localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+            console.log("Saved messages to localStorage:", updatedMessages);
             return updatedMessages;
         });
 
@@ -80,8 +92,8 @@ export function useChatbot(gameId: string) {
                         updatedMessages[thinkingIndex] = {sender: "bot", text: answer.text, isThinking: false};
                     }
 
-                    sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-                    console.log("Saved messages to sessionStorage after response:", updatedMessages);
+                    localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                    console.log("Saved messages to localStorage after response:", updatedMessages);
                     return updatedMessages;
                 });
             }
@@ -99,8 +111,8 @@ export function useChatbot(gameId: string) {
                     };
                 }
 
-                sessionStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-                console.log("Saved error message to sessionStorage:", updatedMessages);
+                localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
+                console.log("Saved error message to localStorage:", updatedMessages);
                 return updatedMessages;
             });
         }
