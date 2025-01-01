@@ -74,7 +74,7 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --resource-group "$RESOURCE_GROUP" \
         --container-image-name "$CONTAINER_IMAGE" \
         --https-only true \
-        --acr-use-identity true
+        --acr-use-identity True
 
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
 else
