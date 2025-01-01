@@ -27,8 +27,9 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
     const {postPlatformQuestion, isPending: isAnswerPending} = usePostPlatformQuestion(pageName);
     const [loadLastOnly, setLoadLastOnly] = useState(false);
     const [usePolling, setUsePolling] = useState(false);
+    const [askingQuestion, setAskingQuestion] = useState(false);
     const {conversation, isLoading: loadingConversation, isError: errorLoadingConversation} = useGetPlatformConversation(loadLastOnly, usePolling);
-    const url = useLocation()
+    const url = useLocation();
 
     useEffect(() => {
         switch (true) {
@@ -61,7 +62,6 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
 
     const submitNewQuestion = async (text: string) => {
         const platformQuestionDto: PlatformQuestionDto = {questionText: text}
-        setUsePolling(false);
 
         const updatedMessages: Message[] = [...messages];
         const userMessage: Message = {sender: "user", text: text, isThinking: false};
@@ -79,10 +79,10 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
             sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
             setMessages(updatedMessages);
         }
-        setUsePolling(true);
     }
 
     useEffect(() => {
+        let unansweredQuestions = 0;
         if (conversation) {
             if (messages.length == 0) {
                 const newMessageArray: Message[] = [];
@@ -91,14 +91,19 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     newMessageArray.push(userMessage);
 
                     if (question.answer) {
-                        const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                        const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
                         newMessageArray.push(botAnswer);
+                    }
+
+                    if (!question.answer.text) {
+                        unansweredQuestions += 1
                     }
                 }
                 sessionStorage.setItem("platformMessages", JSON.stringify(newMessageArray))
                 setMessages(newMessageArray);
-                setLoadLastOnly(true);
-                setUsePolling(true);
+
+                if (!loadLastOnly) setLoadLastOnly(true);
+                if (!usePolling) setUsePolling(true);
             } else {
                 const updatedMessages: Message[] = [...messages];
 
@@ -107,20 +112,28 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
 
                     if (sameQuestionIndex != -1) {
                         if (updatedMessages[sameQuestionIndex].isThinking) {
-                            if (question.answer) {
+                            if (question.answer.text) {
                                 updatedMessages[sameQuestionIndex].isThinking = false;
                             }
                         }
 
                         if (updatedMessages.length - 1 < sameQuestionIndex + 1) {
                             if (question.answer) {
-                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
                                 updatedMessages.push(botAnswer);
+                            }
+
+                            if (!question.answer.text) {
+                                unansweredQuestions += 1
                             }
                         } else {
                             if (question.answer && updatedMessages[sameQuestionIndex + 1].text != question.answer.text) {
-                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
                                 updatedMessages[sameQuestionIndex + 1] = botAnswer;
+                            }
+
+                            if (!question.answer.text) {
+                                unansweredQuestions += 1
                             }
                         }
                     } else {
@@ -128,19 +141,28 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                         updatedMessages.push(userMessage);
 
                         if (question.answer) {
-                            const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                            const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
                             updatedMessages.push(botAnswer);
+                        }
+
+                        if (!question.answer.text) {
+                            unansweredQuestions += 1
                         }
                     }
                 }
 
                 sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
                 setMessages(updatedMessages);
-                setLoadLastOnly(true);
-                setUsePolling(true);
+
+                if (!loadLastOnly) setLoadLastOnly(true);
+                if (!usePolling) setUsePolling(true);
             }
         }
-    }, [conversation, messages])
+
+        if (unansweredQuestions === 0) setAskingQuestion(false);
+        else setAskingQuestion(true);
+
+    }, [askingQuestion, conversation, loadLastOnly, messages, usePolling])
 
     return (
         <Card
@@ -195,7 +217,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     width: "100%"
                 }}
             >
-                <ChatInputBar onSend={(message) => submitNewQuestion(message)} disabled={isAnswerPending}/>
+                <ChatInputBar onSend={(message) => submitNewQuestion(message)} disabled={isAnswerPending || askingQuestion}/>
             </Box>)}
         </Card>
     )
