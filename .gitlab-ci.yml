@@ -85,6 +85,8 @@ build_prod:
       .
     - echo "Publishing frontend prod image to Azure"
     - docker push $PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA
+    - echo "here is the container image name"
+    - echo "$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA"
   rules:
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
@@ -167,6 +169,8 @@ deploy_webapp_prod:
     - echo "Logging into Azure"
     - az login --service-principal -u $PROD_AZURE_APP_ID -p $PROD_AZURE_PASSWORD --tenant $PROD_AZURE_TENANT
     - az account set --subscription $SUBS_ID_PROD
+    - echo "here is the container image name"
+    - echo "$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA"
   script:
     - declare -A value_map=(
       ["NAME"]="bandit-games"
