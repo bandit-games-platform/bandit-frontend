@@ -137,7 +137,7 @@ sast:
 #    - declare -A value_map=(
 #      ["NAME"]="bandit-games-dev"
 #      ["RESOURCE_GROUP"]="rg_bandit_games_dev"
-#      ["PLAN"]="ASP-frontend"
+#      ["PLAN"]="ASP_frontend_dev"
 #      ["SUBSCRIPTION"]="$SUBS_ID_DEV"
 #      ["CONTAINER_IMAGE"]="$REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA"
 #      ["LOCATION"]="northeurope"
@@ -171,7 +171,7 @@ deploy_webapp_prod:
     - declare -A value_map=(
       ["NAME"]="bandit-games"
       ["RESOURCE_GROUP"]="rg_bandit_games_prod"
-      ["PLAN"]="ASP-frontend"
+      ["PLAN"]="ASP_frontend_prod"
       ["SUBSCRIPTION"]="$SUBS_ID_PROD"
       ["CONTAINER_IMAGE"]="$PROD_REGISTRY_USERNAME.azurecr.io/bandit-frontend-prod:$CI_COMMIT_SHORT_SHA"
       ["LOCATION"]="northeurope"
