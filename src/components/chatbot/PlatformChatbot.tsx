@@ -32,31 +32,18 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
     const url = useLocation();
 
     useEffect(() => {
-        switch (true) {
-            case url.pathname === "/": {
-                setPageName("home");
-                break;
-            }
-            case /^\/store\/[^/]+\/purchase\/checkout$/.test(url.pathname): {
-                setPageName("individual_game");
-                break;
-            }
-            case url.pathname === "/store": {
-                setPageName("store");
-                break;
-            }
-            case /^\/game\/[^/]+$/.test(url.pathname): {
-                setPageName("individual_game");
-                break;
-            }
-            case url.pathname === "/library": {
-                setPageName("library");
-                break;
-            }
-            case url.pathname === "/statistics": {
-                setPageName("stats");
-                break;
-            }
+        if (url.pathname === "/") {
+            setPageName("home");
+        } else if (/^\/store\/[^/]+\/purchase\/checkout$/.test(url.pathname)) {
+            setPageName("individual_game");
+        } else if (url.pathname === "/store") {
+            setPageName("store");
+        } else if (/^\/game\/[^/]+$/.test(url.pathname)) {
+            setPageName("individual_game");
+        } else if (url.pathname === "/library") {
+            setPageName("library");
+        } else if (url.pathname === "/statistics") {
+            setPageName("stats");
         }
     }, [url.pathname, setPageName]);
 
@@ -84,6 +71,15 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
     useEffect(() => {
         let unansweredQuestions = 0;
         if (conversation) {
+            /*
+            * If there are no messages currently loaded in session storage then simply load all questions and answers
+            * into the messages array and then into session storage. If there are messages then this will only
+            * add questions and answers that don't already exist in the messages array to the messages array.
+            *
+            * If there is a question without an answer then isThinking will be true and after the first load, the
+            * setLoadLastOnly boolean is set to true which means that instead of when polling fetching the whole
+            * conversation from the backend it will only fetch the latest question. And it also sets the polling to begin.
+            */
             if (messages.length == 0) {
                 const newMessageArray: Message[] = [];
                 for (const question of conversation) {
@@ -110,6 +106,22 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                 for (const question of conversation) {
                     const sameQuestionIndex = messages?.findIndex(q => q.text === question.text) ?? -1;
 
+                    /*
+                    * If the question has been found in the messages array then a check is carried out in order to check
+                    * first if the status of that question is isThinking which, if it is, and there is an answer then
+                    * it is updated to be false.
+                    *
+                    * Then if the question is the last thing saved, and it has no answer saved so questionIndex + 1
+                    * (because questions and answers are saved as separate entries in the messages array)
+                    * the if statement checks if there is an answer and if there isn't it stores that there is an
+                    * unanswered question to disable the text box for the user to type in
+                    * (this is in case they have 2 tabs open so they could not submit a chatbot question in both).
+                    *
+                    * If the answer exists then we check if the text matches the text currently in the answer, and if
+                    * not then it is updated to match.
+                    *
+                    * If the question does not exist then a new question and answer pair is created
+                    */
                     if (sameQuestionIndex != -1) {
                         if (updatedMessages[sameQuestionIndex].isThinking) {
                             if (question.answer.text) {
