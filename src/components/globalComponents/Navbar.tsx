@@ -150,7 +150,7 @@ export function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        BanditGames
+                        BanditGamesed2
                     </Typography>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'none', md: 'flex'}, justifyContent: 'center', gap: 5}}>
