@@ -129,7 +129,7 @@ sast:
 #  needs:
 #    - build_dev
 #  before_script:
-#    - echo "Logging into Azure "
+#    - echo "Logging into Azure"
 #    - az login --service-principal -u $DEV_AZURE_APP_ID -p $DEV_AZURE_PASSWORD --tenant $DEV_AZURE_TENANT
 #    - az account set --subscription $SUBS_ID_DEV
 #    - sleep 20
