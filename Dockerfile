@@ -33,8 +33,10 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# Step 2: Serve the React app with Nginx
-FROM nginx:alpine
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Step 2: Serve the React app with Node.js using `serve`
+FROM node:20-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+RUN npm install -g serve
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["serve", "-s", "dist", "-l", "80"]
