@@ -74,19 +74,7 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --resource-group "$RESOURCE_GROUP" \
         --container-image-name "$CONTAINER_IMAGE" \
         --https-only true
-#        --assign-identity "/subscriptions/9eab1979-9e75-4614-b5b7-41f9f53cac08/resourceGroups/rg_bandit_games_prod/providers/Microsoft.ManagedIdentity/userAssignedIdentities/frontend_Identity"
-##        "/subscriptions/9eab1979-9e75-4614-b5b7-41f9f53cac08/resourceGroups/rg_bandit_games_prod/providers/Microsoft.ManagedIdentity/userAssignedIdentities/frontend_Identity"
 
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
 else
     echo "Azure Web App '$NAME' already exists in resource group '$RESOURCE_GROUP'. Skipping deployment."
-    echo "Updating Azure Web App '$NAME' with new container image '$CONTAINER_IMAGE'..."
-
-        az webapp config container set \
-            --name "$NAME" \
-            --resource-group "$RESOURCE_GROUP" \
-            --subscription "$SUBSCRIPTION" \
-            --container-image-name "$CONTAINER_IMAGE"
-
-        echo "Azure Web App '$NAME' has been updated with the new container image '$CONTAINER_IMAGE'."
-fi
