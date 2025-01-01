@@ -2,6 +2,9 @@ import axios from "axios";
 import {GameProgress} from "../model/statistics/GameProgress.ts";
 import {PlayerGameStats} from "../model/statistics/PlayerGameStats.ts";
 import {PlayerId} from "../model/player/PlayerBasicBio.ts";
+import {WinProbabilityRequestDto} from "../model/statistics/WinProbabilityRequestDto.ts";
+import {WinPrediction} from "../model/statistics/WinPrediction.ts";
+
 
 const STATISTICS_BASE_URL = import.meta.env.VITE_STATISTICS_URL;
 
@@ -51,4 +54,15 @@ export async function getAllAchievementProgressByGameIdForCsv(gameId: string): P
         responseType: "blob",
     });
     return response.data;
+}
+
+export async function getWinPredictionForGame(gameId: string, playerOneId: string, playerTwoId: string) {
+    const url = STATISTICS_BASE_URL + `/statistics/games/${gameId}/win-probability/predict`;
+
+    const requestDto: WinProbabilityRequestDto = {
+        playerOneId,
+        playerTwoId,
+    };
+    const {data} = await axios.post<WinPrediction>(url,requestDto);
+    return data;
 }
