@@ -26,7 +26,8 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
     const [pageName, setPageName] = useState("home")
     const {postPlatformQuestion, isPending: isAnswerPending} = usePostPlatformQuestion(pageName);
     const [loadLastOnly, setLoadLastOnly] = useState(false);
-    const {conversation, isLoading: loadingConversation, isError: errorLoadingConversation} = useGetPlatformConversation(loadLastOnly);
+    const [usePolling, setUsePolling] = useState(false);
+    const {conversation, isLoading: loadingConversation, isError: errorLoadingConversation} = useGetPlatformConversation(loadLastOnly, usePolling);
     const url = useLocation()
 
     useEffect(() => {
@@ -60,17 +61,86 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
 
     const submitNewQuestion = async (text: string) => {
         const platformQuestionDto: PlatformQuestionDto = {questionText: text}
+        setUsePolling(false);
+
+        const updatedMessages: Message[] = [...messages];
+        const userMessage: Message = {sender: "user", text: text, isThinking: false};
+        updatedMessages.push(userMessage);
+        const botAnswer: Message = {sender: "bot", text: "", isThinking: true};
+        updatedMessages.push(botAnswer);
+
+        sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+        setMessages(updatedMessages);
+
         const answer = await postPlatformQuestion(platformQuestionDto);
         if (answer?.text) {
-            // TODO
-            console.log(answer)
+            updatedMessages[updatedMessages.length - 1].text = answer.text;
+            updatedMessages[updatedMessages.length - 1].isThinking = false;
+            sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+            setMessages(updatedMessages);
         }
+        setUsePolling(true);
     }
 
     useEffect(() => {
-        // TODO
-        console.log(conversation)
-    }, [conversation])
+        if (conversation) {
+            if (messages.length == 0) {
+                const newMessageArray: Message[] = [];
+                for (const question of conversation) {
+                    const userMessage: Message = {sender: "user", text: question.text, isThinking: false};
+                    newMessageArray.push(userMessage);
+
+                    if (question.answer) {
+                        const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                        newMessageArray.push(botAnswer);
+                    }
+                }
+                sessionStorage.setItem("platformMessages", JSON.stringify(newMessageArray))
+                setMessages(newMessageArray);
+                setLoadLastOnly(true);
+                setUsePolling(true);
+            } else {
+                const updatedMessages: Message[] = [...messages];
+
+                for (const question of conversation) {
+                    const sameQuestionIndex = messages?.findIndex(q => q.text === question.text) ?? -1;
+
+                    if (sameQuestionIndex != -1) {
+                        if (updatedMessages[sameQuestionIndex].isThinking) {
+                            if (question.answer) {
+                                updatedMessages[sameQuestionIndex].isThinking = false;
+                            }
+                        }
+
+                        if (updatedMessages.length - 1 < sameQuestionIndex + 1) {
+                            if (question.answer) {
+                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                                updatedMessages.push(botAnswer);
+                            }
+                        } else {
+                            if (question.answer && updatedMessages[sameQuestionIndex + 1].text != question.answer.text) {
+                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                                updatedMessages[sameQuestionIndex + 1] = botAnswer;
+                            }
+                        }
+                    } else {
+                        const userMessage: Message = {sender: "user", text: question.text, isThinking: false};
+                        updatedMessages.push(userMessage);
+
+                        if (question.answer) {
+                            const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: false};
+                            updatedMessages.push(botAnswer);
+                        }
+                    }
+                }
+
+                sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+                setMessages(updatedMessages);
+                setLoadLastOnly(true);
+                setUsePolling(true);
+            }
+        }
+    }, [conversation, messages])
 
     return (
         <Card
@@ -79,7 +149,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                 position: 'fixed',
                 bottom: 16,
                 left: 22,
-                width: 300,
+                width: 400,
                 height: 400,
                 backgroundColor: (theme) => theme.palette.secondary.main,
                 color: (theme) => theme.palette.common.white,
@@ -111,7 +181,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     flexDirection: 'column',
                 }}
             >
-                <ChatArea messages={[] as Message[]} minHeight={"310px"}/>
+                <ChatArea messages={messages} minHeight={"310px"}/>
             </Box>)}
 
             {loadingConversation && <LoadingComponent/>}
@@ -121,10 +191,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                 sx={{
                     position: 'absolute',
                     padding: '5px',
-                    bottom: 2
+                    bottom: 2,
+                    width: "100%"
                 }}
             >
-                <ChatInputBar onSend={(message) => submitNewQuestion(message)}/>
+                <ChatInputBar onSend={(message) => submitNewQuestion(message)} disabled={isAnswerPending}/>
             </Box>)}
         </Card>
     )

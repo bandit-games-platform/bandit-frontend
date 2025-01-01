@@ -1,15 +1,24 @@
 import theme from "../../theme/theme.ts";
 import Box, {BoxProps} from "@mui/material/Box";
-import React from "react";
+import React, {useEffect, useRef} from "react";
 
 interface CustomScrollbarProps extends BoxProps {
     children: React.ReactNode;
 }
 
 export function CustomScrollbar({children, ...props}: CustomScrollbarProps) {
+    const scrollRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [children]);
+
     return (
         <Box
             {...props}
+            ref={scrollRef}
             sx={{
                 overflowY: "auto",
                 "&::-webkit-scrollbar": {
