@@ -74,8 +74,7 @@ if [ -z "$WEBAPP_EXISTS" ]; then
         --resource-group "$RESOURCE_GROUP" \
         --container-image-name "$CONTAINER_IMAGE" \
         --https-only true \
-        --assign-identity '[system]' \
-        --acr-identity '[system]' \
+        --acr-identity "/subscriptions/$SUBSCRIPTION/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.ManagedIdentity/userAssignedIdentities/frontend_Identity"
 
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
 else
