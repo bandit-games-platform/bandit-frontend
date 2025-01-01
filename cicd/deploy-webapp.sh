@@ -78,3 +78,4 @@ if [ -z "$WEBAPP_EXISTS" ]; then
     echo "Azure Web App '$NAME' has been successfully deployed with container image '$CONTAINER_IMAGE'."
 else
     echo "Azure Web App '$NAME' already exists in resource group '$RESOURCE_GROUP'. Skipping deployment."
+fi
