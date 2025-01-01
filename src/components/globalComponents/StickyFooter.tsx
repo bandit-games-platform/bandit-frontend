@@ -3,13 +3,19 @@ import {Box} from "@mui/material";
 import {FriendsIcon} from "./FriendsIcon.tsx";
 import {useState} from "react";
 import FriendsSidebar from "../playerFriendsRelationship/FriendsSidebar.tsx";
+import {PlatformChatbot} from "../chatbot/PlatformChatbot.tsx";
 
 export function StickyFooter() {
     const [isFriendsSidebarOpen, setIsFriendsSidebarOpen] = useState(false);
+    const [isPlatformChatbotOpen, setIsPlatformChatbotOpen] = useState(false);
 
     const toggleFriendsSidebar = () => {
         setIsFriendsSidebarOpen(!isFriendsSidebarOpen);
     };
+
+    const toggleChatbotSidebar = () => {
+        setIsPlatformChatbotOpen(!isPlatformChatbotOpen);
+    }
 
     return (
         <Box
@@ -24,7 +30,13 @@ export function StickyFooter() {
             }}
         >
             {/* Chatbot Icon */}
-            <ChatbotIcon/>
+            <ChatbotIcon onClick={toggleChatbotSidebar}/>
+
+            {/* Platform Chatbot */}
+            <PlatformChatbot
+                isVisible={isPlatformChatbotOpen}
+                close={toggleChatbotSidebar}
+            />
 
             {/* Friends Icon */}
             <FriendsIcon onClick={toggleFriendsSidebar}/>

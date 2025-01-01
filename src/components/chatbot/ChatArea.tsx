@@ -6,10 +6,11 @@ import {UserMessage} from "./UserMessage.tsx";
 import {Message} from "../../model/chatbot/Message.ts";
 
 interface ChatAreaProps {
-    messages: Message[]
+    messages: Message[],
+    minHeight?: string
 }
 
-export function ChatArea({messages}: ChatAreaProps) {
+export function ChatArea({messages, minHeight}: ChatAreaProps) {
     return (
         <CustomScrollbar>
             <Box
@@ -17,7 +18,7 @@ export function ChatArea({messages}: ChatAreaProps) {
                     padding: theme.spacing(2),
                     overflowY: "auto",
                     height: 'inherit',
-                    minHeight: '550px',
+                    minHeight: minHeight || '550px',
                     flex: 1,
                     background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
                     borderRadius: "10px",
