@@ -22,7 +22,7 @@ export function Gameplay() {
     const {loggedInUserId} = useContext(SecurityContext);
     const [searchParams, setSearchParams] = useSearchParams();
     const [lobbyId, setLobbyId] = useState<string | undefined>(undefined);
-    const {canInvite} = useCanInviteToLobby(lobbyId);
+    const {lobbyIdIfCanInvite} = useCanInviteToLobby(gameId, !!lobbyId);
 
 
     const library = "/library?selected=" + gameId;
@@ -53,7 +53,7 @@ export function Gameplay() {
         );
     }
 
-    if (!canInvite && tab === 2) setTab(0);
+    if (!lobbyIdIfCanInvite && tab === 2) setTab(0);
 
     const handleChange = (_: SyntheticEvent, newTab: number) => {
         setTab(newTab);
@@ -77,7 +77,7 @@ export function Gameplay() {
             <Tabs value={tab} onChange={handleChange}>
                 <Tab label="Game"/>
                 <Tab label="Rules"/>
-                <Tab label="Invite" disabled={!canInvite}/>
+                <Tab label="Invite" disabled={!lobbyIdIfCanInvite}/>
             </Tabs>
             <ConfirmedBackoutButton {...modalProps} redirectTo={library}/>
 
@@ -100,7 +100,7 @@ export function Gameplay() {
             </Container>
 
             <Container hidden={tab !== 2 }>
-                <InviteTab lobbyId={lobbyId}/>
+                <InviteTab lobbyId={lobbyIdIfCanInvite}/>
             </Container>
         </Box>
     );

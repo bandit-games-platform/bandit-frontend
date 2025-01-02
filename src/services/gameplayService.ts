@@ -31,9 +31,9 @@ export async function dismissGameInvite(inviteId: string) {
     await axios.post(url);
 }
 
-export async function canInviteToLobby(lobbyId: string) {
-    const url = GAMEPLAY_BASE_URL + `/lobby/${lobbyId}/can-invite`;
+export async function canInviteToLobby(gameId: string) {
+    const url = GAMEPLAY_BASE_URL + `/lobby/invite/can-invite/${gameId}`;
 
-    const {data: canInviteToLobby} = await axios.get<boolean>(url);
-    return canInviteToLobby;
+    const {data: lobbyIdIfCanInviteToLobby} = await axios.get<string>(url);
+    return lobbyIdIfCanInviteToLobby;
 }
