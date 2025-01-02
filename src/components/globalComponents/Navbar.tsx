@@ -74,7 +74,7 @@ export function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        BanditGamesed2
+                        BanditGamesed3
                     </Typography>
 
                     <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
