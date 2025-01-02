@@ -46,10 +46,10 @@ build_dev:
       --build-arg VITE_PLAYER_URL=$DEV_PLAYER_URL
       --build-arg VITE_STATISTICS_URL=$DEV_STATISTICS_URL
       --build-arg VITE_STOREFRONT_URL=$DEV_STOREFRONT_URL
-      -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+      -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:latest
       .
     - echo "Publishing frontend dev image to Azure"
-    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA
+    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:latest
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == "ci-cd/dev"'
@@ -132,7 +132,7 @@ deploy_webapp_dev:
       ["RESOURCE_GROUP"]="rg_bandit_games_dev"
       ["PLAN"]="ASP_frontend_dev"
       ["SUBSCRIPTION"]="$SUBS_ID_DEV"
-      ["CONTAINER_IMAGE"]="$REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:$CI_COMMIT_SHORT_SHA"
+      ["CONTAINER_IMAGE"]="$REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev"
       ["LOCATION"]="northeurope"
       ["SKU"]="B1"
       )
