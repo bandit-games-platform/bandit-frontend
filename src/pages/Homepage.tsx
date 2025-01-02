@@ -3,6 +3,7 @@ import {useGetRecommendedProducts} from "../hooks/storefront/useGetRecommendedPr
 import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
 import {ProductCarousel} from "../components/storefront/ProductCarousel.tsx";
+import Container from "@mui/material/Container";
 
 export function Homepage() {
     const {isLoading, isError, products} = useGetRecommendedProducts();
@@ -18,8 +19,15 @@ export function Homepage() {
     console.log(products);
 
     return (
-        <Box>
-            <ProductCarousel products={products}/>
-        </Box>
+        <Container>
+            <Box>
+                <h1>Based on your Library</h1>
+                <ProductCarousel products={products}/>
+            </Box>
+            <Box>
+                <h1>Trending Now</h1>
+                <ProductCarousel products={products}/>
+            </Box>
+        </Container>
     )
 }
