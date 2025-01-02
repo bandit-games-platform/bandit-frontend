@@ -1,5 +1,5 @@
 import { Box, Typography, Avatar, CircularProgress } from "@mui/material";
-import { PlayerBasicBio } from "../../../model/player/PlayerBasicBio.ts";
+import { PlayerBasicBio } from "../../model/player/PlayerBasicBio.ts";
 
 interface PlayerWinPredictionDetailsProps {
     player: PlayerBasicBio | null;
@@ -7,7 +7,7 @@ interface PlayerWinPredictionDetailsProps {
     prediction?: number;
 }
 
-const PlayerDetailsCard = ({
+const WinPredictionPlayerDetails = ({
                                player,
                                isLoading = false,
                                prediction = undefined,
@@ -63,4 +63,4 @@ const PlayerDetailsCard = ({
     );
 };
 
-export default PlayerDetailsCard;
+export default WinPredictionPlayerDetails;
