@@ -4,7 +4,7 @@
 #- Name:        deploy-webapp.sh
 #- Author:      Alli-smith Ayodeji
 #- Function:    Deploys an Azure Web App with Container Image Support
-#- Usage:       ./deploy-webapp.sh "NAME=app-name RESOURCE_GROUP=resource-group PLAN=app-service-plan SKU=B1 SUBSCRIPTION=subscription-id OS_TYPE=Linux RUNTIME=NODE:14 CONTAINER_IMAGE=registry/image:tag REGISTRY_URL=https://registry-url REGISTRY_USER=username REGISTRY_PASSWORD=password"
+#- Usage:       ./deploy-webapp.sh
 #------------------------------------------------------------------------------------------------
 
 # Default variable values

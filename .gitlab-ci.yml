@@ -17,7 +17,10 @@ stages:
 
 # ----------------------- BUILD ---------------------------------- #
 
-.build-dev-setup: &build-setup
+.build-setup: &build-setup
+  before_script:
+    - set -e
+    - apk add --no-cache docker
   services:
     - docker:27.3.1-dind
   variables:
@@ -29,8 +32,6 @@ build_dev:
   <<: *build-setup
   stage: build
   before_script:
-    - set -e
-    - apk add --no-cache docker
     - echo "Logging into Azure"
     - docker login $REGISTRY_USERNAME.azurecr.io -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD
   script:
@@ -58,8 +59,6 @@ build_prod:
   <<: *build-setup
   stage: build
   before_script:
-    - set -e
-    - apk add --no-cache docker
     - echo "Logging into Azure"
     - docker login $PROD_REGISTRY_USERNAME.azurecr.io -u $PROD_REGISTRY_USERNAME -p $PROD_REGISTRY_PASSWORD
   script:
