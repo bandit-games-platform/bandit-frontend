@@ -82,8 +82,7 @@ build_prod:
   rules:
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
-#    - if: '$CI_COMMIT_BRANCH == "ci-cd/prod"'
+    - if: $CI_COMMIT_BRANCH == 'ci-cd/prod'
 
 
 
@@ -144,7 +143,6 @@ deploy_webapp_dev:
     name: webapp-dev
     deployment_tier: testing
     action: start
-    auto_stop_in: 1 hours
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
     - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
@@ -178,8 +176,7 @@ deploy_webapp_prod:
     name: webapp-prod
     deployment_tier: production
     action: start
-    auto_stop_in: 1 hours
   rules:
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == 'ci-cd/dev'
+    - if: $CI_COMMIT_BRANCH == 'ci-cd/prod'

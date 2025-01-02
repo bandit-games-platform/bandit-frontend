@@ -60,7 +60,6 @@ else
 fi
 
 
-#Frontend WebAPP
 # Check if the Web App already exists
 echo "Checking if the Azure Web App '$NAME' exists in resource group '$RESOURCE_GROUP'..."
 WEBAPP_EXISTS=$(az webapp list --resource-group "$RESOURCE_GROUP" --query "[?name=='$NAME'].name" -o tsv)
