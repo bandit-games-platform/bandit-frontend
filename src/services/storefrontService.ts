@@ -17,7 +17,13 @@ export async function getOrderStatus(gameId: string, sessionId: string) {
 }
 
 export async function getRecommendedProducts() {
-    const url = STOREFRONT_BASE_URL + "/products"
+    const url = STOREFRONT_BASE_URL + "/products/recommend"
     const {data: products} = await axios.get<Product[]>(url)
     return products
+}
+
+export async function getTrendingProducts() {
+    const url = STOREFRONT_BASE_URL + "/products/trending"
+    const {data: trending} = await axios.get<Product[]>(url)
+    return trending
 }
