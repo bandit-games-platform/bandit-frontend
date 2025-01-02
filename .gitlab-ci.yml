@@ -49,7 +49,7 @@ build_dev:
       -t $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:latest
       .
     - echo "Publishing frontend dev image to Azure"
-    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev:latest
+    - docker push $REGISTRY_USERNAME.azurecr.io/bandit-frontend-dev
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
     - if: '$CI_COMMIT_BRANCH == "ci-cd/dev"'
