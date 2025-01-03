@@ -4,7 +4,6 @@ import {usePlayerLibrary} from "../../hooks/player/usePlayerLibrary.ts";
 import LibraryGameCard from "./LibraryGameCard.tsx";
 import SelectGameAnimation from "./SelectGameAnimation.tsx";
 import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
-import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 import {Game} from "../../model/gameRegistry/Game.ts";
 
 interface LibraryGamesGridProps {
@@ -27,7 +26,29 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
     }
 
     if (libraryError || !library) {
-        return <ErrorComponent/>
+        return (
+            <Box sx={{textAlign: "center", marginTop: "2%"}}>
+                <Typography
+                    variant="h5"
+                    sx={{
+                        textAlign: 'center',
+                        marginTop: '1.5em'
+                    }}
+                >
+                    You don't appear to have any games in your library! Visit the <a href={"/store"}>store</a> to buy a game!
+                </Typography>
+                <Typography
+                    variant="body1"
+                    sx={{
+                        textAlign: 'center',
+                        marginTop: '1.5em',
+                        color: "gray",
+                    }}
+                >
+                    <i>If this is a mistake please refresh the page</i>
+                </Typography>
+            </Box>
+        );
     }
 
     if (library.length === 0) {
