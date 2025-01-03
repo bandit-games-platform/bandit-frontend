@@ -8,7 +8,6 @@ import {usePlayerLibrary} from "../hooks/player/usePlayerLibrary.ts";
 import {Game} from "../model/gameRegistry/Game.ts";
 import LibraryGamesGrid from "../components/playerLibrary/LibraryGamesGrid.tsx";
 import SelectedGameDetails from "../components/statistics/SelectedGameDetails.tsx";
-import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
 import {useGameDetailsFromList} from "../hooks/gameRegistry/useGameDetailsFromList.ts";
 
 export default function PlayerLibrary() {
@@ -107,13 +106,12 @@ export default function PlayerLibrary() {
                     />
                 )}
                 <GameStatCover title="Your Library">
-                    {isLoading ? (
-                        <LoadingComponent/>
-                    ) : selectedGame ?
+                    {selectedGame ?
                         <SelectedGameDetails
                             selectedGame={selectedGame}
                             setSelectedGame={setSelectedGame}
                             isMobile={isMobile}
+                            isLoading={isLoading}
                             showAchievements={showAchievements}
                             toggleSection={toggleSection}
                             showCompletedSessions={showCompletedSessions}
@@ -123,7 +121,8 @@ export default function PlayerLibrary() {
                         />
                         : (
                             <LibraryGamesGrid onGameSelect={handleGameSelect}/>
-                        )}
+                        )
+                    }
                 </GameStatCover>
                 {isMobile && (
                     <SidebarGames

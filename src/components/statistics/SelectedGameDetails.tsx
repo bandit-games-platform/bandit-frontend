@@ -8,11 +8,13 @@ import OverallCompletedSessionsCard from "../statistics/OverallCompletedSessions
 import {AchievementProgress, CompletedSession} from "../../model/statistics/PlayerGameStats.ts";
 import {Achievement} from "../../model/gameRegistry/Achievement.ts";
 import UpperComponentsCover from "./UpperComponentsCover.tsx";
+import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
 
 interface SelectedGameDetailsProps {
     selectedGame: Game;
     setSelectedGame: (selectedGame: Game | null) => void;
     isMobile: boolean;
+    isLoading: boolean;
     showAchievements: boolean;
     toggleSection: (section: 'achievements' | 'completedSessions') => void;
     showCompletedSessions: boolean;
@@ -30,6 +32,7 @@ export default function SelectedGameDetails({
                                                 selectedGame,
                                                 setSelectedGame,
                                                 isMobile,
+                                                isLoading,
                                                 showAchievements,
                                                 toggleSection,
                                                 showCompletedSessions,
@@ -81,41 +84,45 @@ export default function SelectedGameDetails({
                 </Button>
             </Box>
 
-            {/* Show all Achievements Button */}
-            <Box display="flex" justifyContent="flex-end" sx={{padding: '0.3em'}}>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => toggleSection('achievements')}
-                >
-                    {showAchievements ? "Back to Stats" : "Show All Achievements"}
-                </Button>
-            </Box>
+            {isLoading && <LoadingComponent/>}
+            {!isLoading && (<>
+                {/* Show all Achievements Button */}
+                <Box display="flex" justifyContent="flex-end" sx={{padding: '0.3em'}}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => toggleSection('achievements')}
+                    >
+                        {showAchievements ? "Back to Stats" : "Show All Achievements"}
+                    </Button>
+                </Box>
 
-            {/* Conditionally render Achievements */}
-            {showAchievements ? (
-                <AchievementsDetailParent playerGameStats={playerGameStats}
-                                          achievements={gameAchievements ?? []}/>
-            ) : (
-                <>
-                    <UpperComponentsCover playerGameStats={playerGameStats} isSidebarOpen={isSidebarOpen}
-                                          achievement={gameAchievements ?? []}/>
+                {/* Conditionally render Achievements */}
+                {showAchievements ? (
+                    <AchievementsDetailParent playerGameStats={playerGameStats}
+                                              achievements={gameAchievements ?? []}/>
+                ) : (
+                    <>
+                        <UpperComponentsCover playerGameStats={playerGameStats} isSidebarOpen={isSidebarOpen}
+                                              achievement={gameAchievements ?? []}/>
 
-                    {/* Button for Completed Sessions */}
-                    <Box display="flex" justifyContent="flex-start" sx={{padding: '0.3em'}}>
-                        <Button variant="contained" color="primary"
-                                onClick={() => toggleSection('completedSessions')}>
-                            {showCompletedSessions ? "Back to Overall" : "Show Completed Sessions"}
-                        </Button>
-                    </Box>
+                        {/* Button for Completed Sessions */}
+                        <Box display="flex" justifyContent="flex-start" sx={{padding: '0.3em'}}>
+                            <Button variant="contained" color="primary"
+                                    onClick={() => toggleSection('completedSessions')}>
+                                {showCompletedSessions ? "Back to Overall" : "Show Completed Sessions"}
+                            </Button>
+                        </Box>
 
-                    {/* Conditionally render Completed Sessions or overview of all sessions */}
-                    {showCompletedSessions ? (
-                        <CompletedSessions playerGameStats={playerGameStats}/>
-                    ) : (
-                        <OverallCompletedSessionsCard playerGameStats={playerGameStats}/>
-                    )}
-                </>
+                        {/* Conditionally render Completed Sessions or overview of all sessions */}
+                        {showCompletedSessions ? (
+                            <CompletedSessions playerGameStats={playerGameStats}/>
+                        ) : (
+                            <OverallCompletedSessionsCard playerGameStats={playerGameStats}/>
+                        )}
+                    </>
+                )}
+            </>
             )}
         </>
     );

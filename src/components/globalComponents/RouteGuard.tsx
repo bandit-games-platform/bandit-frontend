@@ -1,5 +1,5 @@
 import {ReactNode, useContext} from 'react'
-import SecurityContext from '../context/SecurityContext.ts'
+import SecurityContext from '../../context/SecurityContext.ts'
 
 export interface RouteGuardProps {
     children: ReactNode
