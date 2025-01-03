@@ -1,4 +1,4 @@
-import {ImageCarousel} from "../components/ImageCarousel.tsx";
+import {ImageCarousel} from "../components/storefront/ImageCarousel.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, Stack} from "@mui/material";
