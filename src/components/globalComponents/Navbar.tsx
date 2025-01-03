@@ -132,7 +132,7 @@ export function Navbar() {
                         sx={{
                             display: {xs: 'flex', md: 'none'},
                             color: theme.palette.secondary.main,
-                            mr: 1.5,
+                            mr: 0.5,
                         }}
                     />
                     <Typography
@@ -145,6 +145,7 @@ export function Navbar() {
                             flexGrow: 1,
                             fontFamily: '"Sarpanch", sans-serif',
                             fontWeight: 700,
+                            fontSize: "12px",
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
