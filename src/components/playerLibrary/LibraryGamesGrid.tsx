@@ -5,6 +5,10 @@ import LibraryGameCard from "./LibraryGameCard.tsx";
 import SelectGameAnimation from "./SelectGameAnimation.tsx";
 import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
 import {Game} from "../../model/gameRegistry/Game.ts";
+import {useGameDetailsFromList} from "../../hooks/gameRegistry/useGameDetailsFromList.ts";
+import {useEffect} from "react";
+import {PlayerLibraryItem} from "../../model/player/PlayerLibraryItem.ts";
+import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
 
 interface LibraryGamesGridProps {
     onGameSelect: (game: Game) => void;
@@ -14,6 +18,7 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
     const {isLoading: libraryLoading, isError: libraryError, library} = usePlayerLibrary();
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+    const {isPending, isError, getGames, gameDetails} = useGameDetailsFromList(library!);
 
     const getGridTemplate = (count: number) => {
         if (isSmallScreen) return '1fr';
@@ -21,7 +26,13 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
         return 'repeat(3, 1fr)';
     };
 
-    if (libraryLoading) {
+    useEffect(() => {
+        if (library) {
+            getGames();
+        }
+    }, [getGames, library])
+
+    if (libraryLoading || isPending) {
         return <LoadingComponent/>
     }
 
@@ -51,6 +62,10 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
         );
     }
 
+    if (isError || !gameDetails) {
+        return <ErrorComponent/>
+    }
+
     if (library.length === 0) {
         return (
             <Typography
@@ -67,6 +82,8 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
         );
     }
 
+    const sortedLibrary = sortPlayerLibraryByGameTitle(library, gameDetails);
+
     return (
         <Box
             sx={{
@@ -77,7 +94,7 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
                 padding: isSmallScreen ? '0.5em' : '1em',
             }}
         >
-            {library.map((item) => (
+            {sortedLibrary.map((item) => (
                 <LibraryGameCard
                     key={item.gameId}
                     gameId={item.gameId}
@@ -87,5 +104,18 @@ export default function LibraryGamesGrid({onGameSelect}: LibraryGamesGridProps) 
             ))}
         </Box>
     );
+}
+
+function sortPlayerLibraryByGameTitle(playerLibrary: PlayerLibraryItem[], games: Game[]): PlayerLibraryItem[] {
+    const gameTitleMap = new Map(
+        games.map(game => [game.id, game.title])
+    );
+
+    return playerLibrary.sort((a, b) => {
+        const titleA = gameTitleMap.get(a.gameId) || '';
+        const titleB = gameTitleMap.get(b.gameId) || '';
+
+        return titleA.localeCompare(titleB);
+    });
 }
 
