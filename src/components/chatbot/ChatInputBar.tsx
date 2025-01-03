@@ -25,7 +25,7 @@ export function ChatInputBar({onSend, disabled}: ChatInputBarProps) {
             sx={{
                 display: 'flex',
                 alignItems: 'center',
-                marginTop: 2,
+                marginTop: '5px',
             }}
         >
             <TextField

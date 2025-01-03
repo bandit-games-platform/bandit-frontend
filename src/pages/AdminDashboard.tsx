@@ -80,7 +80,7 @@ export function AdminDashboard() {
     return (
         <Box sx={{marginLeft: "5%", marginTop: "2%", marginRight: "5%"}}>
             <Typography variant="h4" gutterBottom>
-                Export CSV statistics for selected game
+                Export CSV
             </Typography>
 
             <Box sx={{display: "flex", flexDirection: "column", gap: 2, width: "20rem"}}>
