@@ -1,5 +1,5 @@
 import {Autocomplete, Box, Card, TextField, Typography} from "@mui/material";
-import tags from "../constants/tags.ts";
+import tags from "../../constants/tags.ts";
 
 function TagFilter() {
 

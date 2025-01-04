@@ -1,6 +1,6 @@
 import {Box, Typography, useMediaQuery} from "@mui/material";
-import GameStoreCard from "./GameStoreCard";
-import {Game} from "../model/gameRegistry/Game";
+import GameStoreCard from "./GameStoreCard.tsx";
+import {Game} from "../../model/gameRegistry/Game.ts";
 import {useTheme} from "@mui/material/styles";
 
 interface GamesListProps {

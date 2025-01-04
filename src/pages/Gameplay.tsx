@@ -3,7 +3,7 @@ import {SyntheticEvent, useContext, useState} from "react";
 import Container from "@mui/material/Container";
 import {useParams, useSearchParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
-import {ConfirmedBackoutButton} from "../components/ConfirmedBackoutButton.tsx";
+import {ConfirmedBackoutButton} from "../components/gameplay/ConfirmedBackoutButton.tsx";
 import SecurityContext from "../context/SecurityContext.ts";
 import {ChatbotTab} from "../components/chatbot/ChatbotTab.tsx";
 import InviteTab from "../components/playerFriendsRelationship/InviteTab.tsx";
