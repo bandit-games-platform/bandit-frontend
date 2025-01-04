@@ -6,6 +6,11 @@ import {FriendInviteAction} from "../constants/friendInviteAction.ts";
 
 const PLAYER_BASE_URL = import.meta.env.VITE_PLAYER_URL;
 
+export async function getPlayerBio(playerId: string) {
+    const {data: playerBio} = await axios.get<PlayerBasicBio>(`${PLAYER_BASE_URL}/players/${playerId}`);
+    return playerBio;
+}
+
 export async function getPlayerJoinDate() {
     const url = PLAYER_BASE_URL + "/players/join-date"
 

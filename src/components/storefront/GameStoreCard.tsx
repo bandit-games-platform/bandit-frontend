@@ -1,5 +1,5 @@
 import {Box, Card, CardContent, Typography} from '@mui/material';
-import GameIcon from './GameIcon';
+import GameIcon from './GameIcon.tsx';
 import {useLocation, useNavigate} from "react-router-dom";
 import {useTheme} from '@mui/material/styles';
 

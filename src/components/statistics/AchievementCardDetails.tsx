@@ -99,7 +99,7 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
                 </Typography>
 
                 {/* Dynamic Message */}
-                <Typography variant="body2" sx={{marginBottom: 2, color: '#aaa', fontStyle: 'italic'}}>
+                <Typography variant="body2" sx={{marginBottom: 2, color: '#WinProbabilityRequestDto.ts', fontStyle: 'italic'}}>
                     {achievementMessage}
                 </Typography>
 

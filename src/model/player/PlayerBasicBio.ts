@@ -1,6 +1,10 @@
 export type PlayerBasicBio = {
-    id: string;
+    id: string,
     username: string,
     avatar: string,
     existingFriend: boolean,
+}
+
+export type PlayerId = {
+    playerId: string
 }

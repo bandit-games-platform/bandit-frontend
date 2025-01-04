@@ -2,11 +2,15 @@ import {Tooltip} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import SmsIcon from '@mui/icons-material/Sms';
 
-export function ChatbotIcon() {
+interface ChatbotIconProps {
+    onClick?: () => void;
+}
+
+export function ChatbotIcon({onClick}: ChatbotIconProps) {
     return (
         <Tooltip title="Need help?">
             <IconButton
-                // onClick={onClick}
+                onClick={onClick}
                 sx={{
                     position: 'fixed',
                     bottom: 16,
