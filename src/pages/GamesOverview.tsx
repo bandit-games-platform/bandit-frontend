@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 import {Box, Typography, TextField, useMediaQuery} from "@mui/material";
-import GamesList from "../components/GamesList.tsx";
+import GamesList from "../components/storefront/GamesList.tsx";
 import {useDebouncedSearch} from "../hooks/gameRegistry/useDebouncedSearch.ts";
 import {useGamesOverviewByTitleLikeAndPriceBelow} from "../hooks/gameRegistry/useGamesOverview.ts";
-import GamesFilter from "../components/GamesFilter.tsx";
+import GamesFilter from "../components/storefront/GamesFilter.tsx";
 import {useTheme} from "@mui/material/styles";
 import {LoadingComponent} from "../components/globalComponents/LoadingComponent.tsx";
 import {ErrorComponent} from "../components/globalComponents/ErrorComponent.tsx";
