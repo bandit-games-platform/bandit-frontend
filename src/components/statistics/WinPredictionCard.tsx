@@ -8,13 +8,16 @@ import {
     Avatar,
     CircularProgress, SelectChangeEvent,
 } from "@mui/material";
-import { useGamesList } from "../../../hooks/gameRegistry/useGamesList.ts";
-import { useAllPlayerIdsWhichCompletedSessionsForGame } from "../../../hooks/statistics/useAllPlayerIdsWhichCompletedSessionsForGame.ts";
-import PlayerDetailsCard from "./PlayerDetailsCard.tsx";
-import { usePlayerBio } from "../../../hooks/player/usePlayerBio.ts";
-import { useWinPrediction } from "../../../hooks/statistics/useWinPrediction.ts";
+import { useAllPlayerIdsWhichCompletedSessionsForGame } from "../../hooks/statistics/useAllPlayerIdsWhichCompletedSessionsForGame.ts";
+import WinPredictionPlayerDetails from "./WinPredictionPlayerDetails.tsx";
+import { usePlayerBio } from "../../hooks/player/usePlayerBio.ts";
+import { useWinPrediction } from "../../hooks/statistics/useWinPrediction.ts";
+import {Game} from "../../model/gameRegistry/Game.ts";
 
-const WinPredictionCard = () => {
+interface WinPredictionCardProps {
+    games: Game[];
+}
+const WinPredictionCard = ({games}: WinPredictionCardProps) => {
     const [selectedGame, setSelectedGame] = useState<string>("");
     const [player1Id, setPlayer1Id] = useState<string>("");
     const [player2Id, setPlayer2Id] = useState<string>("");
@@ -22,7 +25,6 @@ const WinPredictionCard = () => {
     const [player2Prediction, setPlayer2Prediction] = useState<number | undefined>(undefined);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const { games, isLoading: isGamesLoading, isError: isGamesError } = useGamesList();
     const {
         playerIdList,
         isLoading: isSessionsLoading,
@@ -48,6 +50,8 @@ const WinPredictionCard = () => {
         setPlayer2Prediction(undefined);
         setErrorMessage(null);
     };
+
+    const PlayerIdArrayList = Array.isArray(playerIdList) ? playerIdList : [];
 
     const handleGameChange = (e: SelectChangeEvent<string>) => {
         const gameId = e.target.value as string;
@@ -121,7 +125,7 @@ const WinPredictionCard = () => {
                         Select Player 1
                     </MenuItem>
                     {playerIdList &&
-                        playerIdList.map((player) => (
+                        PlayerIdArrayList.map((player) => (
                             <MenuItem key={player.playerId} value={player.playerId}>
                                 <Box
                                     sx={{
@@ -145,7 +149,7 @@ const WinPredictionCard = () => {
                     displayEmpty
                     fullWidth
                     variant="outlined"
-                    disabled={isGamesLoading || isGamesError || player1Id !== ""}
+                    disabled={ player1Id !== ""}
                 >
                     <MenuItem value="" disabled>
                         Select a Game
@@ -188,7 +192,7 @@ const WinPredictionCard = () => {
                         Select Player 2
                     </MenuItem>
                     {playerIdList &&
-                        playerIdList
+                        PlayerIdArrayList
                             .filter((player) => player.playerId !== player1Id)
                             .map((player) => (
                                 <MenuItem key={player.playerId} value={player.playerId}>
@@ -227,7 +231,7 @@ const WinPredictionCard = () => {
                     width: "100%",
                 }}
             >
-                <PlayerDetailsCard
+                <WinPredictionPlayerDetails
                     player={player1Bio ?? null}
                     isLoading={isPlayer1Loading}
                     prediction={player1Prediction}
@@ -235,7 +239,7 @@ const WinPredictionCard = () => {
                 <Typography variant="h5" sx={{ fontWeight: "bold", mx: 2 }}>
                     VS
                 </Typography>
-                <PlayerDetailsCard
+                <WinPredictionPlayerDetails
                     player={player2Bio ?? null}
                     isLoading={isPlayer2Loading}
                     prediction={player2Prediction}
