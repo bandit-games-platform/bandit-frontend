@@ -4,7 +4,7 @@ import {Game} from "../model/gameRegistry/Game.ts";
 import {useAllCompletedSessionsForGameToCsv} from "../hooks/statistics/useAllCompletedSessionsForGameToCsv.ts";
 import {useAllAchievementProgressForGameToCsv} from "../hooks/statistics/useAllAchievementProgressForGameToCsv.ts";
 import {useState} from "react";
-import WinPredictionCard from "../components/statistics/winPrediction/WinPredictionCard.tsx";
+import WinPredictionCard from "../components/statistics/WinPredictionCard.tsx";
 
 type CsvData = string | Blob;
 
@@ -139,7 +139,7 @@ export function AdminDashboard() {
                 )}
             </Box>
             <Box>
-                <WinPredictionCard></WinPredictionCard>
+                <WinPredictionCard games={games}></WinPredictionCard>
             </Box>
         </Box>
     );
