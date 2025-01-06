@@ -7,6 +7,7 @@ export function useGamesList() {
         queryFn: () => getAllGames(),
     })
 
+
     return {
         isLoading,
         isError,

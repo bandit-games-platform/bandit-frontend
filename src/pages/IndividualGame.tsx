@@ -1,4 +1,4 @@
-import {ImageCarousel} from "../components/ImageCarousel.tsx";
+import {ImageCarousel} from "../components/storefront/ImageCarousel.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {useGameDetails} from "../hooks/gameRegistry/useGameDetails.ts";
 import {Box, Button, Stack} from "@mui/material";
@@ -17,19 +17,21 @@ export function IndividualGame() {
     const {game, isLoading: detailsLoading, isError: detailsError} = useGameDetails(gameId);
     const {library, isLoading: libraryLoading, isError: libraryError} = usePlayerLibrary();
 
-    if (detailsLoading || libraryLoading) {
+    if (detailsLoading) {
         return <LoadingComponent/>
     }
 
-    if (detailsError || libraryError || !game || !library) {
+    if (detailsError || !game) {
         return <ErrorComponent/>
     }
 
     let gameInLibrary = false;
-    for (const libraryItem of library) {
-        if (libraryItem.gameId == gameId) {
-            gameInLibrary = true;
-            break;
+    if (library && !libraryError) {
+        for (const libraryItem of library) {
+            if (libraryItem.gameId == gameId) {
+                gameInLibrary = true;
+                break;
+            }
         }
     }
 
@@ -69,26 +71,28 @@ export function IndividualGame() {
                         {!gameInLibrary && game.price > 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>€{game.price}</h2>
-                                <Button
+                                {libraryLoading && <LoadingComponent/>}
+                                {!libraryLoading && (<Button
                                     sx={{color: (theme) => theme.palette.secondary.main}}
                                     onClick={handleClickOpen}
                                 >
                                     Buy now
-                                </Button>
+                                </Button>)}
                             </Stack>
                         )}
                         {!gameInLibrary && game.price <= 0 && (
                             <Stack direction={"row"} spacing={2}>
                                 <h2>Free</h2>
-                                <Button
+                                {libraryLoading && <LoadingComponent/>}
+                                {!libraryLoading && (<Button
                                     sx={{color: (theme) => theme.palette.secondary.main}}
                                     onClick={handleClickOpen}
                                 >
                                     Add to Library
-                                </Button>
+                                </Button>)}
                             </Stack>
                         )}
-                        {gameInLibrary && (
+                        {!libraryLoading && gameInLibrary && (
                             <Button
                                 disabled={true}
                                 sx={{color: (theme) => theme.palette.secondary.main}}

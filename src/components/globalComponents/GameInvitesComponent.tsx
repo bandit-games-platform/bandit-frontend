@@ -5,12 +5,12 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 import React, {useState} from "react";
 import Typography from "@mui/material/Typography";
-import {usePendingGameInvites} from "../hooks/gameplay/usePendingGameInvites.ts";
-import {truncateStringWithEllipsis} from "../functions/textUtil.ts";
-import {usePlayerFriends} from "../hooks/player/usePlayerFriendsDetails.ts";
-import {useAcceptGameInvite} from "../hooks/gameplay/useAcceptGameInvite.ts";
+import {usePendingGameInvites} from "../../hooks/gameplay/usePendingGameInvites.ts";
+import {truncateStringWithEllipsis} from "../../functions/textUtil.ts";
+import {usePlayerFriends} from "../../hooks/player/usePlayerFriendsDetails.ts";
+import {useAcceptGameInvite} from "../../hooks/gameplay/useAcceptGameInvite.ts";
 import {useNavigate} from "react-router-dom";
-import {useDismissGameInvite} from "../hooks/gameplay/useDismissGameInvite.ts";
+import {useDismissGameInvite} from "../../hooks/gameplay/useDismissGameInvite.ts";
 
 export function GameInvitesComponent() {
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
