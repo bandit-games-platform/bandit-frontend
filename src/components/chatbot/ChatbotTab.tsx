@@ -17,6 +17,8 @@ export function ChatbotTab({gameId}: ChatbotTabProps) {
         hasFetchedInitialQuestion
     } = useChatbot(gameId);
 
+    console.log("gameId: " + gameId);
+
     if (isError) {
         return (
             <MessageCard

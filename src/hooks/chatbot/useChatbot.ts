@@ -1,74 +1,53 @@
 import {useEffect, useState} from "react";
 import {Message} from "../../model/chatbot/Message.ts";
-import {usePostInitialQuestion} from "./usePostInitialQuestion.ts";
 import {usePostFollowUpQuestion} from "./usePostFollowUpQuestion.ts";
-import {FollowUpQuestionDto} from "../../model/chatbot/FollowUpQuestionDto.ts";
-import {InitialQuestionDto} from "../../model/chatbot/InitialQuestionDto.ts";
+import {GameQuestionDto} from "../../model/chatbot/GameQuestionDto.ts";
 
 export function useChatbot(gameId: string) {
 
     const [messages, setMessages] = useState<Message[]>(() => {
-        const savedMessages = localStorage.getItem("chatMessages");
+        const savedMessages = sessionStorage.getItem(`chatMessages-${gameId}`);
         return savedMessages ? JSON.parse(savedMessages) : [];
     });
 
-    const {
-        postInitialQuestion,
-        isPending: isInitialPending,
-        isError: isInitialError,
-        answer: initialAnswer
-    } = usePostInitialQuestion();
-
-    const {postFollowUpQuestion, isPending: isFollowUpPending} = usePostFollowUpQuestion();
+    const {postFollowUpQuestion, isPending, isError, answer} = usePostFollowUpQuestion();
 
     const [hasFetchedInitialQuestion, setHasFetchedInitialQuestion] = useState<boolean>(false);
-    const [isFetchingInitialQuestion, setIsFetchingInitialQuestion] = useState<boolean>(false);
-
 
     // handle initial question fetching and caching
     useEffect(() => {
-        const initialQuestionDto: InitialQuestionDto = {gameId};
-        const cachedAnswer = localStorage.getItem('initialAnswer');
-        const isFetching = localStorage.getItem('isFetchingInitialQuestion') === 'true';
+        const initialQuestionDto: GameQuestionDto = {gameId, question: ""};
+        const cachedAnswer = sessionStorage.getItem(`initialAnswer-${gameId}`);
 
         if (cachedAnswer) {
             setHasFetchedInitialQuestion(true);
-
-        } else if (!isFetching) {
+        } else {
             const fetchInitialQuestion = async () => {
-                localStorage.setItem('isFetchingInitialQuestion', 'true'); // Set fetching state
-                console.log(isFetchingInitialQuestion);
-                setIsFetchingInitialQuestion(true);
-
                 try {
-                    const answer = await postInitialQuestion(initialQuestionDto);
+                    const answer = await postFollowUpQuestion(initialQuestionDto);
                     if (answer?.text) {
                         const initialMessage: Message = {sender: "bot", text: answer.text};
                         setMessages([initialMessage]);
-                        localStorage.setItem('initialAnswer', JSON.stringify(answer));
+                        sessionStorage.setItem(`initialAnswer-${gameId}`, JSON.stringify(answer));
                         setHasFetchedInitialQuestion(true);
                     }
-
                 } catch (error) {
+                    console.error("Failed to fetch the initial question:", error);
                     setMessages([{sender: "bot", text: "Failed to initialize the chat. Please try again."}]);
-                    console.log(error)
-                } finally {
-                    localStorage.setItem('isFetchingInitialQuestion', 'false'); // Reset fetching state
-                    setIsFetchingInitialQuestion(false);
                 }
             };
             fetchInitialQuestion();
         }
-    }, [postInitialQuestion, gameId]);
+    }, [postFollowUpQuestion, gameId]);
 
     useEffect(() => {
-        // sync messages with localStorage whenever they change
-        localStorage.setItem("chatMessages", JSON.stringify(messages));
+        // sync messages with sessionStorage whenever they change
+        sessionStorage.setItem(`chatMessages-${gameId}`, JSON.stringify(messages));
     }, [messages]);
 
     // logic for follow-up questions
     const handleSendMessage = async (message: string) => {
-        const followUpQuestionDto: FollowUpQuestionDto = {gameId, question: {text: message}};
+        const followUpQuestionDto: GameQuestionDto = {gameId, question: message};
 
         setMessages(prevMessages => {
             const updatedMessages: Message[] = [
@@ -77,8 +56,8 @@ export function useChatbot(gameId: string) {
                 {sender: "bot", isThinking: true}, // thinking state for bot
             ];
 
-            localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-            console.log("Saved messages to localStorage:", updatedMessages);
+            sessionStorage.setItem(`chatMessages-${gameId}`, JSON.stringify(updatedMessages));
+            console.log("Saved messages to sessionStorage:", updatedMessages);
             return updatedMessages;
         });
 
@@ -92,8 +71,8 @@ export function useChatbot(gameId: string) {
                         updatedMessages[thinkingIndex] = {sender: "bot", text: answer.text, isThinking: false};
                     }
 
-                    localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-                    console.log("Saved messages to localStorage after response:", updatedMessages);
+                    sessionStorage.setItem(`chatMessages-${gameId}`, JSON.stringify(updatedMessages));
+                    console.log("Saved messages to sessionStorage after response:", updatedMessages);
                     return updatedMessages;
                 });
             }
@@ -111,8 +90,8 @@ export function useChatbot(gameId: string) {
                     };
                 }
 
-                localStorage.setItem("chatMessages", JSON.stringify(updatedMessages));
-                console.log("Saved error message to localStorage:", updatedMessages);
+                sessionStorage.setItem(`chatMessages-${gameId}`, JSON.stringify(updatedMessages));
+                console.log("Saved error message to sessionStorage:", updatedMessages);
                 return updatedMessages;
             });
         }
@@ -121,9 +100,9 @@ export function useChatbot(gameId: string) {
     return {
         messages,
         handleSendMessage,
-        isLoading: isInitialPending || isFollowUpPending,
-        isError: isInitialError,
-        initialAnswer,
+        isLoading: isPending,
+        isError,
+        answer,
         hasFetchedInitialQuestion
     };
 }
