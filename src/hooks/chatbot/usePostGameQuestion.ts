@@ -2,7 +2,7 @@ import {useMutation} from "@tanstack/react-query";
 import {postFollowUpQuestion} from "../../services/chatbotService.ts";
 import {GameQuestionDto} from "../../model/chatbot/GameQuestionDto.ts";
 
-export function usePostFollowUpQuestion() {
+export function usePostGameQuestion() {
     const {
         isPending,
         isError,
