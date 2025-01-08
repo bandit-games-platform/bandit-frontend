@@ -206,8 +206,8 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                 position: 'fixed',
                 bottom: 16,
                 left: 22,
-                width: 400,
-                height: 400,
+                width: 350,
+                height: 475,
                 backgroundColor: (theme) => theme.palette.secondary.main,
                 color: (theme) => theme.palette.common.white,
                 zIndex: 20,
@@ -238,7 +238,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     flexDirection: 'column',
                 }}
             >
-                <ChatArea messages={messages} minHeight={"310px"}/>
+                <ChatArea messages={messages} minHeight={"375px"}/>
             </Box>)}
 
             {loadingConversation && <LoadingComponent/>}
