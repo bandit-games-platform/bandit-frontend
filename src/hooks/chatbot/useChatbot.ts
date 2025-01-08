@@ -1,8 +1,8 @@
 import {useContext, useEffect, useState} from "react";
 import {Message} from "../../model/chatbot/Message.ts";
-import {usePostGameQuestion} from "./usePostGameQuestion.ts";
 import {GameQuestionDto} from "../../model/chatbot/GameQuestionDto.ts";
 import SecurityContext from "../../context/SecurityContext.ts";
+import {usePostGameQuestion} from "./usePostGameQuestion.ts";
 
 export function useChatbot(gameId: string) {
     const {loggedInUserId} = useContext(SecurityContext);

@@ -6,13 +6,6 @@ import {GameQuestionDto} from "../model/chatbot/GameQuestionDto.ts";
 
 const CHATBOT_CONTEXT_BASE_URL = import.meta.env.VITE_CHATBOT_URL;
 
-// export async function postInitialQuestion(initialQuestionDto: InitialQuestionDto) {
-//     const url = CHATBOT_CONTEXT_BASE_URL + "/chatbot/game"
-//
-//     const {data: answer} = await axios.post<Answer>(url, initialQuestionDto)
-//     return answer
-// }
-
 export async function postFollowUpQuestion(followUpQuestionDto: GameQuestionDto) {
     const url = CHATBOT_CONTEXT_BASE_URL + "/chatbot/game"
 

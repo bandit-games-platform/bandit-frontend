@@ -5,13 +5,14 @@ import {ChatArea} from "./ChatArea.tsx";
 import {ChatInputBar} from "./ChatInputBar.tsx";
 
 import {Message} from "../../model/chatbot/Message.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {usePostPlatformQuestion} from "../../hooks/chatbot/usePostPlatformQuestion.ts";
 import {useLocation} from "react-router-dom";
 import {PlatformQuestionDto} from "../../model/chatbot/PlatformQuestionDto.ts";
 import {useGetPlatformConversation} from "../../hooks/chatbot/useGetPlatformConversation.ts";
 import {LoadingComponent} from "../globalComponents/LoadingComponent.tsx";
 import {ErrorComponent} from "../globalComponents/ErrorComponent.tsx";
+import SecurityContext from "../../context/SecurityContext.ts";
 
 interface PlatformChatbotProps {
     isVisible: boolean;
@@ -19,8 +20,10 @@ interface PlatformChatbotProps {
 }
 
 export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
+    const {loggedInUserId} = useContext(SecurityContext);
+
     const [messages, setMessages] = useState<Message[]>(() => {
-        const savedMessages = sessionStorage.getItem("platformMessages");
+        const savedMessages = sessionStorage.getItem(`platformMessages-${loggedInUserId}`);
         return savedMessages ? JSON.parse(savedMessages) : [];
     });
     const [pageName, setPageName] = useState("home")
@@ -28,7 +31,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
     const [loadLastOnly, setLoadLastOnly] = useState(false);
     const [usePolling, setUsePolling] = useState(false);
     const [askingQuestion, setAskingQuestion] = useState(false);
-    const {conversation, isLoading: loadingConversation, isError: errorLoadingConversation} = useGetPlatformConversation(loadLastOnly, usePolling);
+    const {
+        conversation,
+        isLoading: loadingConversation,
+        isError: errorLoadingConversation
+    } = useGetPlatformConversation(loadLastOnly, usePolling);
     const url = useLocation();
 
     useEffect(() => {
@@ -56,14 +63,14 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
         const botAnswer: Message = {sender: "bot", text: "", isThinking: true};
         updatedMessages.push(botAnswer);
 
-        sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+        sessionStorage.setItem(`platformMessages-${loggedInUserId}`, JSON.stringify(updatedMessages))
         setMessages(updatedMessages);
 
         const answer = await postPlatformQuestion(platformQuestionDto);
         if (answer?.text) {
             updatedMessages[updatedMessages.length - 1].text = answer.text;
             updatedMessages[updatedMessages.length - 1].isThinking = false;
-            sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+            sessionStorage.setItem(`platformMessages-${loggedInUserId}`, JSON.stringify(updatedMessages))
             setMessages(updatedMessages);
         }
     }
@@ -87,7 +94,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     newMessageArray.push(userMessage);
 
                     if (question.answer) {
-                        const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
+                        const botAnswer: Message = {
+                            sender: "bot",
+                            text: question.answer.text,
+                            isThinking: !question.answer.text
+                        };
                         newMessageArray.push(botAnswer);
                     }
 
@@ -95,7 +106,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                         unansweredQuestions += 1
                     }
                 }
-                sessionStorage.setItem("platformMessages", JSON.stringify(newMessageArray))
+                sessionStorage.setItem(`platformMessages-${loggedInUserId}`, JSON.stringify(newMessageArray))
                 setMessages(newMessageArray);
 
                 if (!loadLastOnly) setLoadLastOnly(true);
@@ -131,7 +142,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
 
                         if (updatedMessages.length - 1 < sameQuestionIndex + 1) {
                             if (question.answer) {
-                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
+                                const botAnswer: Message = {
+                                    sender: "bot",
+                                    text: question.answer.text,
+                                    isThinking: !question.answer.text
+                                };
                                 updatedMessages.push(botAnswer);
                             }
 
@@ -140,7 +155,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                             }
                         } else {
                             if (question.answer && updatedMessages[sameQuestionIndex + 1].text != question.answer.text) {
-                                const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
+                                const botAnswer: Message = {
+                                    sender: "bot",
+                                    text: question.answer.text,
+                                    isThinking: !question.answer.text
+                                };
                                 updatedMessages[sameQuestionIndex + 1] = botAnswer;
                             }
 
@@ -153,7 +172,11 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                         updatedMessages.push(userMessage);
 
                         if (question.answer) {
-                            const botAnswer: Message = {sender: "bot", text: question.answer.text, isThinking: !question.answer.text};
+                            const botAnswer: Message = {
+                                sender: "bot",
+                                text: question.answer.text,
+                                isThinking: !question.answer.text
+                            };
                             updatedMessages.push(botAnswer);
                         }
 
@@ -163,7 +186,7 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     }
                 }
 
-                sessionStorage.setItem("platformMessages", JSON.stringify(updatedMessages))
+                sessionStorage.setItem(`platformMessages-${loggedInUserId}`, JSON.stringify(updatedMessages))
                 setMessages(updatedMessages);
 
                 if (!loadLastOnly) setLoadLastOnly(true);
@@ -229,7 +252,8 @@ export function PlatformChatbot({isVisible, close}: PlatformChatbotProps) {
                     width: "100%"
                 }}
             >
-                <ChatInputBar onSend={(message) => submitNewQuestion(message)} disabled={isAnswerPending || askingQuestion}/>
+                <ChatInputBar onSend={(message) => submitNewQuestion(message)}
+                              disabled={isAnswerPending || askingQuestion}/>
             </Box>)}
         </Card>
     )
