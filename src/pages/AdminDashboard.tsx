@@ -126,13 +126,13 @@ export function AdminDashboard() {
                     </Typography>
                 )}
 
-                {isSessionsError && (
+                {isSessionsError && selectedGame && (
                     <Typography variant="body2" color="error">
                         Error fetching completed sessions data.
                     </Typography>
                 )}
 
-                {isAchievementError && (
+                {isAchievementError && selectedGame && (
                     <Typography variant="body2" color="error">
                         Error fetching achievement progress data.
                     </Typography>
