@@ -31,18 +31,18 @@ function App() {
                     <BrowserRouter>
                         <ExcludeForPaths paths={["/play"]}><Navbar/></ExcludeForPaths>
                         <Routes>
-                            <Route path={"/"} element={<RouteGuard><Homepage/></RouteGuard>}></Route>
-                            <Route path={"/statistics"} element={<RouteGuard><OverallStatistics/></RouteGuard>}></Route>
-                            <Route path={"/game/:gameId"} element={<RouteGuard><IndividualGame/></RouteGuard>}></Route>
-                            <Route path={"/store"} element={<RouteGuard><GamesOverview/></RouteGuard>}></Route>
-                            <Route path={"/library"} element={<RouteGuard><PlayerLibrary/></RouteGuard>}></Route>
-                            <Route path={"/play/:gameId"} element={<RouteGuard><Gameplay/></RouteGuard>}></Route>
+                            <Route path={"/"} element={<RouteGuard requiredRole={"player"}><Homepage/></RouteGuard>}></Route>
+                            <Route path={"/statistics"} element={<RouteGuard requiredRole={"player"}><OverallStatistics/></RouteGuard>}></Route>
+                            <Route path={"/game/:gameId"} element={<RouteGuard requiredRole={"player"}><IndividualGame/></RouteGuard>}></Route>
+                            <Route path={"/store"} element={<RouteGuard requiredRole={"player"}><GamesOverview/></RouteGuard>}></Route>
+                            <Route path={"/library"} element={<RouteGuard requiredRole={"player"}><PlayerLibrary/></RouteGuard>}></Route>
+                            <Route path={"/play/:gameId"} element={<RouteGuard requiredRole={"player"}><Gameplay/></RouteGuard>}></Route>
                             <Route path={"/store/:gameId/purchase/checkout"}
-                                   element={<RouteGuard><StripeCheckout/></RouteGuard>}></Route>
+                                   element={<RouteGuard requiredRole={"player"}><StripeCheckout/></RouteGuard>}></Route>
                             <Route path={"/store/:gameId/purchased"}
-                                   element={<RouteGuard><GamePurchaseComplete/></RouteGuard>}></Route>
+                                   element={<RouteGuard requiredRole={"player"}><GamePurchaseComplete/></RouteGuard>}></Route>
                             <Route path={"/admin-dashboard"}
-                                   element={<RouteGuard><AdminDashboard/></RouteGuard>}></Route>
+                                   element={<RouteGuard requiredRole={"admin"}><AdminDashboard/></RouteGuard>}></Route>
                         </Routes>
                         <ExcludeForPaths paths={["/play"]}><StickyFooter/></ExcludeForPaths>
                     </BrowserRouter>
