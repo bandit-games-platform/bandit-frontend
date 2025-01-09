@@ -1,4 +1,4 @@
-import {Box, Avatar, Typography, Alert, CircularProgress} from "@mui/material";
+import {Alert, Avatar, Box, CircularProgress, Typography} from "@mui/material";
 import {usePendingReceivedFriendsInvite} from "../../hooks/player/usePendingReceivedFriendsInvite.ts";
 import {useState} from "react";
 import CustomAlert from "./CustomAlert";
@@ -6,6 +6,11 @@ import {FriendInviteAction} from "../../constants/friendInviteAction.ts";
 import {useProcessPendingFriendInvite} from "../../hooks/player/useProcessPendingFriendInvite.tsx";
 import AcceptButton from "./AcceptButton";
 import RejectButton from "./RejectButton";
+
+function extractUsernameFromEmail(email: string): string {
+    const atIndex = email.indexOf('@');
+    return atIndex !== -1 ? email.slice(0, atIndex) : email;
+}
 
 export default function ReceivedPendingInvites() {
     const {isLoading, isError, pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
@@ -88,7 +93,7 @@ export default function ReceivedPendingInvites() {
                         <Avatar src={invite.avatar} alt={invite.username} sx={{width: 50, height: 50, mr: 1.5}}/>
                         <Box>
                             <Typography variant="subtitle2" sx={{color: 'text.primary', fontWeight: 'bold'}}>
-                                {invite.username}
+                                {extractUsernameFromEmail(invite.username)}
                             </Typography>
                             <Typography variant="body2" sx={{color: 'text.secondary'}}>
                                 Received {new Date(invite.invitedTime).toLocaleDateString()}
