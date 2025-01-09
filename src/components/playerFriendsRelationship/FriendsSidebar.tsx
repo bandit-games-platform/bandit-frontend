@@ -1,4 +1,4 @@
-import {Box, Drawer, Typography, IconButton, useTheme, Divider} from "@mui/material";
+import {Box, Divider, Drawer, IconButton, Typography, useTheme} from "@mui/material";
 import {Chat} from "@mui/icons-material";
 import FriendsSearchBar from "./FriendsSearchBar.tsx";
 import {NotificationAlarm} from "./NotificationAlarm.tsx";
@@ -65,11 +65,7 @@ export default function FriendsSidebar({isOpen, toggleSidebar}: FriendsSidebarPr
                 <>
                     <FriendsSearchBar/>
                     <Box px={2} py={1} sx={{overflowY: 'auto'}}>
-                        <Typography variant="body1"
-                                    sx={{color: theme.palette.text.primary, fontSize: '1rem', paddingTop: '1em'}}>
-                            Extra space...Just because.
-                        </Typography>
-                        <Box sx={{display: 'flex', alignItems: 'center', marginTop: 2}}>
+                        <Box sx={{display: 'flex', alignItems: 'center', marginTop: 4}}>
                             <IconButton sx={{color: theme.palette.text.primary, marginRight: 1}}>
                                 <Chat/>
                             </IconButton>
