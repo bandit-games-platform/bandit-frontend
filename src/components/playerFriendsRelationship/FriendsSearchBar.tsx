@@ -1,10 +1,11 @@
 import {useState} from 'react';
-import {Box, OutlinedInput, InputAdornment, Typography, Avatar} from '@mui/material';
+import {Avatar, Box, InputAdornment, OutlinedInput, Typography} from '@mui/material';
 import {Search} from '@mui/icons-material';
 import {useDebouncedSearch} from '../../hooks/gameRegistry/useDebouncedSearch';
 import {usePlayerFriendsDetails} from '../../hooks/player/usePlayerFriendsDetails';
 import AreFriendsButton from "./AreFriendsButton.tsx";
 import NewFriendInviteButton from "./NewFriendInviteButton.tsx";
+import {extractUsernameFromEmail} from "../../functions/extractUsernameFromEmail.ts";
 
 export default function FriendsSearchBar() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -63,14 +64,15 @@ export default function FriendsSearchBar() {
                                     src={friend.avatar}
                                     sx={{marginRight: '12px'}}
                                 />
-                                <Typography>{friend.username}</Typography>
+                                <Typography>{extractUsernameFromEmail(friend.username)}</Typography>
                             </Box>
                             {hoveredFriend === friend.id && (
                                 <>
                                     {friend.existingFriend ? (
                                         <AreFriendsButton/>
                                     ) : (
-                                        <NewFriendInviteButton friendId={friend.id} friendUsername={friend.username}/>
+                                        <NewFriendInviteButton friendId={friend.id}
+                                                               friendUsername={extractUsernameFromEmail(friend.username)}/>
                                     )}
                                 </>
                             )}

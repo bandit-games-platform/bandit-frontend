@@ -1,5 +1,6 @@
-import {Box, Avatar, Typography, Button, CircularProgress, Alert} from "@mui/material";
+import {Alert, Avatar, Box, Button, CircularProgress, Typography} from "@mui/material";
 import {usePendingSentFriendsInvite} from "../../hooks/player/usePendingSentFriendsInvite.ts";
+import {extractUsernameFromEmail} from "../../functions/extractUsernameFromEmail.ts";
 
 
 export default function SentPendingInvites() {
@@ -50,7 +51,7 @@ export default function SentPendingInvites() {
                         <Avatar src={invite.avatar} alt={invite.username} sx={{width: 50, height: 50, mr: 1.5}}/>
                         <Box>
                             <Typography variant="subtitle2" sx={{color: 'text.primary', fontWeight: 'bold'}}>
-                                {invite.username}
+                                {extractUsernameFromEmail(invite.username)}
                             </Typography>
                             <Typography variant="body2" sx={{color: 'text.secondary'}}>
                                 Sent at {new Date(invite.invitedTime).toLocaleDateString()}

@@ -6,11 +6,7 @@ import {FriendInviteAction} from "../../constants/friendInviteAction.ts";
 import {useProcessPendingFriendInvite} from "../../hooks/player/useProcessPendingFriendInvite.tsx";
 import AcceptButton from "./AcceptButton";
 import RejectButton from "./RejectButton";
-
-function extractUsernameFromEmail(email: string): string {
-    const atIndex = email.indexOf('@');
-    return atIndex !== -1 ? email.slice(0, atIndex) : email;
-}
+import {extractUsernameFromEmail} from "../../functions/extractUsernameFromEmail.ts";
 
 export default function ReceivedPendingInvites() {
     const {isLoading, isError, pendingReceivedFriendInvite} = usePendingReceivedFriendsInvite();
