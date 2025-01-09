@@ -16,7 +16,7 @@ export function CustomScrollbar({children, ...props}: CustomScrollbarProps) {
             if (scrollRef.current) {
                 const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
 
-                const isNearBottom = scrollHeight - scrollTop - clientHeight <= 50;
+                const isNearBottom = scrollHeight - scrollTop - clientHeight <= 20;
                 setIsUserNearBottom(isNearBottom);
             }
         };
