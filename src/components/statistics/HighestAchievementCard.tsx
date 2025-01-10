@@ -97,7 +97,9 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
 
 
     const getAchievementMessage = (progress: number): string => {
-        if (progress === 100) {
+        if (progress > 100) {
+            return "What an overachiever! Excellent work! ;)";
+        } else if (progress === 100) {
             return "Amazing! You've unlocked an achievement. You are unstoppable!";
         } else if (progress >= 75) {
             return "Great job! You're so close to the finish line. Keep pushing!";
@@ -192,13 +194,13 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
                 </Typography>
 
                 <LinearProgress
-                    value={progress}
+                    value={Math.min(progress, 100)}
                     variant="determinate"
+                    color="secondary"
                     sx={{
                         marginTop: 2,
                         height: {xs: 6, sm: 10},
                         borderRadius: 5,
-                        backgroundColor: (theme) => theme.palette.primary.light,
                     }}
                 />
                 <Typography
@@ -207,7 +209,7 @@ export default function HighestAchievementCard({playerGameStats, achievement}: H
                         fontSize: {xs: '0.8rem', sm: '1rem'},
                     }}
                 >
-                    Progress: {progress}%
+                    Progress: {Math.round(progress)}%
                 </Typography>
             </CardContent>
         </Card>

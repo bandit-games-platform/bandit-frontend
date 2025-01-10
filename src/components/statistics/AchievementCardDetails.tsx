@@ -23,7 +23,7 @@ export default function AchievementCardDetails({achievement, playerGameStat}: Ac
         if (progress === undefined || total === undefined || total === 0) {
             return 0;
         }
-        return (progress / total) * 100;
+        return Math.min((progress / total) * 100, 100);
     };
 
     const getAchievementMessage = (progressPercentage: number): string => {
