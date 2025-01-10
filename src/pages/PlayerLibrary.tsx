@@ -83,7 +83,7 @@ export default function PlayerLibrary() {
     useEffect(() => {
         if (searchParams.has("selected") && games.length > 0) {
             const selectedGame = games.find(game => game.id === searchParams.get("selected"));
-            console.log({selectedGame, games})
+
             handleGameSelect(selectedGame!);
 
             searchParams.delete("selected");
