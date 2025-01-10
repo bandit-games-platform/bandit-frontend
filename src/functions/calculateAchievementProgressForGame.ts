@@ -28,7 +28,7 @@ export function calculateAchievementProgressForGame({progress, allGames}: Calcul
         let achievementProgress = 0;
         for (const achievement of progress.achievementProgresses) {
             if (gameAchievement.id == achievement.achievementId) {
-                achievementProgress = achievement.counterValue/gameAchievement.counterTotal;
+                achievementProgress = Math.min(achievement.counterValue/gameAchievement.counterTotal, 1);
                 break;
             }
         }
