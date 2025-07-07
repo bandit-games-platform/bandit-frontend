@@ -3,6 +3,7 @@ import SecurityContext from './SecurityContext'
 import {addAccessTokenToAuthHeader, removeAccessTokenFromAuthHeader} from '../services/auth'
 import {isExpired} from 'react-jwt'
 import Keycloak from 'keycloak-js'
+import {useCheckInPlayerRegistration} from "../hooks/player/useCheckInPlayerRegistration.ts";
 
 interface IWithChildren {
     children: ReactNode
@@ -25,6 +26,7 @@ export default function SecurityContextProvider({children}: IWithChildren) {
     const [loggedInUser, setLoggedInUser] = useState<string | undefined>(undefined)
     const [loggedInUserId, setLoggedInUserId] = useState<string | undefined>(undefined)
     const [userRoles, setUserRoles] = useState<string[]>([]);
+    const {checkInPlayerRegistration} = useCheckInPlayerRegistration();
 
     useEffect(() => {
         keycloak.init({
@@ -32,11 +34,13 @@ export default function SecurityContextProvider({children}: IWithChildren) {
         })
     }, [])
 
-    keycloak.onAuthSuccess = () => {
+    keycloak.onAuthSuccess = async () => {
         addAccessTokenToAuthHeader(keycloak.token)
         setLoggedInUser(keycloak.idTokenParsed?.given_name)
         setLoggedInUserId(keycloak.idTokenParsed?.sub)
         setUserRoles(getUserRoles)
+
+        await checkInPlayerRegistration();
     }
 
     keycloak.onAuthLogout = () => {

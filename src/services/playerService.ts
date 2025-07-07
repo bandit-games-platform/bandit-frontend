@@ -79,3 +79,10 @@ export async function updateGameFavoriteStatus(gameId: string, favourite: boolea
 
     return updatedFavouriteStatus;
 }
+
+export async function checkInPlayerRegistration() {
+    const url = `${PLAYER_BASE_URL}/registration/check-in`;
+
+    const {data: checkInStatus} = await axios.post(url);
+    return checkInStatus;
+}
