@@ -39,7 +39,7 @@ function App() {
                             <Route path={"/play/:gameId"} element={<RouteGuard requiredRole={"player"}><Gameplay/></RouteGuard>}></Route>
                             <Route path={"/store/:gameId/purchase/checkout"}
                                    element={<RouteGuard requiredRole={"player"}><StripeCheckout/></RouteGuard>}></Route>
-                            <Route path={"/store/:gameId/purchased"}
+                            <Route path={"/store/:gameId/purchase/complete"}
                                    element={<RouteGuard requiredRole={"player"}><GamePurchaseComplete/></RouteGuard>}></Route>
                             <Route path={"/admin-dashboard"}
                                    element={<RouteGuard requiredRole={"admin"}><AdminDashboard/></RouteGuard>}></Route>

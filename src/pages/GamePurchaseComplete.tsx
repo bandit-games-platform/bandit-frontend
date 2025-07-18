@@ -36,7 +36,7 @@ export function GamePurchaseComplete() {
 
     if (status === 'open') {
         return (
-            <Navigate to="/checkout"/>
+            <Navigate to={`/store/${gameId}/purchase/checkout`} />
         )
     }
 
